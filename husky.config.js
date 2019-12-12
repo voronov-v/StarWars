@@ -2,7 +2,7 @@
  * @param {string[]} arr
  */
 
-const tasks = arr => {
+const tasks = (arr) => {
   return arr.join(' && ');
 };
 

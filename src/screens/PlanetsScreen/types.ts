@@ -1,4 +1,4 @@
-import {FlatListProps, ListRenderItem} from 'react-native';
+import { FlatListProps, ListRenderItem } from 'react-native';
 
 export type PlanetType = {
   name: string;
