@@ -1,0 +1,33 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "interface-over-type-literal": false,
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": true,
+        "groups": [
+          {
+            "match": "^(?!(@root|[.])).*",
+            "name": "libraries",
+            "order": 0
+          },
+          {
+            "match": "^@root",
+            "name": "@root alias",
+            "order": 10
+          },
+          {
+            "match": "^[.]",
+            "name": "from current folder",
+            "order": 20
+          }
+        ]
+      }
+    ]
+  }
+}

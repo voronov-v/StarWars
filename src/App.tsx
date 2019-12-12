@@ -1,13 +1,12 @@
-import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {PlanetsScreen} from './screens/PlanetsScreen/PlanetsScreen'
-import {HomeScreen} from './screens/HomeScreen/HomeScreen'
+import {HomeScreen} from './screens/HomeScreen/HomeScreen';
+import {PlanetsScreenFlat} from './screens/PlanetsScreen/index';
 
 const TabNavigator = createBottomTabNavigator({
-    Home: HomeScreen,
-    Planets: PlanetsScreen
+  Home: HomeScreen,
+  Planets: PlanetsScreenFlat,
 });
 
 const App = createAppContainer(TabNavigator);
-export default App
+export default App;
