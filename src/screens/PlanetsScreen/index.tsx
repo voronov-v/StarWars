@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, ListRenderItemInfo } from 'react-native';
+import {View, Text, ActivityIndicator, ListRenderItemInfo, TouchableOpacity} from 'react-native';
 import { PlanetsScreenView } from './PlanetsScreenView';
 import axios from 'axios';
 import { PlanetType, RenderItem } from './types';
@@ -29,14 +29,22 @@ export const PlanetsScreenFlat: FC = () => {
     anyNameFunction();
   }, []);
 
+  const onPlanetPress = (planetInfo: PlanetType) => {
+    console.log(planetInfo);
+  };
+
   const renderItem: RenderItem = ({
     item,
   }: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
     return (
-      <View style={styles.item}>
-        <Text style={styles.title}>planet: {item.name}</Text>
-        <Text>population: {item.population}</Text>
-      </View>
+        <TouchableOpacity onPress={onPlanetPress.bind(null,item)}>
+          <View style={styles.item}>
+            <Text style={styles.title}>planet: {item.name}</Text>
+            <Text>population: {item.population}</Text>
+            <Text>climate: {item.climate}</Text>
+          </View>
+        </TouchableOpacity>
+
     );
   };
 
@@ -44,13 +52,14 @@ export const PlanetsScreenFlat: FC = () => {
 
   if (!isLoad)
     return (
-      <View style={[styles.container]}>
-        <ActivityIndicator size='large' color='#0000ff' />
-      </View>
+          <View style={[styles.container]}>
+            <ActivityIndicator size='large' color='#0000ff' />
+          </View>
     );
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headText}>Choose your planet:</Text>
       <PlanetsScreenView data={data} renderItem={renderItem} keyExtractor={keyExtractor} />
     </View>
   );
