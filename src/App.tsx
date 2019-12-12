@@ -1,21 +1,13 @@
 import React from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-} from 'react-native';
+import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {PlanetsScreen} from './screens/PlanetsScreen/PlanetsScreen'
+import {HomeScreen} from './screens/HomeScreen/HomeScreen'
 
-const App = () => {
-
-    return (
-        <View style={styles.container}>
-            <Text>test star wars app</Text>
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    container: {}
+const TabNavigator = createBottomTabNavigator({
+    Home: HomeScreen,
+    Planets: PlanetsScreen
 });
 
-export default App;
+const App = createAppContainer(TabNavigator);
+export default App
