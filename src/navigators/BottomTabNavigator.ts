@@ -1,8 +1,8 @@
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {HomeScreen} from '../screens/HomeScreen/HomeScreen';
-import {PlanetsScreenFlat} from '../screens/PlanetsScreen/index'
+import PlanetScreenNavigator from "./PlanetsScreenNavigator";
 
 export const BottomTabNavigator = createBottomTabNavigator({
   Home: HomeScreen,
-  Planets: PlanetsScreenFlat,
+  Planets: PlanetScreenNavigator,
 });

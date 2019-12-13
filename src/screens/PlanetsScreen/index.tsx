@@ -1,11 +1,14 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, ReactElement, useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator, ListRenderItemInfo, TouchableOpacity} from 'react-native';
 import {PlanetsScreenView} from './PlanetsScreenView';
 import axios from 'axios';
 import {PlanetType, RenderItem} from './types';
 import {styles} from './styles';
+import {NavigationStackScreenProps} from "react-navigation-stack";
 
-export const PlanetsScreenFlat: FC = () => {
+export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
+  const {navigation} = props;
+
   const [data, setData] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [url, setUrl] = useState<string>('https://swapi.co/api/planets/');
@@ -29,13 +32,15 @@ export const PlanetsScreenFlat: FC = () => {
     loadData()
   }, []);
 
-  const onPlanetPress = (planetInfo: PlanetType) => {
-    console.log(planetInfo);
-  };
-
   const renderItem: RenderItem = ({item,}: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
+    const onPress = () => {
+      console.log('navigate to someshere');
+      console.log(item);
+      return navigation.navigate('PlanetInfo', { item });
+    };
+
     return (
-      <TouchableOpacity onPress={onPlanetPress.bind(null, item)}>
+      <TouchableOpacity onPress={onPress}>
         <View style={styles.item}>
           <Text style={styles.title}>planet: {item.name}</Text>
           <Text>population: {item.population}</Text>
@@ -53,9 +58,9 @@ export const PlanetsScreenFlat: FC = () => {
       <PlanetsScreenView data={data} renderItem={renderItem} keyExtractor={keyExtractor} loadData={loadData}/>
       {!isLoad
         ?
-          <View style={[styles.container]}>
-            <ActivityIndicator size='large' color='#0000ff'/>
-          </View>
+        <View style={[styles.containerActivity]}>
+          <ActivityIndicator size='large' color='#0000ff'/>
+        </View>
         : null
       }
     </View>
