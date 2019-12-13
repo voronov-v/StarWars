@@ -1,12 +1,6 @@
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { HomeScreen } from './screens/HomeScreen/HomeScreen';
-import { PlanetsScreenFlat } from './screens/PlanetsScreen/index';
+import React from 'react';
+import { RootNavigator } from './navigators';
 
-const TabNavigator = createBottomTabNavigator({
-  Home: HomeScreen,
-  Planets: PlanetsScreenFlat,
-});
-
-const App = createAppContainer(TabNavigator);
-export default App;
+export const App: React.FC = (): React.ReactElement => {
+  return <RootNavigator />;
+};

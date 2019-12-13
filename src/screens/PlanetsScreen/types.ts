@@ -21,6 +21,7 @@ export type PlanetsScreenViewProps = {
   keyExtractor: KeyExtractor;
   renderItem: RenderItem;
   data: PlanetsData;
+  loadData: Function
 };
 
 export type RenderItem = ListRenderItem<PlanetType>;
