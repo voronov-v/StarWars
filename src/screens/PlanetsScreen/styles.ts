@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 40,
+    paddingTop: 20,
+    backgroundColor: 'black',
   },
   item: {
     alignItems: 'center',
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
   },
   headText: {
     alignSelf: 'center',
-    color: 'red',
+    color: '#e91e63',
     fontSize: 30,
   },
   containerActivity: {

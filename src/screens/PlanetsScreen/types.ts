@@ -1,4 +1,5 @@
 import { FlatListProps, ListRenderItem } from 'react-native';
+import { FilmType, PeopleType } from '@root/screens/PlanetInfoScreen/types';
 
 export type PlanetType = {
   name: string;
@@ -9,9 +10,9 @@ export type PlanetType = {
   gravity: string;
   terrain: string;
   population: string;
-  residents: string[];
-  films: string[];
-  created: Date;
+  residents: PeopleType[];
+  films: FilmType[];
+  created: string;
   url: string;
 };
 

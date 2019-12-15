@@ -1,97 +1,67 @@
-import React, {FC, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from "react-native";
-import axios from "axios";
-import {FilmType} from "./types";
-import {RenderItem} from "@root/screens/PlanetsScreen/types";
+import React, { FC } from 'react';
+import { View, Text, FlatList, ListRenderItemInfo } from 'react-native';
+import { FilmType, IProps, PeopleType, PlanetInfoViewProps, RenderItemFilm, RenderItemPeople } from './types';
+import { styles } from './styles';
+import Icon from 'react-native-vector-icons/AntDesign';
+import { FilmInfo } from './FilmInfo/FilmInfo';
+import { ResidentInfo } from './ResidentInfo/ResidentInfo';
 
-export const PlanetInfoView: FC = ({data}) => {
-  // console.log('props from view', data);
-  // const [isLoad, setIsLoad] = useState<boolean>(false);
-  const [filmData, setFilmData] = useState<FilmType[]>([]);
+export const WhiteTextBold = ({ children }: IProps) => {
+  return <Text style={{ color: '#e8be2b', fontSize: 18, fontWeight: 'bold' }}>{children}</Text>;
+};
 
-  useEffect(() => {
-    const loadData = async () => {
-      console.log('loading films...');
-      let result = [];
-      for (let i = 0; i < data.films.length; i++) {
-        let resp = await axios(data.films[i]);
-        result.push(resp.data);
-      }
-      console.log(result);
-      setFilmData(result);
-      // setIsLoad(true);
-    };
-    loadData();
-  }, []);
+export const WhiteText = ({ children }: IProps) => {
+  return <Text style={{ color: '#e8be2b', fontSize: 16 }}>{children}</Text>;
+};
 
-  const created = new Date(Date.parse(data.created)).toLocaleDateString();
+export const PlanetInfoView: FC<PlanetInfoViewProps> = (props: PlanetInfoViewProps) => {
+  const { planetInfo, filmsInfo, residentsInfo } = props;
 
-  const renderItem: RenderItem = (item: FilmType) => {
-    console.log(item);
-    return <View>
-      <Text style={style.fontsSm}>
-        {item.item.title}
-      </Text>
-    </View>
+  const renderItemFilm: RenderItemFilm = ({ item }: ListRenderItemInfo<FilmType>): ReturnType<RenderItemFilm> => {
+    return <FilmInfo item={item}/>;
   };
 
-  return <View style={style.container}>
-    <View style={style.containerHead}>
-      <Text style={style.fontsLg}>{data.name}</Text>
-      <Text style={style.fontsMd}>created in {created}</Text>
+  const renderItemResident: RenderItemPeople = ({ item }: ListRenderItemInfo<PeopleType>): ReturnType<RenderItemPeople> => {
+    return <ResidentInfo item={item}/>;
+  };
+
+  const created = new Date(Date.parse(planetInfo.created)).toLocaleDateString();
+
+  return <View style={styles.container}>
+    <View style={styles.containerHead}>
+      <Icon name={'dribbble'} size={40} color={'#e91e63'}> {planetInfo.name}</Icon>
+      <WhiteTextBold>created in {created}</WhiteTextBold>
     </View>
 
-    <View style={style.containerInfo}>
-      <Text style={style.fontsMd}>Info:</Text>
-      <Text style={style.fontsSm}>climate: {data.climate}</Text>
-      <Text style={style.fontsSm}>diameter: {data.diameter}</Text>
-      <Text style={style.fontsSm}>gravity: {data.gravity}</Text>
-      <Text style={style.fontsSm}>population: {data.population}</Text>
-      <Text style={style.fontsSm}>surface_water: {data.surface_water}</Text>
-      <Text style={style.fontsSm}>terrain: {data.terrain}</Text>
+    <View>
+      <View style={styles.containerIcon}>
+        <Icon name={'infocirlceo'} size={30} color={'#e91e63'}> Info</Icon>
+      </View>
+      <View style={styles.containerInfo}>
+        <WhiteTextBold>climate: {planetInfo.climate}</WhiteTextBold>
+        <WhiteTextBold>diameter: {planetInfo.diameter}</WhiteTextBold>
+        <WhiteTextBold>gravity: {planetInfo.gravity}</WhiteTextBold>
+        <WhiteTextBold>population: {planetInfo.population}</WhiteTextBold>
+        <WhiteTextBold>terrain: {planetInfo.terrain}</WhiteTextBold>
+      </View>
     </View>
 
-    <View style={style.containerFilms}>
-      <Text style={style.fontsMd}>Films:</Text>
-      <FlatList
-        data={filmData}
-        renderItem={renderItem}
-        keyExtractor={item => item.url}
-      />
+    <View>
+      <View style={styles.containerIcon}>
+        <Icon name={'eyeo'} size={30} color={'#e91e63'}> Films</Icon>
+      </View>
+      <FlatList data={filmsInfo}
+                renderItem={renderItemFilm}
+                keyExtractor={item => item.url}/>
     </View>
 
-    {/*<Text>residents: {data.residents}</Text>*/}
-  </View>
-}
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  containerHead: {
-    paddingTop: 40,
-    backgroundColor: 'orange',
-    width: '100%',
-    alignItems: 'center',
-    paddingBottom: 10,
-  },
-  containerInfo: {
-    backgroundColor: '#fff8dc',
-    padding: 10,
-  },
-  containerFilms: {
-    backgroundColor: '#778899',
-    padding: 10,
-  },
-  fontsLg: {
-    fontSize: 36,
-    fontWeight: 'bold',
-  },
-  fontsMd: {
-    fontSize: 24,
-    fontStyle: 'italic'
-  },
-  fontsSm: {
-    fontSize: 18,
-  },
-});
+    <View>
+      <View style={styles.containerIcon}>
+        <Icon name={'meh'} size={30} color={'#e91e63'}> Residents</Icon>
+      </View>
+      <FlatList data={residentsInfo}
+                renderItem={renderItemResident}
+                keyExtractor={item => item.url}/>
+    </View>
+  </View>;
+};

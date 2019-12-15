@@ -16,7 +16,7 @@ export const PlanetsScreenView: FC<PlanetsScreenViewProps> = (
       onEndReached={
         () => {
           console.log('hello from end');
-          // loadData();
+           loadData();
         }
       }
     />
