@@ -3,4 +3,5 @@ export enum colors {
   pink = '#e91e63',
   orange = '#ff7f50',
   gray = '#313143',
+  yellow = '#e8be2b'
 }

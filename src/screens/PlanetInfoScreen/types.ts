@@ -1,4 +1,3 @@
-import { PlanetType } from '@root/screens/PlanetsScreen/types';
 import { ListRenderItem } from 'react-native';
 import { ReactNode } from 'react';
 import { FilmType} from "../FilmsScreen/types";
@@ -26,10 +25,12 @@ export type PeopleType = {
 }
 
 export type PlanetInfoViewProps = {
-  planetInfoData: {},
-  planetInfo: PlanetType,
-  filmsInfo: FilmType[],
-  residentsInfo: PeopleType[],
+  sections: any,
+  planetInfo: any,
+  keyExtractros: any,
+  renderSectionHeader: any,
+  listHeaderComponent: any,
+  renderItem: any,
 };
 
 export type FilmInfoProps = {

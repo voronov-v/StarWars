@@ -1,9 +1,8 @@
 import React, { FC, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { ResidentInfoProps } from '../types';
-import { WhiteText, WhiteTextBold } from '../PlanetInfoView';
 import { styles } from '../styles';
-import {colors} from '../../../consts/themes';
+import { colors } from '../../../consts/themes';
 
 export const ResidentInfo: FC<ResidentInfoProps> = ({ item }) => {
   const [hiddenInfo, setHiddenInfo] = useState(false);
@@ -13,17 +12,17 @@ export const ResidentInfo: FC<ResidentInfoProps> = ({ item }) => {
 
   return (
     <TouchableOpacity onPress={() => setHiddenInfo(!hiddenInfo)}>
-      <View style={{ ...styles.containerInfo, ...style.container }}>
-        <WhiteTextBold>
+      <View style={style.container}>
+        <Text style={styles.textBoldMd}>
           {item.name} ({item.gender}) was born in {item.birth_year}
-        </WhiteTextBold>
+        </Text>
         {hiddenInfo
           ? <View>
-            <WhiteText>basic info:</WhiteText>
-            <WhiteText>eye_color: {item.eye_color}</WhiteText>
-            <WhiteText>hair_color: {item.hair_color}</WhiteText>
-            <WhiteText>skin_color: {item.skin_color}</WhiteText>
-            <WhiteText>mass: {item.mass}</WhiteText>
+            <Text style={styles.textSm}>basic info:</Text>
+            <Text style={styles.textSm}>eye_color: {item.eye_color}</Text>
+            <Text style={styles.textSm}>hair_color: {item.hair_color}</Text>
+            <Text style={styles.textSm}>skin_color: {item.skin_color}</Text>
+            <Text style={styles.textSm}>mass: {item.mass}</Text>
           </View>
           : null
         }

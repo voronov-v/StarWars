@@ -1,9 +1,8 @@
 import React, { FC, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FilmInfoProps } from '../types';
-import { WhiteText, WhiteTextBold } from '../PlanetInfoView';
+import { colors } from '../../../consts/themes';
 import { styles } from '../styles';
-import {colors} from '../../../consts/themes';
 
 export const FilmInfo: FC<FilmInfoProps> = ({ item }) => {
   const [hiddenInfo, setHiddenInfo] = useState(false);
@@ -13,11 +12,11 @@ export const FilmInfo: FC<FilmInfoProps> = ({ item }) => {
 
   return (
     <TouchableOpacity onPress={() => setHiddenInfo(!hiddenInfo)}>
-      <View style={{ ...styles.containerInfo, ...style.container }}>
-        <WhiteTextBold>Episode {item.episode_id}: {item.title}</WhiteTextBold>
-        <WhiteTextBold>{item.release_date}</WhiteTextBold>
+      <View style={style.container}>
+        <Text style={styles.textBoldMd}>Episode {item.episode_id}: {item.title}</Text>
+        <Text style={styles.textBoldMd}>{item.release_date}</Text>
         {hiddenInfo
-          ? <WhiteText>{item.opening_crawl}</WhiteText>
+          ? <Text style={styles.textSm}>{item.opening_crawl}</Text>
           : null
         }
       </View>

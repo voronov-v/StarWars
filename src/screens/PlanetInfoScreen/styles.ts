@@ -1,22 +1,30 @@
 import { StyleSheet } from 'react-native';
-import {colors} from '../../consts/themes';
+import { colors } from '../../consts/themes';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black,
-    paddingTop: 20,
   },
   containerHead: {
-    paddingTop: 10,
+    paddingVertical: 10,
     alignItems: 'center',
   },
   containerIcon: {
-    paddingLeft: 10,
-    paddingVertical: 5,
-  },
-  containerInfo: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
-  }
+    paddingVertical: 3,
+  },
+  textBoldMd: {
+    color: colors.yellow,
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
+  textSm: {
+    color: colors.yellow,
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
 });

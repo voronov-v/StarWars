@@ -1,5 +1,6 @@
 import { FlatListProps, ListRenderItem } from 'react-native';
-import { FilmType, PeopleType } from '@root/screens/PlanetInfoScreen/types';
+import { PeopleType } from '../PlanetInfoScreen/types';
+import { FilmType } from '../FilmsScreen/types';
 
 export type PlanetType = {
   name: string;
