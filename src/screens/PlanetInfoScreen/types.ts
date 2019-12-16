@@ -26,6 +26,7 @@ export type PeopleType = {
 }
 
 export type PlanetInfoViewProps = {
+  planetInfoData: {},
   planetInfo: PlanetType,
   filmsInfo: FilmType[],
   residentsInfo: PeopleType[],

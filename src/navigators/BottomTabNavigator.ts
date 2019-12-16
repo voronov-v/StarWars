@@ -15,12 +15,12 @@ export const BottomTabNavigator = createBottomTabNavigator({
         // tabBarIcon:  <Icon color={'black'} name={'okay'} size={25} />
       },
     },
-    Films: {
-      screen: FilmsScreen,
-      navigationOptions: {
-        title: 'Films'
-      }
-    }
+    // Films: {
+    //   screen: FilmsScreen,
+    //   navigationOptions: {
+    //     title: 'Films'
+    //   }
+    // }
   },
   {
     tabBarOptions: {
