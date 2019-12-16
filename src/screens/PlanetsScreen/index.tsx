@@ -1,15 +1,16 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, ListRenderItemInfo, TouchableOpacity } from 'react-native';
-import { PlanetsScreenView } from './PlanetsScreenView';
+import React, {FC, ReactElement, useEffect, useState} from 'react';
+import {View, Text, ListRenderItemInfo, TouchableOpacity} from 'react-native';
+import {PlanetsScreenView} from './PlanetsScreenView';
 import axios from 'axios';
-import { PlanetType, RenderItem } from './types';
-import { styles } from './styles';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
+import {PlanetType, RenderItem} from './types';
+import {styles} from './styles';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {Spinner} from "../../components/Spinner/Spinner";
 
 export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
-  const { navigation } = props;
+  const {navigation} = props;
 
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<PlanetType[]>([]);
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [url, setUrl] = useState<string>('https://swapi.co/api/planets/');
 
@@ -29,8 +30,8 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
     loadData();
   }, []);
 
-  const renderItem: RenderItem = ({ item }: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
-    const onPress = () => navigation.navigate('PlanetInfo', { item });
+  const renderItem: RenderItem = ({item}: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
+    const onPress = () => navigation.navigate('PlanetInfo', {item});
 
     return (
       <TouchableOpacity onPress={onPress}>
@@ -49,13 +50,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
     <View style={styles.container}>
       <Text style={styles.headText}>Choose your planet:</Text>
       <PlanetsScreenView data={data} renderItem={renderItem} keyExtractor={keyExtractor} loadData={loadData}/>
-      {!isLoad
-        ?
-        <View style={[styles.containerActivity]}>
-          <ActivityIndicator size='large' color='#e91e63'/>
-        </View>
-        : null
-      }
+      {!isLoad ? <Spinner/> : null}
     </View>
   );
 };

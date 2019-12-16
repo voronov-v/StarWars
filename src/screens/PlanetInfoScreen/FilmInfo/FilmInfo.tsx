@@ -3,11 +3,12 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { FilmInfoProps } from '../types';
 import { WhiteText, WhiteTextBold } from '../PlanetInfoView';
 import { styles } from '../styles';
+import {colors} from '../../../consts/themes';
 
 export const FilmInfo: FC<FilmInfoProps> = ({ item }) => {
   const [hiddenInfo, setHiddenInfo] = useState(false);
   const style = StyleSheet.create({
-    container: { backgroundColor: hiddenInfo ? '#313143' : '#000000' },
+    container: { backgroundColor: hiddenInfo ? colors.gray : colors.black },
   });
 
   return (

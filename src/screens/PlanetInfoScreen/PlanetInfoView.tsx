@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { View, Text, FlatList, ListRenderItemInfo } from 'react-native';
-import { FilmType, IProps, PeopleType, PlanetInfoViewProps, RenderItemFilm, RenderItemPeople } from './types';
+import {View, Text, FlatList, ListRenderItemInfo} from 'react-native';
+import { IProps, PeopleType, PlanetInfoViewProps, RenderItemFilm, RenderItemPeople } from './types';
+import { FilmType} from "../FilmsScreen/types";
 import { styles } from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { FilmInfo } from './FilmInfo/FilmInfo';

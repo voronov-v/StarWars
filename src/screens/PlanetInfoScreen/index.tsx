@@ -2,9 +2,10 @@ import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { PlanetInfoView } from './PlanetInfoView';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { PlanetType } from '@root/screens/PlanetsScreen/types';
-import { FilmType, PeopleType } from '@root/screens/PlanetInfoScreen/types';
+import { PeopleType } from '@root/screens/PlanetInfoScreen/types';
+import {FilmType} from "../FilmsScreen/types";
 import axios from 'axios';
-import { ActivityIndicator, View } from 'react-native';
+import {Spinner} from '../../components/Spinner/Spinner'
 
 export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const { navigation } = props;
@@ -20,31 +21,33 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
     // let isMount: boolean = true;
     // console.log(isMount);
 
-    const loadData = async (arr: Array<FilmType | PeopleType>, setFnc: Function, loadFlag: boolean) => {
+    const loadData = async (arrFilms: Array<FilmType>, arrResidents: Array<PeopleType>) => {
       let respData = [], resp;
-      for (let i = 0; i < arr.length; i++) {
-        resp = await axios(arr[i]);
+
+      for (let i = 0; i < arrFilms.length; i++) {
+        resp = await axios(arrFilms[i]);
         respData.push(resp.data);
       }
-      setFnc(respData);
-      if (loadFlag) setIsLoad(true);
+      setFilmData(respData);
+
+      respData = [];
+      for (let i = 0; i < arrResidents.length; i++) {
+        resp = await axios(arrResidents[i]);
+        respData.push(resp.data);
+      }
+      setResidentsData(respData);
+
+      setIsLoad(true);
+
     };
+    loadData(data.films, data.residents);
 
-    loadData(data.films, setFilmData, true);
-    loadData(data.residents, setResidentsData, true);
-
-    return () => {
+    // return () => {
       // isMount = false;
-    };
+    // };
   }, []);
 
-  if (!isLoad) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'black' }}>
-        <ActivityIndicator size='large' color='#e91e63'/>
-      </View>
-    );
-  }
+  if (!isLoad) return <Spinner />;
 
   return <PlanetInfoView planetInfo={data} filmsInfo={filmData} residentsInfo={residentsData}/>;
 };

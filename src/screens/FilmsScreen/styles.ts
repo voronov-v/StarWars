@@ -1,5 +1,4 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../consts/themes';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   item: {
     alignItems: 'center',
-    backgroundColor: colors.orange,
+    backgroundColor: '#ff7f50',
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -22,7 +21,9 @@ export const styles = StyleSheet.create({
   },
   headText: {
     alignSelf: 'center',
-    color: colors.pink,
+    color: '#e91e63',
     fontSize: 30,
   },
+  containerActivity: {
+  }
 });

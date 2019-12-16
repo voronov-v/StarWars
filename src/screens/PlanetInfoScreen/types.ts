@@ -1,23 +1,7 @@
 import { PlanetType } from '@root/screens/PlanetsScreen/types';
 import { ListRenderItem } from 'react-native';
 import { ReactNode } from 'react';
-
-export type FilmType = {
-  title: string;
-  episode_id: number;
-  opening_crawl: string;
-  director: string;
-  producer: string;
-  release_date: [];
-  species: [];
-  starships: [];
-  vehicles: [];
-  characters: [];
-  planets: [];
-  url: string;
-  created: string;
-  edited: string;
-}
+import { FilmType} from "../FilmsScreen/types";
 
 export type RenderItemFilm = ListRenderItem<FilmType>;
 export type RenderItemPeople = ListRenderItem<PeopleType>;
