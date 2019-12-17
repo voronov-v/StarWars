@@ -29,7 +29,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
     return (
       <TouchableOpacity onPress={onPress}>
         <View style={styles.item}>
-          <Text style={styles.title}>planet: {item.name}</Text>
+          <Text style={styles.title}>{item.name}</Text>
           <Text>population: {item.population}</Text>
           <Text>climate: {item.climate}</Text>
         </View>

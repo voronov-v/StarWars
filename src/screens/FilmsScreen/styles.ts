@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import {colors} from '../../consts/themes';
 
 export const styles = StyleSheet.create({
@@ -10,19 +10,19 @@ export const styles = StyleSheet.create({
   item: {
     alignItems: 'center',
     backgroundColor: colors.orange,
-    padding: 10,
-    marginVertical: 8,
+    padding: 5,
+    marginVertical: 5,
     marginHorizontal: 16,
-    borderRadius: 30,
+    borderRadius: 40,
     borderStyle: 'solid',
     borderWidth: 3,
   },
   title: {
-    fontSize: 24,
+    fontSize: 21,
   },
   headText: {
     alignSelf: 'center',
     color: colors.pink,
-    fontSize: 30,
+    fontSize: 25,
   },
 });
