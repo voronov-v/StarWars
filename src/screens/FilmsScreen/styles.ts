@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
+import {colors} from '../../consts/themes';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
   },
   item: {
     alignItems: 'center',
-    backgroundColor: '#ff7f50',
+    backgroundColor: colors.orange,
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -21,9 +22,7 @@ export const styles = StyleSheet.create({
   },
   headText: {
     alignSelf: 'center',
-    color: '#e91e63',
+    color: colors.pink,
     fontSize: 30,
   },
-  containerActivity: {
-  }
 });

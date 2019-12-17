@@ -1,38 +1,32 @@
-import React, {FC, ReactElement, useEffect, useState} from 'react';
-import {View, Text, ListRenderItemInfo, TouchableOpacity} from 'react-native';
+import React, {FC, ReactElement, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {View, Text, ListRenderItemInfo, TouchableOpacity, Button} from 'react-native';
 import {FilmsScreenView} from './FilmsScreenView';
-import axios from 'axios';
 import {FilmType, RenderItem} from './types';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {styles} from "./styles";
 import {Spinner} from "../../components/Spinner/Spinner";
+import {LOAD_FILMS} from "../../redux/reducers/filmsReducer";
+import {getFilms} from "../../selectors/";
 
 export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
 
-  const [data, setData] = useState<FilmType[]>([]);
-  const [isLoad, setIsLoad] = useState<boolean>(false);
-  const url = 'https://swapi.co/api/films/';
+  const dispatch = useDispatch();
+  const films = useSelector(getFilms);
+  const {loading, filmsList, errMsg} = films;
+
+  console.log('filmsReducer', films);
+  console.log('filmsList', filmsList);
 
   useEffect(() => {
-    const loadData = async () => {
-      // setIsLoad(false);
-      // let resp = await axios.get(url);
-      // if (resp.data.results.length) {
-      //   let arr = [...resp.data.results].sort((a,b) => a.episode_id - b.episode_id);
-      //   setData(arr);
-        setIsLoad(true);
-      // }
-    };
-
-    loadData();
-  }, []);
+    dispatch({type: LOAD_FILMS})
+  } , []);
 
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<FilmType>): ReturnType<RenderItem> => {
     const onPress = () => {
       // navigation.navigate('PlanetInfo', {item});
       console.log('navigate to film desc');
-
       console.log(navigation);
     };
 
@@ -49,12 +43,18 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
 
   const keyExtractor = (item: FilmType) => item.url;
 
-  if (!isLoad) return <Spinner/>;
+  if (loading) return <Spinner/>;
+  if (errMsg !== "") return (
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <Text>error: {errMsg}</Text>
+      <Button title={'load films'} onPress={() => dispatch({type: LOAD_FILMS})}/>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
       <Text style={styles.headText}>Chose your film:</Text>
-      <FilmsScreenView data={data} renderItem={renderItem} keyExtractor={keyExtractor}/>
+      <FilmsScreenView data={filmsList} renderItem={renderItem} keyExtractor={keyExtractor}/>
     </View>
   );
 };

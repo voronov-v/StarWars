@@ -1,34 +1,26 @@
-import React, {FC, ReactElement, useEffect, useState} from 'react';
-import {View, Text, ListRenderItemInfo, TouchableOpacity} from 'react-native';
+import React, {FC, ReactElement, useEffect} from 'react';
+import {View, Text, ListRenderItemInfo, TouchableOpacity, Button} from 'react-native';
 import {PlanetsScreenView} from './PlanetsScreenView';
-import axios from 'axios';
 import {PlanetType, RenderItem} from './types';
 import {styles} from './styles';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {Spinner} from "../../components/Spinner/Spinner";
+import {useDispatch, useSelector} from "react-redux";
+import {getPlanets} from "../../selectors";
+import {LOAD_PLANETS} from "../../redux/reducers/planetsReducer";
 
 export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
 
-  const [data, setData] = useState<PlanetType[]>([]);
-  const [isLoad, setIsLoad] = useState<boolean>(false);
-  const [url, setUrl] = useState<string>('https://swapi.co/api/planets/');
+  const dispatch = useDispatch();
+  const planets = useSelector(getPlanets);
+  const {loading, planetsList, errMsg} = planets;
 
-  const loadData = async () => {
-    if (url) {
-      setIsLoad(false);
-      let response = await axios.get(url);
-      if (response.data.results.length) {
-        setData([...data, ...response.data.results]);
-        setIsLoad(true);
-        setUrl(response.data.next);
-
-      }
-    }
-  };
+  console.log('planets', planets);
+  console.log('planetsList', planetsList);
 
   useEffect(() => {
-    loadData();
+    dispatch({type: LOAD_PLANETS})
   }, []);
 
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
@@ -48,13 +40,20 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
   const keyExtractor = (item: PlanetType) => item.name;
 
   console.log('PlanetsScreen loadData');
-  console.log(data);
+  console.log(planetsList);
+
+  if (errMsg !== "") return (
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <Text>error: {errMsg}</Text>
+      <Button title={'load films'} onPress={() => dispatch({type: LOAD_PLANETS})}/>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
       <Text style={styles.headText}>Choose your planet:</Text>
-      <PlanetsScreenView data={data} renderItem={renderItem} keyExtractor={keyExtractor} loadData={loadData}/>
-      {!isLoad ? <Spinner/> : null}
+      <PlanetsScreenView data={planetsList} renderItem={renderItem} keyExtractor={keyExtractor}/>
+      {loading ? <Spinner/> : null}
     </View>
   );
 };
