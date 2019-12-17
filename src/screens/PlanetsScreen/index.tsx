@@ -31,11 +31,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
   }, []);
 
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
-    const onPress = () => {
-      console.log('on press');
-      console.log(item);
-      navigation.navigate('PlanetInfo', {item});
-    }
+    const onPress = () => navigation.navigate('PlanetInfo', {planetData: item});
 
     return (
       <TouchableOpacity onPress={onPress}>

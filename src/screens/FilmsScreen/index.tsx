@@ -16,13 +16,13 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
 
   useEffect(() => {
     const loadData = async () => {
-      setIsLoad(false);
-      let resp = await axios.get(url);
-      if (resp.data.results.length) {
-        let arr = [...resp.data.results].sort((a,b) => a.episode_id - b.episode_id);
-        setData(arr);
+      // setIsLoad(false);
+      // let resp = await axios.get(url);
+      // if (resp.data.results.length) {
+      //   let arr = [...resp.data.results].sort((a,b) => a.episode_id - b.episode_id);
+      //   setData(arr);
         setIsLoad(true);
-      }
+      // }
     };
 
     loadData();

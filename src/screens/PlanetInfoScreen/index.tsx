@@ -15,7 +15,8 @@ import { colors } from '../../consts/themes';
 
 export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const { navigation } = props;
-  const planetData: PlanetType = navigation.state.params!.item;
+  const planetData: PlanetType = navigation.getParam('planetData');
+  console.log('planetData', planetData);
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [filmData, setFilmData] = useState<FilmType[]>([]);
   const [residentsData, setResidentsData] = useState<PeopleType[]>([]);

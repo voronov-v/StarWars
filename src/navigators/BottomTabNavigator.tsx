@@ -1,37 +1,44 @@
-// import React from 'react' ;
+import React from 'react' ;
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {HomeScreen} from '../screens/HomeScreen/HomeScreen';
 import PlanetScreenNavigator from './PlanetsScreenNavigator';
 import {FilmsScreen} from "../screens/FilmsScreen";
 import {colors} from "../consts/themes";
-// import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export const BottomTabNavigator = createBottomTabNavigator({
-    Home: HomeScreen,
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        title: 'Home',
+        tabBarIcon: <Icon color={colors.pink} name={'home'} size={25}/>
+      }
+    },
     Planets: {
       screen: PlanetScreenNavigator,
       navigationOptions: {
-        title: 'Planets',
-        // tabBarIcon:  <Icon color={'black'} name={'okay'} size={25} />
+        tabBarIcon:  <Icon color={colors.pink} name={'dribbble'} size={25} />,
+        tabBarLabel: 'Planets'
       },
     },
-    // Films: {
-    //   screen: FilmsScreen,
-    //   navigationOptions: {
-    //     title: 'Films'
-    //   }
-    // }
+    Films: {
+      screen: FilmsScreen,
+      navigationOptions: {
+        title: 'Films',
+        tabBarIcon: <Icon color={colors.pink} name={'eyeo'} size={25}/>
+      }
+    }
   },
   {
     tabBarOptions: {
-      // showIcon: true
+      showIcon: true,
       activeTintColor: colors.pink,
       labelStyle: {
-        fontSize: 30,
+        fontSize: 14,
       },
       style: {
         backgroundColor: colors.black,
-        height: 35,
+        height: 53,
       },
     },
   },
