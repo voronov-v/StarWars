@@ -22,6 +22,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
         setData([...data, ...response.data.results]);
         setIsLoad(true);
         setUrl(response.data.next);
+
       }
     }
   };
@@ -45,6 +46,9 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
   };
 
   const keyExtractor = (item: PlanetType) => item.name;
+
+  console.log('PlanetsScreen loadData');
+  console.log(data);
 
   return (
     <View style={styles.container}>
