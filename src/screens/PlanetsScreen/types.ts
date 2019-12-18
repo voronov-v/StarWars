@@ -15,6 +15,7 @@ export type PlanetType = {
   films: FilmType[];
   created: string;
   url: string;
+  planetInfo?: object
 };
 
 export type KeyExtractor = FlatListProps<PlanetType>['keyExtractor'];

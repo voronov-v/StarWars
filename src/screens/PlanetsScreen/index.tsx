@@ -16,15 +16,14 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
   const planets = useSelector(getPlanets);
   const {loading, planetsList, errMsg} = planets;
 
-  console.log('planets', planets);
-  console.log('planetsList', planetsList);
-
   useEffect(() => {
     dispatch({type: LOAD_PLANETS})
   }, []);
 
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
-    const onPress = () => navigation.navigate('PlanetInfo', {planetData: item});
+    const onPress = () => {
+      navigation.navigate('PlanetInfo', {planetData: item});
+    };
 
     return (
       <TouchableOpacity onPress={onPress}>
@@ -37,10 +36,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
     );
   };
 
-  const keyExtractor = (item: PlanetType) => item.name;
-
-  console.log('PlanetsScreen loadData');
-  console.log(planetsList);
+  const keyExtractor = (item: PlanetType) => item.url+item.name;
 
   if (errMsg !== "") return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
