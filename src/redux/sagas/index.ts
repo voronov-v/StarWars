@@ -41,7 +41,7 @@ function* fetchPlanetInfo(action: IActionType) {
 
     if (!planetInfo) {
       let resp, filmsArr = [], residentsArr = [];
-
+//foreach
       for (let i = 0; i < films.length; i++) {
         resp = yield call(API.getPlanetInfo, films[i]);
         filmsArr.push(resp);

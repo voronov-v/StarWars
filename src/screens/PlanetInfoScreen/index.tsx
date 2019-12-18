@@ -6,7 +6,7 @@ import {FilmType} from '../FilmsScreen/types';
 import {Spinner} from '../../components/Spinner/Spinner';
 import {FilmInfo} from './FilmInfo/FilmInfo';
 import {ResidentInfo} from './ResidentInfo/ResidentInfo';
-import {Button, Text, View} from 'react-native';
+import {Button, SectionListRenderItem, Text, View} from 'react-native';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {colors} from '../../consts/themes';
@@ -52,7 +52,7 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
     return item.url;
   };
 
-  const renderItem = ({item}: any) => {
+  const renderItem: SectionListRenderItem<FilmType | PeopleType> = ({item}) => {
     if (item.episode_id) return <FilmInfo item={item}/>;
     else return <ResidentInfo item={item}/>;
   };
