@@ -6,10 +6,14 @@ const instance = axios.create({
 
 export const API = {
   getPlanets: async () => await instance.get('planets/'),
-  getFilms: async () => await instance.get('films/'),
-  getPlanetInfo: async (url:string) => {
+  getFilms: async () => {
+    let data = await instance.get('films/');
+    console.log('API getFilms data', data);
+    return data.data.results;
+  },
+  getPlanetInfo: async (url: string) => {
     let data = await axios.get(url);
-    console.log('getPlanetInfo data', data);
+    console.log('API getPlanetInfo data', data);
     return data.data;
   }
 };

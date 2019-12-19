@@ -20,7 +20,7 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
   console.log('filmsList', filmsList);
 
   useEffect(() => {
-    dispatch({type: LOAD_FILMS})
+    dispatch({type: LOAD_FILMS, payload: filmsList})
   } , []);
 
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<FilmType>): ReturnType<RenderItem> => {
@@ -47,7 +47,7 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
   if (errMsg !== "") return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Text>error: {errMsg}</Text>
-      <Button title={'load films'} onPress={() => dispatch({type: LOAD_FILMS})}/>
+      <Button title={'load films'} onPress={() => dispatch({type: LOAD_FILMS, payload: filmsList})}/>
     </View>
   );
 

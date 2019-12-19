@@ -22,7 +22,7 @@ export const filmsReducer = (state = INITIAL_STATE, action: IActionType) => {
     case LOAD_FILMS:
       return {...state, loading: true, errMsg: ""};
     case LOAD_FILMS_SUCCEED:
-      let arr = [...action.payload.data.results].sort((a,b) => a.episode_id - b.episode_id);
+      let arr = [...action.payload].sort((a,b) => a.episode_id - b.episode_id);
       return {...state, loading: false, filmsList: arr};
     case LOAD_FILMS_FAILED:
       return {...state, loading: false, errMsg: action.payload};

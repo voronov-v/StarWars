@@ -1,18 +1,18 @@
 import React, {FC, ReactElement, useEffect} from 'react';
-import {PlanetInfoView} from './PlanetInfoView';
+import {useDispatch, useSelector} from "react-redux";
 import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {PlanetInfoView} from './PlanetInfoView';
+import {Button/*, SectionListRenderItem*/, Text, View} from 'react-native';
 import {PeopleType} from './types';
 import {FilmType} from '../FilmsScreen/types';
-import {Spinner} from '../../components/Spinner/Spinner';
+import {Spinner} from '@root/components/Spinner/Spinner';
 import {FilmInfo} from './FilmInfo/FilmInfo';
 import {ResidentInfo} from './ResidentInfo/ResidentInfo';
-import {Button, SectionListRenderItem, Text, View} from 'react-native';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {colors} from '../../consts/themes';
-import {useDispatch, useSelector} from "react-redux";
-import {LOAD_PLANET_INFO} from "../../redux/reducers/planetsReducer";
-import {getPlanets} from "../../selectors";
+import {colors} from '@root/consts/themes';
+import {LOAD_PLANET_INFO} from "@root/redux/reducers/planetsReducer";
+import {getPlanets} from "@root/selectors";
 
 export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
@@ -52,7 +52,9 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
     return item.url;
   };
 
-  const renderItem: SectionListRenderItem<FilmType | PeopleType> = ({item}) => {
+
+  // const renderItem: SectionListRenderItem<FilmType | PeopleType> = ({item}) => {
+  const renderItem = ({item}:any) => {
     if (item.episode_id) return <FilmInfo item={item}/>;
     else return <ResidentInfo item={item}/>;
   };

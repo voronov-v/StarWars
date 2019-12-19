@@ -25,10 +25,14 @@ function* fetchPlanets(action: IActionType) {
 
 function* fetchFilms(action: IActionType) {
   try {
-    console.log('fetchFilms start ', action);
-    const filmsData = yield call(API.getFilms);
-    console.log('filmsData ', filmsData);
-    yield put({type: LOAD_FILMS_SUCCEED, payload: filmsData});
+
+    if (action.payload) {
+      yield put({type: LOAD_FILMS_SUCCEED, payload: action.payload});
+    } else {
+      const filmsData = yield call(API.getFilms);
+      yield put({type: LOAD_FILMS_SUCCEED, payload: filmsData});
+    }
+
   } catch (e) {
     yield put({type: LOAD_FILMS_FAILED, payload: e.message});
   }
@@ -41,7 +45,7 @@ function* fetchPlanetInfo(action: IActionType) {
 
     if (!planetInfo) {
       let resp, filmsArr = [], residentsArr = [];
-//foreach
+
       for (let i = 0; i < films.length; i++) {
         resp = yield call(API.getPlanetInfo, films[i]);
         filmsArr.push(resp);
