@@ -11,6 +11,7 @@ import {
   LOAD_PLANET_INFO_FAILED
 } from '../reducers/planetsReducer';
 import {LOAD_FILMS, LOAD_FILMS_FAILED, LOAD_FILMS_SUCCEED} from "../reducers/filmsReducer";
+import {CHANGE_LANGUAGE} from "@root/redux/reducers/settingsReducer";
 
 function* fetchPlanets(action: IActionType) {
   try {
@@ -67,6 +68,7 @@ export function* sagas() {
   yield all([
     takeEvery(LOAD_PLANETS, fetchPlanets),
     takeEvery(LOAD_PLANET_INFO, fetchPlanetInfo),
-    takeEvery(LOAD_FILMS, fetchFilms)
+    takeEvery(LOAD_FILMS, fetchFilms),
+    takeEvery(CHANGE_LANGUAGE, ()=> {})
   ]);
 }

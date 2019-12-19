@@ -1,0 +1,24 @@
+{
+  "homeScreen": {
+    "helloTitle": "Домашняя приветствие",
+    "btnLoadPlanets": "Загрузить планеты",
+    "btnLoadFilms": "Загрузить фильмы",
+    "loadTitle": "Бар загрузки:",
+    "changeLangTitle":"Изменить язык:"
+  },
+  "btmNavigator": {
+    "btnHome": "Домой",
+    "btnFilms": "Фильмы",
+    "btnPlanets": "Планеты"
+  },
+  "planetsScreen": {
+    "headTitle": "Выберите планету:",
+    "population": "население:",
+    "climate": "климат:"
+  },
+  "filmsScreen": {
+    "headTitle": "Выберите фильм:",
+    "episode": "Эпизод",
+    "createdBy": "Создано"
+  }
+}

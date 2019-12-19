@@ -1,0 +1,24 @@
+{
+  "homeScreen": {
+    "helloTitle": "Hello from home screen",
+    "btnLoadPlanets": "Load planets",
+    "btnLoadFilms": "Load films",
+    "loadTitle": "Loading bar:",
+    "changeLangTitle":"Change language:"
+  },
+  "btmNavigator": {
+    "btnHome": "Home",
+    "btnFilms": "Films",
+    "btnPlanets": "Planets"
+  },
+  "planetsScreen": {
+    "headTitle": "Choose your planet:",
+    "population": "population:",
+    "climate": "climate:"
+  },
+  "filmsScreen": {
+    "headTitle": "Choose your film:",
+    "episode": "Episode",
+    "createdBy": "Created by"
+  }
+}

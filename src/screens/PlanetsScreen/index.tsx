@@ -8,9 +8,11 @@ import {Spinner} from "../../components/Spinner/Spinner";
 import {useDispatch, useSelector} from "react-redux";
 import {getPlanets} from "../../selectors";
 import {LOAD_PLANETS} from "../../redux/reducers/planetsReducer";
+import {useTranslation} from "react-i18next";
 
 export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
+  const {t} = useTranslation('planetsScreen');
 
   const dispatch = useDispatch();
   const planets = useSelector(getPlanets);
@@ -29,8 +31,8 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
       <TouchableOpacity onPress={onPress}>
         <View style={styles.item}>
           <Text style={styles.title}>{item.name}</Text>
-          <Text>population: {item.population}</Text>
-          <Text>climate: {item.climate}</Text>
+          <Text>{t('population')} {item.population}</Text>
+          <Text>{t('climate')} {item.climate}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -47,7 +49,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headText}>Choose your planet:</Text>
+      <Text style={styles.headText}>{t('headTitle')}</Text>
       <PlanetsScreenView data={planetsList} renderItem={renderItem} keyExtractor={keyExtractor}/>
       {loading ? <Spinner/> : null}
     </View>

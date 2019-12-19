@@ -8,9 +8,11 @@ import {styles} from "./styles";
 import {Spinner} from "../../components/Spinner/Spinner";
 import {LOAD_FILMS} from "../../redux/reducers/filmsReducer";
 import {getFilms} from "../../selectors/";
+import {useTranslation} from "react-i18next";
 
 export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
+  const {t} = useTranslation('filmsScreen');
 
   const dispatch = useDispatch();
   const films = useSelector(getFilms);
@@ -33,8 +35,8 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
     return (
       <TouchableOpacity onPress={onPress}>
         <View style={styles.item}>
-          <Text style={styles.title}>Episode {item.episode_id}: {item.title}</Text>
-          <Text>created by: {item.director}</Text>
+          <Text style={styles.title}>{t('episode')} {item.episode_id}: {item.title}</Text>
+          <Text>{t('createdBy')}: {item.director}</Text>
           <Text>{item.release_date.substr(0, 4)}</Text>
         </View>
       </TouchableOpacity>
@@ -53,7 +55,7 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headText}>Chose your film:</Text>
+      <Text style={styles.headText}>{t('headTitle')}</Text>
       <FilmsScreenView data={filmsList} renderItem={renderItem} keyExtractor={keyExtractor}/>
     </View>
   );

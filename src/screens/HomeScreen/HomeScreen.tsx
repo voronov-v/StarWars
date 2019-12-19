@@ -6,14 +6,19 @@ import {LOAD_FILMS} from "../../redux/reducers/filmsReducer";
 import { useTranslation } from 'react-i18next';
 
 export const HomeScreen = () => {
-  const {t} = useTranslation();
+  const {t} = useTranslation('homeScreen');
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{t('Home hello')}</Text>
-      <Button title={'load planets'} onPress={() => dispatch({type: LOAD_PLANETS})}/>
-      <Button title={'load films'} onPress={() => dispatch({type: LOAD_FILMS})}/>
+      <Text style={styles.text}>{t('helloTitle')}</Text>
+      <View style={{marginTop: 20, alignItems: 'center'}}>
+        <Text style={styles.text}>{t('loadTitle')}</Text>
+        <View style={{flexDirection: 'row', width: 400, justifyContent: 'space-between'}}>
+          <Button title={t('btnLoadPlanets')} onPress={() => dispatch({type: LOAD_PLANETS})}/>
+          <Button title={t('btnLoadFilms')} onPress={() => dispatch({type: LOAD_FILMS})}/>
+        </View>
+      </View>
     </View>
   );
 };
