@@ -1,6 +1,6 @@
 {
   "homeScreen": {
-    "helloTitle": "Домашняя приветствие",
+    "helloTitle": "Приветствие",
     "btnLoadPlanets": "Загрузить планеты",
     "btnLoadFilms": "Загрузить фильмы",
     "loadTitle": "Бар загрузки:"
