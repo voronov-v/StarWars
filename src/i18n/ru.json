@@ -3,8 +3,7 @@
     "helloTitle": "Домашняя приветствие",
     "btnLoadPlanets": "Загрузить планеты",
     "btnLoadFilms": "Загрузить фильмы",
-    "loadTitle": "Бар загрузки:",
-    "changeLangTitle":"Изменить язык:"
+    "loadTitle": "Бар загрузки:"
   },
   "btmNavigator": {
     "btnHome": "Домой",
@@ -16,9 +15,23 @@
     "population": "население:",
     "climate": "климат:"
   },
+  "planetInfoScreen": {
+    "infoTitleSection": "Информация",
+    "filmsTitleSection": "Фильмы",
+    "residentsTitleSection": "Жители",
+    "climate": "климат:",
+    "diameter": "диаметр:",
+    "gravity": "графитация:",
+    "population": "население:",
+    "terrain": "местность:"
+  },
   "filmsScreen": {
     "headTitle": "Выберите фильм:",
     "episode": "Эпизод",
     "createdBy": "Создано"
+  },
+  "settingsScreen": {
+    "changeLangTitle": "Изменить язык:",
+    "useDarkMode": "Использовать темную тему?"
   }
 }

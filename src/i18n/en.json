@@ -3,8 +3,7 @@
     "helloTitle": "Hello from home screen",
     "btnLoadPlanets": "Load planets",
     "btnLoadFilms": "Load films",
-    "loadTitle": "Loading bar:",
-    "changeLangTitle":"Change language:"
+    "loadTitle": "Loading bar:"
   },
   "btmNavigator": {
     "btnHome": "Home",
@@ -16,9 +15,23 @@
     "population": "population:",
     "climate": "climate:"
   },
+  "planetInfoScreen": {
+    "infoTitleSection": "Info",
+    "filmsTitleSection": "Films",
+    "residentsTitleSection": "Residents",
+    "climate": "climate:",
+    "diameter": "diameter:",
+    "gravity": "gravity:",
+    "population": "population:",
+    "terrain": "terrain:"
+  },
   "filmsScreen": {
     "headTitle": "Choose your film:",
     "episode": "Episode",
     "createdBy": "Created by"
+  },
+  "settingsScreen": {
+    "changeLangTitle": "Change language:",
+    "useDarkMode": "Use dark mode?"
   }
 }

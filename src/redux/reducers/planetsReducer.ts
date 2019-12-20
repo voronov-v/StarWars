@@ -26,7 +26,7 @@ export const planetsReducer = (state = INITIAL_STATE, action: IActionType) => {
     case LOAD_PLANETS:
       return {...state, loading: true};
     case LOAD_PLANETS_SUCCEED:
-      return {...state, loading: false, errMsg: "", planetsList: [...action.payload.data.results]};
+      return {...state, loading: false, errMsg: "", planetsList: [...action.payload]};
     case LOAD_PLANETS_FAILED:
       return {...state, errMsg: action.payload};
     case LOAD_PLANET_INFO:

@@ -1,19 +1,35 @@
 import {IActionType} from "@root/redux/interfaces";
 
-export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
+export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE", TOGGLE_THEME = "TOGGLE_THEME";
+
+export type themeType = {
+  name: string,
+  default: string,
+  PRIMARY: string,
+  PRIMARY_VARIANT: string,
+  SECONDARY: string,
+  BACKGROUND: string,
+  SURFACE: string,
+  ERROR: string,
+  ON_BACKGROUND: string
+}
 
 export type settingsType = {
   language: string
+  isDarkMode: boolean
 }
 
 const INITIAL_STATE: settingsType = {
-  language: "en"
+  language: "en",
+  isDarkMode: true
 };
 
 export const settingsReducer = (state = INITIAL_STATE, action: IActionType) => {
   switch (action.type) {
     case CHANGE_LANGUAGE:
-      return {language: action.payload};
+      return {...state, language: action.payload};
+    case TOGGLE_THEME:
+      return {...state, isDarkMode: !state.isDarkMode};
     default:
       return state;
   }

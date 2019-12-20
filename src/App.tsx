@@ -1,9 +1,10 @@
 import React from 'react';
 import {RootNavigator} from './navigators';
-import {SafeAreaView, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import {storeObject} from './redux/store';
 import {Provider} from 'react-redux';
 import {PersistGate} from "redux-persist/integration/react";
+import {ThemeWrapper} from "@root/components/ThemeWrapper";
 
 export const App: React.FC = (): React.ReactElement => {
   const {store, persistor} = storeObject;
@@ -15,9 +16,9 @@ export const App: React.FC = (): React.ReactElement => {
   return (
     <Provider store={store}>
       <PersistGate loading={<Loading/>} persistor={persistor}>
-        <SafeAreaView style={{flex: 1}}>
+        <ThemeWrapper>
           <RootNavigator/>
-        </SafeAreaView>
+        </ThemeWrapper>
       </PersistGate>
     </Provider>
   );

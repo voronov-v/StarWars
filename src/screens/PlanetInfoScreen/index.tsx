@@ -1,25 +1,31 @@
-import React, {FC, ReactElement, useEffect} from 'react';
+import React, {FC, ReactElement, useEffect, useState,} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {PlanetInfoView} from './PlanetInfoView';
-import {Button/*, SectionListRenderItem*/, Text, View} from 'react-native';
-import {PeopleType} from './types';
+import {Button, Text, TouchableOpacity, View} from 'react-native';
+import {ItemInfoProps, PeopleType} from './types';
 import {FilmType} from '../FilmsScreen/types';
 import {Spinner} from '@root/components/Spinner/Spinner';
-import {FilmInfo} from './FilmInfo/FilmInfo';
-import {ResidentInfo} from './ResidentInfo/ResidentInfo';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {colors} from '@root/consts/themes';
+import {DARK_THEME, PRIMARY_THEME} from '@root/consts/themes';
 import {LOAD_PLANET_INFO} from "@root/redux/reducers/planetsReducer";
-import {getPlanets} from "@root/selectors";
+import {getIsDarkMode, getPlanets} from "@root/selectors";
+import {useTranslation} from "react-i18next";
+import {themeType} from "@root/redux/reducers/settingsReducer";
 
 export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
+  const {t} = useTranslation('planetInfoScreen');
+  const dispatch = useDispatch();
+
+  const isDarkMode: boolean = useSelector(getIsDarkMode);
+  const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
+  const [textColor, bgColor, primary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY];
+
   const planetData = navigation.getParam('planetData');
   const {loading, planetsList, errMsg} = useSelector(getPlanets);
   console.log('PlanetInfoScreen planetsList:', planetsList);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({
@@ -41,50 +47,80 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
   );
 
   // @ts-ignore
-  const {films, residents} = planetsList.find(e => e.name === planetData.name).planetInfo|| {films: [], residents: []};
+  const {films, residents} = planetsList.find(e => e.name === planetData.name).planetInfo || {films: [], residents: []};
 
   const planetInfoData = [
-    {title: 'Films', icon: 'eyeo', data: films},
-    {title: 'Residents', icon: 'meh', data: residents},
+    {title: t('filmsTitleSection'), icon: 'eyeo', data: films},
+    {title: t('residentsTitleSection'), icon: 'meh', data: residents},
   ];
 
   const keyExtractros = (item: FilmType | PeopleType) => {
     return item.url;
   };
 
-
-  // const renderItem: SectionListRenderItem<FilmType | PeopleType> = ({item}) => {
-  const renderItem = ({item}:any) => {
-    if (item.episode_id) return <FilmInfo item={item}/>;
-    else return <ResidentInfo item={item}/>;
-  };
+  const renderItem = ({item}: any) => <InfoWithState item={item} type={item.episode_id ? 'film' : ''}/>;
 
   const renderSectionHeader = ({section: {title, icon}}: any) => {
-    return <Icon style={styles.containerIcon} name={icon} size={30} color={colors.pink}> {title}</Icon>;
+    return <Icon style={{...styles.containerIcon, backgroundColor: bgColor}} name={icon} size={30}
+                 color={textColor}> {title}</Icon>;
+  };
+
+  const InfoWithState: FC<ItemInfoProps> = ({item, type}) => {
+    const [hiddenInfo, setHiddenInfo] = useState(false);
+
+    return (
+      <TouchableOpacity onPress={() => setHiddenInfo(!hiddenInfo)}>
+        {type === 'film'
+          ?
+          <View style={{backgroundColor: bgColor}}>
+            <Text style={{...styles.textBoldMd, color: primary}}>Episode {item.episode_id}: {item.title}</Text>
+            <Text style={{...styles.textBoldMd, color: primary}}>{item.release_date}</Text>
+            {hiddenInfo && <Text style={{...styles.textSm, color: textColor}}>{item.opening_crawl}</Text>}
+          </View>
+          :
+          <View style={{backgroundColor: bgColor}}>
+            <Text style={{...styles.textBoldMd, color: primary}}>{item.name} ({item.gender}) was born
+              in {item.birth_year}</Text>
+            {hiddenInfo && <View>
+              <Text style={{...styles.textSm, color: textColor}}>basic info:</Text>
+              <Text style={{...styles.textSm, color: textColor}}>eye_color: {item.eye_color}</Text>
+              <Text style={{...styles.textSm, color: textColor}}>hair_color: {item.hair_color}</Text>
+              <Text style={{...styles.textSm, color: textColor}}>skin_color: {item.skin_color}</Text>
+              <Text style={{...styles.textSm, color: textColor}}>mass: {item.mass}</Text>
+            </View>
+            }
+          </View>
+        }
+      </TouchableOpacity>
+    )
   };
 
   const listHeaderComponent = () => {
     return (
       <>
-        <View style={styles.containerHead}>
-          <Icon name={'dribbble'} size={40} color={colors.pink}> {planetData.name}</Icon>
+        <View style={{...styles.containerHead, backgroundColor: bgColor}}>
+          <Icon name={'dribbble'} size={40} color={textColor}> {planetData.name}</Icon>
         </View>
-        <View>
-          <Icon style={styles.containerIcon} name={'infocirlceo'} size={30} color={colors.pink}> Info</Icon>
-          <Text style={styles.textBoldMd}>climate: {planetData.climate}</Text>
-          <Text style={styles.textBoldMd}>diameter: {planetData.diameter}</Text>
-          <Text style={styles.textBoldMd}>gravity: {planetData.gravity}</Text>
-          <Text style={styles.textBoldMd}>population: {planetData.population}</Text>
-          <Text style={styles.textBoldMd}>terrain: {planetData.terrain}</Text>
+        <View style={{backgroundColor: bgColor}}>
+          <Icon style={{...styles.containerIcon, backgroundColor: bgColor}} name={'infocirlceo'} size={30}
+                color={textColor}> {t('infoTitleSection')}</Icon>
+          <Text style={{...styles.textBoldMd, color: primary}}>{t('climate')} {planetData.climate}</Text>
+          <Text style={{...styles.textBoldMd, color: primary}}>{t('diameter')} {planetData.diameter}</Text>
+          <Text style={{...styles.textBoldMd, color: primary}}>{t('gravity')} {planetData.gravity}</Text>
+          <Text style={{...styles.textBoldMd, color: primary}}>{t('population')} {planetData.population}</Text>
+          <Text style={{...styles.textBoldMd, color: primary}}>{t('terrain')} {planetData.terrain}</Text>
         </View>
       </>
     );
   };
 
-  return <PlanetInfoView sections={planetInfoData}
-                         planetInfo={planetData}
-                         keyExtractros={keyExtractros}
-                         renderSectionHeader={renderSectionHeader}
-                         listHeaderComponent={listHeaderComponent}
-                         renderItem={renderItem}/>;
+  return (
+    <PlanetInfoView sections={planetInfoData}
+                    planetInfo={planetData}
+                    keyExtractros={keyExtractros}
+                    renderSectionHeader={renderSectionHeader}
+                    listHeaderComponent={listHeaderComponent}
+                    renderItem={renderItem}
+                    bgColor={bgColor}/>
+  )
 };

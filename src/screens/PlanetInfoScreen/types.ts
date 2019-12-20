@@ -31,14 +31,12 @@ export type PlanetInfoViewProps = {
   renderSectionHeader: any,
   listHeaderComponent: any,
   renderItem: any,
+  bgColor: string
 };
 
-export type FilmInfoProps = {
-  item: FilmType
-}
-
-export type ResidentInfoProps = {
-  item: PeopleType
+export type ItemInfoProps = {
+  item: any
+  type: string
 }
 
 export type IProps = {

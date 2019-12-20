@@ -40,7 +40,7 @@ export const BottomTabNavigator = createBottomTabNavigator({
   {
     tabBarOptions: {
       showIcon: true,
-      activeTintColor: colors.pink,
+      activeTintColor: 'green',
       labelStyle: {
         fontSize: 14,
       },

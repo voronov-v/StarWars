@@ -5,7 +5,11 @@ const instance = axios.create({
 });
 
 export const API = {
-  getPlanets: async () => await instance.get('planets/'),
+  getPlanets: async () => {
+    let data = await instance.get('planets/');
+    console.log('API getPlanets data', data);
+    return data.data.results;
+  },
   getFilms: async () => {
     let data = await instance.get('films/');
     console.log('API getFilms data', data);
