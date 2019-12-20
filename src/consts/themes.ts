@@ -23,14 +23,14 @@ export enum colors {
 
 export const PRIMARY_THEME:themeType = {
   name: 'light',
-  default: '#dedede',
-  PRIMARY: '#ff846b',
+  default: '#fffefc',
+  PRIMARY: '#6200EE',
   PRIMARY_VARIANT: '#3700B3',
   SECONDARY: '#03DAC6',
-  BACKGROUND: '#fffefc',
+  BACKGROUND: '#dedede',
   SURFACE: '#FFFFFF',
   ERROR: '#B00020',
-  ON_BACKGROUND: '#3E7EFF',
+  ON_BACKGROUND: '#282828',
   ON_ERROR: '#FFFFFF'
 };
 

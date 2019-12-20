@@ -104,11 +104,11 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
         <View style={{backgroundColor: bgColor}}>
           <Icon style={{...styles.containerIcon, backgroundColor: bgColor}} name={'infocirlceo'} size={30}
                 color={textColor}> {t('infoTitleSection')}</Icon>
-          <Text style={{...styles.textBoldMd, color: primary}}>{t('climate')} {planetData.climate}</Text>
-          <Text style={{...styles.textBoldMd, color: primary}}>{t('diameter')} {planetData.diameter}</Text>
-          <Text style={{...styles.textBoldMd, color: primary}}>{t('gravity')} {planetData.gravity}</Text>
-          <Text style={{...styles.textBoldMd, color: primary}}>{t('population')} {planetData.population}</Text>
-          <Text style={{...styles.textBoldMd, color: primary}}>{t('terrain')} {planetData.terrain}</Text>
+          <Text style={{...styles.textBoldMd, color: textColor}}>{t('climate')} {planetData.climate}</Text>
+          <Text style={{...styles.textBoldMd, color: textColor}}>{t('diameter')} {planetData.diameter}</Text>
+          <Text style={{...styles.textBoldMd, color: textColor}}>{t('gravity')} {planetData.gravity}</Text>
+          <Text style={{...styles.textBoldMd, color: textColor}}>{t('population')} {planetData.population}</Text>
+          <Text style={{...styles.textBoldMd, color: textColor}}>{t('terrain')} {planetData.terrain}</Text>
         </View>
       </>
     );
