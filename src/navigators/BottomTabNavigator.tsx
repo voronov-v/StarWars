@@ -14,8 +14,6 @@ const TabBarComponent = (props:any) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [bgColor, inactiveTintColor] = [theme.default, theme.PRIMARY];
-  console.log('TabBarComponent props',props);
-  console.log('inactiveTintColor ', inactiveTintColor);
 const newProps = {...props, inactiveTintColor: inactiveTintColor};
   return <BottomTabBar {...newProps} style={{backgroundColor: bgColor}}/>;
 };

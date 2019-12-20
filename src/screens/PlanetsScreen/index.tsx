@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useEffect} from 'react';
-import {View, Text, ListRenderItemInfo, TouchableOpacity, Button} from 'react-native';
+import {View, Text, ListRenderItemInfo, TouchableOpacity} from 'react-native';
 import {PlanetsScreenView} from './PlanetsScreenView';
 import {PlanetType, RenderItem} from './types';
 import {styles} from './styles';
@@ -11,6 +11,7 @@ import {LOAD_PLANETS} from "../../redux/reducers/planetsReducer";
 import {useTranslation} from "react-i18next";
 import {themeType} from "@root/redux/reducers/settingsReducer";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
+import {ErrorView} from "@root/components/ErrorView";
 
 export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
@@ -39,7 +40,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
           <View>
             <Text style={{...styles.title, color: primary}}>{item.name}</Text>
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{alignItems: 'center'}}>
             <Text style={{color: primary}}>{t('population')} {item.population}</Text>
             <Text style={{color: primary}}>{t('climate')} {item.climate}</Text>
           </View>
@@ -50,12 +51,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
 
   const keyExtractor = (item: PlanetType) => item.url + item.name;
 
-  if (errMsg !== "") return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>error: {errMsg}</Text>
-      <Button title={'load films'} onPress={() => dispatch({type: LOAD_PLANETS})}/>
-    </View>
-  );
+  if (errMsg !== "") return <ErrorView errMsg={errMsg} dispatch={() => dispatch({type: LOAD_PLANETS})} reloadMsg={'Load Planets!'}/>;
 
   return (
     <View style={{...styles.container, backgroundColor: bgColor}}>

@@ -8,6 +8,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import {PersistConfig, Persistor} from "redux-persist/es/types";
 //@ts-ignore
 import i18n from '@root/i18n';
+import {INIT} from "@root/redux/reducers/settingsReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -25,14 +26,15 @@ const store: Store = createStore(
 
 sagaMiddleware.run(sagas);
 
-const persistorCLB = (i18n: any, lang: string) => {
-  console.log('persistorCLB', lang);
-  i18n.changeLanguage(lang);
+const persistorCallBack = async (i18n: any, lang: string) => {
+  console.log('persistorCallBack', lang);
+  await i18n.changeLanguage(lang);
+  store.dispatch({type: INIT});
   console.log('after changeing language');
 };
 
-const persistor: Persistor = persistStore(store, null, () => persistorCLB(i18n, store.getState().settings.language));
-// persistor.purge();
+const persistor: Persistor = persistStore(store, null, () => persistorCallBack(i18n, store.getState().settings.language));
+persistor.purge();
 
 console.log('store', store.getState());
 console.log('persistor', persistor.getState());

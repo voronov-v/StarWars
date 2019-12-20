@@ -5,7 +5,10 @@ import {API} from "@root/api";
 
 export function* fetchFilms(action: IActionType) {
   try {
-    if (action.payload) {
+    console.log('fetchFilms saga');
+    console.log(action);
+    console.log(action.payload);
+    if (action.payload.length > 0) {
       yield put({type: LOAD_FILMS_SUCCEED, payload: action.payload});
     } else {
       const filmsData = yield call(API.getFilms);

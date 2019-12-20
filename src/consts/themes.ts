@@ -8,27 +8,42 @@ export enum colors {
   yellow = '#e8be2b'
 }
 
+// export const PRIMARY_THEME:themeType = {
+//   name: 'light',
+//   default: '#fff',
+//   PRIMARY: '#6200EE',
+//   PRIMARY_VARIANT: '#3700B3',
+//   SECONDARY: '#03DAC6',
+//   BACKGROUND: '#999999',
+//   SURFACE: '#FFFFFF',
+//   ERROR: '#B00020',
+//   ON_BACKGROUND: '#000000',
+//   ON_ERROR: '#FFFFFF'
+// };
+
 export const PRIMARY_THEME:themeType = {
   name: 'light',
-  default: '#fff',
-  PRIMARY: '#6200EE',
+  default: '#dedede',
+  PRIMARY: '#ff846b',
   PRIMARY_VARIANT: '#3700B3',
   SECONDARY: '#03DAC6',
-  BACKGROUND: '#999999',
+  BACKGROUND: '#fffefc',
   SURFACE: '#FFFFFF',
   ERROR: '#B00020',
-  ON_BACKGROUND: '#000000'
+  ON_BACKGROUND: '#3E7EFF',
+  ON_ERROR: '#FFFFFF'
 };
 
 export const DARK_THEME:themeType = {
   name: 'dark',
   default: '#000',
-  PRIMARY: '#BB86FC',
+  PRIMARY: '#BB86FC',//'#e91e63'
   PRIMARY_VARIANT: '#3700B3',
   SECONDARY: '#03DAC6',
   BACKGROUND: '#121212',
   SURFACE: '#121212',
   ERROR: '#CF6679',
-  ON_BACKGROUND: '#FFFFFF'
+  ON_BACKGROUND: '#FFFFFF',
+  ON_ERROR: '#000000'
 };
 

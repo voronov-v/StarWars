@@ -1,6 +1,6 @@
 import React, {FC, ReactElement, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {View, Text, ListRenderItemInfo, TouchableOpacity, Button} from 'react-native';
+import {View, Text, ListRenderItemInfo, TouchableOpacity} from 'react-native';
 import {FilmsScreenView} from './FilmsScreenView';
 import {FilmType, RenderItem} from './types';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
@@ -11,6 +11,7 @@ import {getFilms, getIsDarkMode} from "../../selectors/";
 import {useTranslation} from "react-i18next";
 import {themeType} from "@root/redux/reducers/settingsReducer";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
+import {ErrorView} from "@root/components/ErrorView";
 
 export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
@@ -33,8 +34,7 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<FilmType>): ReturnType<RenderItem> => {
     const onPress = () => {
       // navigation.navigate('PlanetInfo', {item});
-      console.log('navigate to film desc');
-      console.log(navigation);
+      console.log('navigate to film desc', item, navigation);
     };
 
     return (
@@ -51,12 +51,8 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
   const keyExtractor = (item: FilmType) => item.url;
 
   if (loading) return <Spinner/>;
-  if (errMsg !== "") return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>error: {errMsg}</Text>
-      <Button title={'load films'} onPress={() => dispatch({type: LOAD_FILMS, payload: filmsList})}/>
-    </View>
-  );
+
+  if (errMsg !== "") return <ErrorView errMsg={errMsg} dispatch={() => dispatch({type: LOAD_FILMS})} reloadMsg={'Load Films!'}/>;
 
   return (
     <View style={{...styles.container, backgroundColor: bgColor}}>

@@ -1,6 +1,6 @@
 import {IActionType} from "@root/redux/interfaces";
 
-export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE", TOGGLE_THEME = "TOGGLE_THEME";
+export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE", TOGGLE_THEME = "TOGGLE_THEME", INIT = "INIT";
 
 export type themeType = {
   name: string,
@@ -12,16 +12,19 @@ export type themeType = {
   SURFACE: string,
   ERROR: string,
   ON_BACKGROUND: string
+  ON_ERROR: string
 }
 
 export type settingsType = {
   language: string
-  isDarkMode: boolean
+  isDarkMode: boolean,
+  isInit: false,
 }
 
 const INITIAL_STATE: settingsType = {
   language: "en",
-  isDarkMode: true
+  isDarkMode: true,
+  isInit: false
 };
 
 export const settingsReducer = (state = INITIAL_STATE, action: IActionType) => {
@@ -30,6 +33,8 @@ export const settingsReducer = (state = INITIAL_STATE, action: IActionType) => {
       return {...state, language: action.payload};
     case TOGGLE_THEME:
       return {...state, isDarkMode: !state.isDarkMode};
+    case INIT:
+      return {...state, isInit: true};
     default:
       return state;
   }
