@@ -13,6 +13,7 @@ export interface IPlanetsState {
   loading: boolean
   errMsg: string
   planetsList: PlanetType[]
+  nextUrl?: string
 }
 
 const INITIAL_STATE: IPlanetsState = {
@@ -26,7 +27,7 @@ export const planetsReducer = (state = INITIAL_STATE, action: IActionType) => {
     case LOAD_PLANETS:
       return {...state, loading: true};
     case LOAD_PLANETS_SUCCEED:
-      return {...state, loading: false, errMsg: "", planetsList: [...action.payload]};
+      return {...state, loading: false, errMsg: "", planetsList: [...action.payload.results], nextUrl: action.payload.next};
     case LOAD_PLANETS_FAILED:
       return {...state, errMsg: action.payload};
     case LOAD_PLANET_INFO:

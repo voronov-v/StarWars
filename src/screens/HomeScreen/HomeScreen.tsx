@@ -12,9 +12,6 @@ export const HomeScreen = () => {
   const {t} = useTranslation('homeScreen');
   const dispatch = useDispatch();
 
-  const isInit = useSelector((state:any) => state.settings.isInit);
-  console.log('isInit', isInit);
-
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [textColor, bgColor, primary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY];

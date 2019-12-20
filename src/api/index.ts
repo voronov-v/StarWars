@@ -8,7 +8,7 @@ export const API = {
   getPlanets: async () => {
     let data = await instance.get('planets/');
     console.log('API getPlanets data', data);
-    return data.data.results;
+    return data.data;
   },
   getFilms: async () => {
     let data = await instance.get('films/');

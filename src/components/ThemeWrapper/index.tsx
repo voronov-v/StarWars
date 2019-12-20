@@ -10,8 +10,6 @@ export const ThemeWrapper: React.FC = (props): React.ReactElement => {
 
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  console.log('ThemeWrapper isDarkMode', isDarkMode);
-
   const barStyle: StatusBarStyle = isDarkMode ? 'light-content' : 'dark-content';
   const safeAreaViewStyle: ViewStyle = {flex: 1, backgroundColor: theme.default};
 

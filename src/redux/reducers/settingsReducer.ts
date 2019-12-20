@@ -18,13 +18,11 @@ export type themeType = {
 export type settingsType = {
   language: string
   isDarkMode: boolean,
-  isInit: false,
 }
 
 const INITIAL_STATE: settingsType = {
   language: "en",
   isDarkMode: true,
-  isInit: false
 };
 
 export const settingsReducer = (state = INITIAL_STATE, action: IActionType) => {
@@ -33,8 +31,6 @@ export const settingsReducer = (state = INITIAL_STATE, action: IActionType) => {
       return {...state, language: action.payload};
     case TOGGLE_THEME:
       return {...state, isDarkMode: !state.isDarkMode};
-    case INIT:
-      return {...state, isInit: true};
     default:
       return state;
   }
