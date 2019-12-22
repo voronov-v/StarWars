@@ -28,8 +28,8 @@ export const SettingsScreen = () => {
       <View style={{alignItems: 'center'}}>
         <Text style={{...styles.text, color: textColor}}>{t('changeLangTitle')}</Text>
         <View style={styles.containerLang}>
-          <Button color={primary} title='ENG' onPress={() => onLanguageChangePress('en')}/>
-          <Button color={primary} title='RU' onPress={() => onLanguageChangePress('ru')}/>
+          <Button color={primary} title='EN.' onPress={() => onLanguageChangePress('en')}/>
+          <Button color={primary} title='Ru.' onPress={() => onLanguageChangePress('ru')}/>
         </View>
         <View>
           <Text style={{...styles.text, color: textColor}}>{t('useDarkMode')}</Text>

@@ -8,7 +8,7 @@ import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
 export const ErrorView: FC<any> = ({errMsg, dispatch, reloadMsg}) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [textColor, bgColor, primary] = [theme.ERROR, theme.ON_ERROR, theme.PRIMARY];
+  const [textColor, bgColor, primary] = [theme.ERROR, theme.BACKGROUND, theme.PRIMARY];
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: bgColor}}>

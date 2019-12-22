@@ -24,7 +24,7 @@ export enum colors {
 export const PRIMARY_THEME:themeType = {
   name: 'light',
   default: '#fffefc',
-  PRIMARY: '#6200EE',
+  PRIMARY: '#fd7014',
   PRIMARY_VARIANT: '#3700B3',
   SECONDARY: '#03DAC6',
   BACKGROUND: '#dedede',
@@ -37,7 +37,7 @@ export const PRIMARY_THEME:themeType = {
 export const DARK_THEME:themeType = {
   name: 'dark',
   default: '#000',
-  PRIMARY: '#BB86FC',//'#e91e63'
+  PRIMARY: '#fd7014',//'#e91e63'
   PRIMARY_VARIANT: '#3700B3',
   SECONDARY: '#03DAC6',
   BACKGROUND: '#121212',

@@ -8,7 +8,8 @@
     "start": "react-native start",
     "installPods": "cd ios && pod install",
     "test": "jest",
-    "prettier": "prettier --loglevel debug --write './src/*.{css,js,json,jsx,markdown,md,scss,ts,tsx}'"
+    "prettier": "prettier --loglevel debug --write './src/*.{css,js,json,jsx,markdown,md,scss,ts,tsx}'",
+    "devtools": "react-devtools"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.7.1",
