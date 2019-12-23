@@ -25,11 +25,17 @@ const INITIAL_STATE: IPlanetsState = {
 export const planetsReducer = (state = INITIAL_STATE, action: IActionType) => {
   switch (action.type) {
     case LOAD_PLANETS:
-      return {...state, loading: true};
+      return {...state, loading: true, errMsg: ''};
     case LOAD_PLANETS_SUCCEED:
-      return {...state, loading: false, errMsg: "", planetsList: [...action.payload.results], nextUrl: action.payload.next};
+      return {
+        ...state,
+        loading: false,
+        errMsg: "",
+        planetsList: [...state.planetsList, ...action.payload.results],
+        nextUrl: action.payload.next
+      };
     case LOAD_PLANETS_FAILED:
-      return {...state, errMsg: action.payload};
+      return {...state, loading: false, errMsg: action.payload};
     case LOAD_PLANET_INFO:
       return {...state, loading: true};
     case LOAD_PLANET_INFO_SUCCEED:

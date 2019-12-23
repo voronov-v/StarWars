@@ -10,10 +10,11 @@ import {
 
 export function* fetchPlanets(action: IActionType) {
   try {
-    console.log('fetchPlanets start ', action);
-    const planetData = yield call(API.getPlanets);
+    console.log('action:' , action);
+    const planetData = yield call(API.getPlanets, action.payload.nextUrl);
     console.log('planetData ', planetData);
     yield put({type: LOAD_PLANETS_SUCCEED, payload: planetData});
+
   } catch (e) {
     yield put({type: LOAD_PLANETS_FAILED, payload: e.message});
   }

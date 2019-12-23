@@ -5,8 +5,14 @@ const instance = axios.create({
 });
 
 export const API = {
-  getPlanets: async () => {
-    let data = await instance.get('planets/');
+  getPlanets: async (url?: string) => {
+    let data;
+    console.log('url: ' + url);
+    if (url) {
+      data = await axios.get(url);
+    } else {
+      data = await instance.get('planets/');
+    }
     console.log('API getPlanets data', data);
     return data.data;
   },

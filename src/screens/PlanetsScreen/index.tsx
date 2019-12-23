@@ -1,5 +1,5 @@
-import React, {FC, ReactElement, useEffect} from 'react';
-import {View, Text, ListRenderItemInfo, TouchableOpacity} from 'react-native';
+import React, {FC, ReactElement, useEffect, useState} from 'react';
+import {View, Text, ListRenderItemInfo, TouchableOpacity, Button} from 'react-native';
 import {PlanetsScreenView} from './PlanetsScreenView';
 import {PlanetType, RenderItem} from './types';
 import {styles} from './styles';
@@ -12,6 +12,7 @@ import {useTranslation} from "react-i18next";
 import {themeType} from "@root/redux/reducers/settingsReducer";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
 import {ErrorView} from "@root/components/ErrorView";
+import {FilterTextInput} from "@root/components/FilterTextInput";
 
 export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
@@ -23,11 +24,15 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
   const [textColor, bgColor, primary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY];
 
   const planets = useSelector(getPlanets);
-  const {loading, planetsList, errMsg} = planets;
+  const {loading, planetsList, errMsg, nextUrl} = planets;
+  const [dataToRender, setDataToRender] = useState(planetsList);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    dispatch({type: LOAD_PLANETS})
-  }, []);
+    if (planetsList.length === 0) dispatch({type: LOAD_PLANETS, payload: {planetsList}})
+  }, [dispatch]);
+
+  useEffect(() => setDataToRender(planetsList), [planetsList]);
 
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
     const onPress = () => {
@@ -51,13 +56,41 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
 
   const keyExtractor = (item: PlanetType) => item.url + item.name;
 
-  if (errMsg !== "") return <ErrorView errMsg={errMsg} dispatch={() => dispatch({type: LOAD_PLANETS})} reloadMsg={'Load Planets!'}/>;
+  const filterList = (text: string) => {
+    console.log('filterList ' + text);
+    if (text) {
+      const tmp = planetsList.filter(e => e.name.toLowerCase().indexOf(text.toLowerCase()) !== -1);
+      setDataToRender(tmp);
+    } else setDataToRender(planetsList);
+  };
+
+  const renderHeader = () => {
+    return <View style={{alignItems: 'center'}}>
+      <Button color={'red'} title={t('load more planets')}
+              onPress={() => {
+                if (!loading && nextUrl) dispatch({type: LOAD_PLANETS, payload: {nextUrl}})
+              }}/>
+      <Text style={{...styles.headText, color: textColor}}>{t('headTitle')}</Text>
+      {/*@ts-ignore*/}
+      <FilterTextInput filterList={filterList} setFilter={setFilter} filter={filter}/>
+    </View>
+  };
+
+  if (errMsg !== "") return (
+    <ErrorView errMsg={errMsg} reloadMsg={'Load Planets!'} dispatch={() => {
+      if (planetsList.length === 0) dispatch({type: LOAD_PLANETS, payload: {planetsList}})
+    }}
+    />
+  );
 
   return (
     <View style={{...styles.container, backgroundColor: bgColor}}>
-      <Text style={{...styles.headText, color: textColor}}>{t('headTitle')}</Text>
-      <PlanetsScreenView data={planetsList} renderItem={renderItem} keyExtractor={keyExtractor}/>
-      {loading ? <Spinner/> : null}
+      {loading
+        ? <Spinner/>
+        : <PlanetsScreenView ListHeaderComponent={renderHeader}
+                             data={dataToRender}
+                             renderItem={renderItem}
+                             keyExtractor={keyExtractor}/>}
     </View>
   );
 };
