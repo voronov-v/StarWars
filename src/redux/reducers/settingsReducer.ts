@@ -6,10 +6,8 @@ export type themeType = {
   name: string,
   default: string,
   PRIMARY: string,
-  PRIMARY_VARIANT: string,
   SECONDARY: string,
   BACKGROUND: string,
-  SURFACE: string,
   ERROR: string,
   ON_BACKGROUND: string
   ON_ERROR: string

@@ -20,12 +20,12 @@ export const FilterTextInput = (props:any) => {
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <TextInput
         style={{
-          height: 34,
+          height: 40,
           width: 300,
           borderColor: 'gray',
           borderWidth: 1,
           backgroundColor: bgColor,
-          fontSize: 18,
+          fontSize: 16,
           color: textColor
         }}
         onChangeText={text => customFilter(text)}
