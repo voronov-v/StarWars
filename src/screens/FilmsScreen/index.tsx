@@ -33,8 +33,7 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
 
   const renderItem: RenderItem = ({item}: ListRenderItemInfo<FilmType>): ReturnType<RenderItem> => {
     const onPress = () => {
-      // navigation.navigate('PlanetInfo', {item});
-      console.log('navigate to film desc', item, navigation);
+      navigation.navigate('Info', {filmData: item});
     };
 
     return (
@@ -52,12 +51,13 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (props: NavigationSta
 
   if (loading) return <Spinner/>;
 
-  if (errMsg !== "") return <ErrorView errMsg={errMsg} dispatch={() => dispatch({type: LOAD_FILMS})} reloadMsg={'Load Films!'}/>;
+  if (errMsg !== "") return <ErrorView errMsg={errMsg} dispatch={() => dispatch({type: LOAD_FILMS})}
+                                       reloadMsg={'Load Films!'}/>;
 
   return (
-    <View style={{...styles.container, backgroundColor: bgColor}}>
-      <Text style={{...styles.headText, color: textColor}}>{t('headTitle')}</Text>
-      <FilmsScreenView data={filmsList} renderItem={renderItem} keyExtractor={keyExtractor}/>
-    </View>
+      <View style={{...styles.container, backgroundColor: bgColor}}>
+        <Text style={{...styles.headText, color: textColor}}>{t('headTitle')}</Text>
+        <FilmsScreenView data={filmsList} renderItem={renderItem} keyExtractor={keyExtractor}/>
+      </View>
   );
 };

@@ -2,13 +2,13 @@ import React from 'react' ;
 import { BottomTabBar, createBottomTabNavigator } from 'react-navigation-tabs';
 import { HomeScreen } from '../screens/HomeScreen/HomeScreen';
 import PlanetScreenNavigator from './PlanetsScreenNavigator';
-import { FilmsScreen } from '../screens/FilmsScreen';
 import { colors, DARK_THEME, PRIMARY_THEME } from '../consts/themes';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { SettingsScreen } from '@root/screens/SettingsScreen';
 import { useSelector } from 'react-redux';
 import { getIsDarkMode } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
+import FilmsScreenNavigator from "@root/navigators/FilmsScreenNavigator";
 
 const TabBarComponent = (props: any) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
@@ -40,7 +40,7 @@ export const BottomTabNavigator = createBottomTabNavigator({
       },
     },
     Films: {
-      screen: FilmsScreen,
+      screen: FilmsScreenNavigator,
       navigationOptions: {
         title: 'Films',
         tabBarIcon: (props) => {
