@@ -1,7 +1,6 @@
 import {FlatListProps, ListRenderItem} from 'react-native';
 import {PeopleType} from '../PlanetInfoScreen/types';
 import {FilmType} from '../FilmsScreen/types';
-import * as React from "react";
 
 export type PlanetType = {
   name: string;
@@ -25,7 +24,6 @@ export type PlanetsScreenViewProps = {
   keyExtractor: KeyExtractor;
   renderItem: RenderItem;
   data: PlanetsData;
-  ListHeaderComponent: React.ComponentType<any>;
 };
 
 export type RenderItem = ListRenderItem<PlanetType>;

@@ -32,7 +32,7 @@ const persistorCallBack = async (i18n: any, lang: string) => {
 };
 
 const persistor: Persistor = persistStore(store, null, () => persistorCallBack(i18n, store.getState().settings.language));
-persistor.purge();
+// persistor.purge();
 
 console.log('store', store.getState());
 console.log('persistor', persistor.getState());

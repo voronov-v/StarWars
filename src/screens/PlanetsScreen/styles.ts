@@ -4,6 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
+    alignItems: 'center'
   },
   item: {
     alignItems: 'center',
@@ -19,4 +20,10 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     marginBottom: 5,
   },
+  filterStyle: {
+    height: 40,
+    width: 300,
+    borderWidth: 1,
+    fontSize: 16,
+  }
 });
