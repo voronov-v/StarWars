@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
     transform: [
-      {perspective: 300},
+      {perspective: 400},
       {rotateX: '30deg'},
     ],
   },
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     paddingTop: 200,
     margin: 80,
     alignItems: 'center',
-    paddingBottom: 200,
+    paddingBottom: 170,
   },
   textStyle: {
     color: '#feda4a',

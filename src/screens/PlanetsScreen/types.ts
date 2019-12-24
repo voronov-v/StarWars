@@ -24,6 +24,7 @@ export type PlanetsScreenViewProps = {
   keyExtractor: KeyExtractor;
   renderItem: RenderItem;
   data: PlanetsData;
+  isDarkMode: boolean;
 };
 
 export type RenderItem = ListRenderItem<PlanetType>;

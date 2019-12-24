@@ -5,7 +5,7 @@ import {PlanetsScreenViewProps} from '@root/screens/PlanetsScreen/types';
 export const PlanetsScreenView: FC<PlanetsScreenViewProps> = (
   props: PlanetsScreenViewProps,
 ): ReactElement<PlanetsScreenViewProps> => {
-  const {keyExtractor, renderItem, data/*, loadData*/} = props;
+  const {keyExtractor, renderItem, data, isDarkMode/*, loadData*/} = props;
 
   return (
     <FlatList
@@ -13,12 +13,11 @@ export const PlanetsScreenView: FC<PlanetsScreenViewProps> = (
       initialNumToRender={data.length}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
-      onEndReached={
-        () => {
-          console.log('hello from end');
-           // loadData();
-        }
-      }
+      style={{width: '100%'}}
+      indicatorStyle={isDarkMode ? 'white' : 'black'}
+      onEndReached={() => {
+        console.log('onEndReached')
+      }}
     />
   );
 };

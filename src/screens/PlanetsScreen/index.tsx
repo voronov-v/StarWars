@@ -87,7 +87,9 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
         ? <Spinner/>
         : <PlanetsScreenView data={dataToRender}
                              renderItem={renderItem}
-                             keyExtractor={keyExtractor}/>}
+                             keyExtractor={keyExtractor}
+                             isDarkMode={isDarkMode}/>
+      }
     </View>
   );
 };

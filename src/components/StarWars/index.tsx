@@ -22,7 +22,6 @@ export const StarWars = (props: any) => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: 'black'}}>
       <View style={{flex: 1, backgroundColor: 'black'}}>
         <Image style={{position: 'absolute', width: '100%', height: '30%'}}
                source={require('./transform.png')}/>
@@ -36,6 +35,5 @@ export const StarWars = (props: any) => {
           <Text style={[styles.textStyle, contentStyle]}>{content}</Text>
         </ScrollView>
       </View>
-    </View>
   );
 };

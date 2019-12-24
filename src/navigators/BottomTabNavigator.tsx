@@ -3,7 +3,7 @@ import { BottomTabBar, createBottomTabNavigator } from 'react-navigation-tabs';
 import { HomeScreen } from '../screens/HomeScreen/HomeScreen';
 import PlanetScreenNavigator from './PlanetsScreenNavigator';
 import { colors, DARK_THEME, PRIMARY_THEME } from '../consts/themes';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SettingsScreen } from '@root/screens/SettingsScreen';
 import { useSelector } from 'react-redux';
 import { getIsDarkMode } from '@root/selectors';
@@ -34,7 +34,7 @@ export const BottomTabNavigator = createBottomTabNavigator({
       navigationOptions: {
         tabBarIcon: (props) => {
           const { tintColor } = props;
-          return <Icon color={tintColor} name={'dribbble'} size={25}/>;
+          return <Icon color={tintColor} name={'language'} size={25}/>;
         },
         tabBarLabel: 'Planets',
       },
@@ -45,7 +45,7 @@ export const BottomTabNavigator = createBottomTabNavigator({
         title: 'Films',
         tabBarIcon: (props) => {
           const { tintColor } = props;
-          return <Icon color={tintColor} name={'eyeo'} size={25}/>;
+          return <Icon color={tintColor} name={'movie'} size={25}/>;
         },
       },
     },
@@ -55,7 +55,7 @@ export const BottomTabNavigator = createBottomTabNavigator({
         title: 'Settings',
         tabBarIcon: (props) => {
           const { tintColor } = props;
-          return <Icon color={tintColor} name={'setting'} size={25}/>;
+          return <Icon color={tintColor} name={'settings'} size={25}/>;
         },
       },
     },

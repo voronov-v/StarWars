@@ -32,4 +32,4 @@ export const settingsReducer = (state = INITIAL_STATE, action: IActionType) => {
     default:
       return state;
   }
-};
+}

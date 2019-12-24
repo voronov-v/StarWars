@@ -25,7 +25,7 @@ export const PRIMARY_THEME:themeType = {
   name: 'light',
   default: '#eeeeee',
   PRIMARY: '#0091ea',
-  SECONDARY: '#212121',
+  SECONDARY: '#ff8a65',
   BACKGROUND: '#fffefc',
   ERROR: '#B00020',
   ON_BACKGROUND: '#282828',
@@ -42,4 +42,3 @@ export const DARK_THEME:themeType = {
   ON_BACKGROUND: '#FFFFFF',
   ON_ERROR: '#000000'
 };
-
