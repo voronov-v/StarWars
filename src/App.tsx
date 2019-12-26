@@ -1,17 +1,17 @@
 import React from 'react';
-import { RootNavigator } from './navigators';
-import { View, Text } from 'react-native';
-import { storeObject } from './redux/store';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { ThemeWrapper } from '@root/components/ThemeWrapper';
+import {RootNavigator} from './navigators';
+import {View, Text} from 'react-native';
+import {storeObject} from './redux/store';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {ThemeWrapper} from '@root/components/ThemeWrapper';
 
 export const App: React.FC = (): React.ReactElement => {
-  const { store, persistor } = storeObject;
+  const {store, persistor} = storeObject;
 
   const Loading = () => {
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
         <Text>loading...</Text>
       </View>
     );
@@ -19,9 +19,9 @@ export const App: React.FC = (): React.ReactElement => {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={<Loading />} persistor={persistor}>
+      <PersistGate loading={<Loading/>} persistor={persistor}>
         <ThemeWrapper>
-          <RootNavigator />
+          <RootNavigator screenProps={{language: store.getState().settings.language}}/>
         </ThemeWrapper>
       </PersistGate>
     </Provider>

@@ -16,9 +16,9 @@ export const SettingsScreen = () => {
   const dispatch = useDispatch();
 
   const isDarkMode: boolean = useSelector(getIsDarkMode);
-  const lang: string = useSelector((state:any) => state.settings.language);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [textColor, bgColor, primary, onBackground] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ON_BACKGROUND];
+  const lang: string = useSelector((state: any) => state.settings.language);
 
   const onLanguageChangePress = (lang: string) => {
     i18n.changeLanguage(lang);

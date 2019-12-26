@@ -5,7 +5,8 @@ import {InfoScreen} from "@root/screens/InfoScreen";
 export const FilmsScreenNavigator = createStackNavigator(
   {
     FilmsList: {
-      screen: FilmsScreen,
+      screen: FilmsScreen
+      ,
       navigationOptions: () => ({
         header: null
       }),
