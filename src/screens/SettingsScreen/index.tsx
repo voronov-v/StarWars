@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from "react-native";
+import {View, Text, Picker} from "react-native";
 //@ts-ignore
 import i18n from '@root/i18n';
 import {useTranslation} from "react-i18next";
@@ -7,14 +7,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {CHANGE_LANGUAGE, themeType, TOGGLE_THEME} from "@root/redux/reducers/settingsReducer";
 import {getIsDarkMode} from "@root/selectors";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {CheckBox} from 'react-native-elements'
+import {styles} from './styles'
 
 export const SettingsScreen = () => {
   const {t} = useTranslation('settingsScreen');
   const dispatch = useDispatch();
 
   const isDarkMode: boolean = useSelector(getIsDarkMode);
+  const lang: string = useSelector((state:any) => state.settings.language);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [textColor, bgColor, primary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY];
+  const [textColor, bgColor, primary, onBackground] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ON_BACKGROUND];
 
   const onLanguageChangePress = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -23,36 +27,32 @@ export const SettingsScreen = () => {
 
   const onToggleTheme = () => dispatch({type: TOGGLE_THEME});
 
-  return (
-    <View style={{...styles.container, backgroundColor: bgColor}}>
-      <View style={{alignItems: 'center'}}>
-        <Text style={{...styles.text, color: textColor}}>{t('changeLangTitle')}</Text>
-        <View style={styles.containerLang}>
-          <Button color={primary} title='EN.' onPress={() => onLanguageChangePress('en')}/>
-          <Button color={primary} title='Ru.' onPress={() => onLanguageChangePress('ru')}/>
+  const SettingsItem = ({iconName, settingsName, children}: any) => {
+    return (
+      <View style={{...styles.containerItem, borderBottomColor: onBackground}}>
+        <View style={styles.containerIcon}>
+          <Icon name={iconName} size={20} color={textColor}/>
+          <Text style={{...styles.text, color: textColor}}>{t(settingsName)}</Text>
         </View>
         <View>
-          <Text style={{...styles.text, color: textColor}}>{t('useDarkMode')}</Text>
-          <Button color={primary} title='Dark Mode 🌚' onPress={onToggleTheme}/>
+          {children}
         </View>
       </View>
+    )
+  };
+
+  return (
+    <View style={{...styles.container, backgroundColor: bgColor}}>
+      <SettingsItem iconName={'brightness-medium'} settingsName={'useDarkMode'}>
+        <CheckBox checked={isDarkMode} onPress={onToggleTheme} containerStyle={{padding: 0}} checkedColor={primary}/>
+      </SettingsItem>
+      <SettingsItem iconName={'language'} settingsName={'changeLangTitle'}>
+        <Picker selectedValue={lang} style={{width: 50, height: 50}} itemStyle={{height: 50, color: primary}}
+                onValueChange={(itemValue) => onLanguageChangePress(itemValue)}>
+          <Picker.Item label="ENG" value="en"/>
+          <Picker.Item label="RUS" value="ru"/>
+        </Picker>
+      </SettingsItem>
     </View>
   )
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  containerLang: {
-    flexDirection: 'row',
-    width: 200,
-    justifyContent: 'space-around'
-  },
-  text: {
-    fontSize: 24,
-  },
-});
-

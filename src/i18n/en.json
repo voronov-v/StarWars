@@ -31,7 +31,7 @@
     "createdBy": "Created by"
   },
   "settingsScreen": {
-    "changeLangTitle": "Change language:",
-    "useDarkMode": "Use dark mode?"
+    "changeLangTitle": "Change language",
+    "useDarkMode": "Dark mode"
   }
 }
