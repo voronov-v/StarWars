@@ -5,13 +5,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     alignItems: 'center',
-    width: '100%'
   },
   item: {
     alignItems: 'center',
     padding: 5,
     marginVertical: 5,
-    marginHorizontal: 16,
+    marginHorizontal: 15,
   },
   title: {
     fontSize: 21,

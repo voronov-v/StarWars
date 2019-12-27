@@ -21,10 +21,12 @@ export enum colors {
 //   ON_ERROR: '#FFFFFF'
 // };
 
-export const PRIMARY_THEME:themeType = {
+export const PRIMARY_THEME: themeType = {
   name: 'light',
   default: '#eeeeee',
   PRIMARY: '#0091ea',
+  PRIMARY_VAR: '#FFFFFF',
+  PRIMARY_VAR_BG: '#039be5',
   SECONDARY: '#ff8a65',
   BACKGROUND: '#fffefc',
   ERROR: '#B00020',
@@ -32,10 +34,12 @@ export const PRIMARY_THEME:themeType = {
   ON_ERROR: '#FFFFFF'
 };
 
-export const DARK_THEME:themeType = {
+export const DARK_THEME: themeType = {
   name: 'dark',
   default: '#000',
   PRIMARY: '#fd7014',//'#e91e63'
+  PRIMARY_VAR: '#FFFFFF',
+  PRIMARY_VAR_BG: '#e91e63',
   SECONDARY: '#e0f2f1',
   BACKGROUND: '#121212',
   ERROR: '#CF6679',

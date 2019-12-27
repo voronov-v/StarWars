@@ -1,6 +1,6 @@
 import {createStackNavigator} from "react-navigation-stack";
 import {FilmsScreen} from "@root/screens/FilmsScreen";
-import {InfoScreen} from "@root/screens/InfoScreen";
+import {FilmInfoScreen} from "@root/screens/FilmInfoScreen";
 
 export const FilmsScreenNavigator = createStackNavigator(
   {
@@ -12,7 +12,7 @@ export const FilmsScreenNavigator = createStackNavigator(
       }),
     },
     Info: {
-      screen: InfoScreen,
+      screen: FilmInfoScreen,
     },
   }, {
     defaultNavigationOptions: {

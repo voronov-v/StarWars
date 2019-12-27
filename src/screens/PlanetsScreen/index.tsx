@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
-import {View, Text, ListRenderItemInfo, TouchableOpacity, Button, TextInput} from 'react-native';
+import {View, Text, ListRenderItemInfo, TouchableOpacity, TextInput} from 'react-native';
 import {PlanetsScreenView} from './PlanetsScreenView';
 import {PlanetType, RenderItem} from './types';
 import {styles} from './styles';
@@ -13,6 +13,7 @@ import {themeType} from "@root/redux/reducers/settingsReducer";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
 import {ErrorView} from "@root/components/ErrorView";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import {CustomButton} from "@root/components/CustomButton";
 
 export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
@@ -21,7 +22,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
 
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [textColor, bgColor, primary, secondary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.SECONDARY];
+  const [textColor, bgColor, primary, primaryVar, primaryVarBg] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.PRIMARY_VAR, theme.PRIMARY_VAR_BG];
 
   const planets = useSelector(getPlanets);
   const {loading, planetsList, errMsg, nextUrl} = planets;
@@ -69,17 +70,24 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
     />
   );
 
+  const loadNext = () => {
+    if (!loading && nextUrl) dispatch({type: LOAD_PLANETS, payload: {nextUrl}})
+  };
+
   return (
     <View style={{...styles.container, backgroundColor: bgColor}}>
-      <Button color={'red'} title={t('load more planets')}
-              onPress={() => {
-                if (!loading && nextUrl) dispatch({type: LOAD_PLANETS, payload: {nextUrl}})
-              }}/>
+
+      <CustomButton wrapperStyle={{position: 'absolute', right: 20, bottom: 20, zIndex: 1}}
+                    bgStyle={{backgroundColor: primaryVarBg}}
+                    onPress={loadNext}>
+        <Icon name={'expand-more'} size={40} color={primaryVar}/>
+      </CustomButton>
+
       <Text style={{...styles.headText, color: textColor}}>{t('headTitle')}</Text>
       <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Icon name={'filter-list'} size={30} color={textColor}/>
-        <TextInput style={{...styles.filterStyle, borderColor: secondary, backgroundColor: bgColor, color: textColor}}
-                   placeholderTextColor={secondary}
+        <TextInput style={{...styles.filterStyle, borderColor: textColor, backgroundColor: bgColor, color: textColor}}
+                   placeholderTextColor={textColor}
                    placeholder={'Filter'}
                    onChangeText={text => filterList(text)}/>
       </View>

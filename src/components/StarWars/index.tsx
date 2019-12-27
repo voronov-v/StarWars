@@ -27,8 +27,8 @@ export const StarWars = (props: any) => {
   const onScrollFunc = ({nativeEvent}: any) => {
     //@ts-ignore
     const {contentOffset, contentSize} = nativeEvent;
-    console.log('contentSize.height', contentSize.height/2+100);
-    console.log('contentOffset.y', contentOffset.y);
+    // console.log('contentSize.height', contentSize.height/2+100);
+    // console.log('contentOffset.y', contentOffset.y);
 
     if (start > contentSize.height/2+100) {
       // console.log('time to stop');

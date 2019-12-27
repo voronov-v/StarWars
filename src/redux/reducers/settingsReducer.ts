@@ -6,6 +6,8 @@ export type themeType = {
   name: string,
   default: string,
   PRIMARY: string,
+  PRIMARY_VAR: string,
+  PRIMARY_VAR_BG: string,
   SECONDARY: string,
   BACKGROUND: string,
   ERROR: string,
