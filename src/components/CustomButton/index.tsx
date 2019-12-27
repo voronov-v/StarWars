@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {View, TouchableOpacity} from "react-native";
+import {ButtonProps} from "@root/components/CustomButton/types";
 
-export const CustomButton = (props: any) => {
+export const CustomButton = (props: ButtonProps): ReactElement<ButtonProps> => {
   const {wrapperStyle, bgStyle, onPress, children} = props;
 
   return (
@@ -14,4 +15,4 @@ export const CustomButton = (props: any) => {
       </TouchableOpacity>
     </View>
   )
-}
+};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {View, Text, Picker} from "react-native";
 //@ts-ignore
 import i18n from '@root/i18n';
@@ -10,6 +10,8 @@ import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {CheckBox} from 'react-native-elements'
 import {styles} from './styles'
+import {SettingsItemProps} from "@root/screens/SettingsScreen/types";
+import {IState} from "@root/redux/interfaces";
 
 export const SettingsScreen = () => {
   const {t} = useTranslation('settingsScreen');
@@ -18,7 +20,7 @@ export const SettingsScreen = () => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [textColor, bgColor, primary, onBackground] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ON_BACKGROUND];
-  const lang: string = useSelector((state: any) => state.settings.language);
+  const lang: string = useSelector((state: IState) => state.settings.language);
 
   const onLanguageChangePress = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -27,7 +29,7 @@ export const SettingsScreen = () => {
 
   const onToggleTheme = () => dispatch({type: TOGGLE_THEME});
 
-  const SettingsItem = ({iconName, settingsName, children}: any) => {
+  const SettingsItem = ({iconName, settingsName, children}: SettingsItemProps):ReactElement<SettingsItemProps> => {
     return (
       <View style={{...styles.containerItem, borderBottomColor: onBackground}}>
         <View style={styles.containerIcon}>

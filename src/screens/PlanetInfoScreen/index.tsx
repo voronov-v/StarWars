@@ -54,9 +54,7 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
     {title: t('residentsTitleSection'), icon: 'meh', data: residents},
   ];
 
-  const keyExtractros = (item: FilmType | PeopleType) => {
-    return item.url;
-  };
+  const keyExtractros = (item: FilmType | PeopleType) => item.url;
 
   const renderItem = ({item}: any) => <InfoWithState item={item} type={item.episode_id ? 'film' : ''}/>;
 
