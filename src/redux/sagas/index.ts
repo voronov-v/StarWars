@@ -15,6 +15,6 @@ export function* sagas() {
     }),
     takeLatest(TOGGLE_THEME, () => {
     }),
-    takeLatest(INIT, ()=>{})
+    takeLatest(INIT, ()=>{}),
   ]);
 }
