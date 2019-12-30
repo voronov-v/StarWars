@@ -3,8 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {PlanetInfoView} from './PlanetInfoView';
 import {Button, Text, TouchableOpacity, View} from 'react-native';
-import {ItemInfoProps, PeopleType} from './types';
-import {FilmType} from '../FilmsScreen/types';
+import {
+  ItemInfoProps,
+  KeyExtractor,
+  PlanetInfoDataType,
+  RenderItem,
+  RenderSectionHeaderType
+} from './types';
 import {Spinner} from '@root/components/Spinner/Spinner';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -13,6 +18,7 @@ import {LOAD_PLANET_INFO} from "@root/redux/reducers/planetsReducer";
 import {getIsDarkMode, getPlanets} from "@root/selectors";
 import {useTranslation} from "react-i18next";
 import {themeType} from "@root/redux/reducers/settingsReducer";
+import {PlanetType} from "@root/screens/PlanetsScreen/types";
 
 export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
@@ -23,7 +29,7 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [textColor, bgColor, primary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY];
 
-  const planetData = navigation.getParam('planetData');
+  const planetData: PlanetType = navigation.getParam('planetData');
   const {loading, planetsList, errMsg} = useSelector(getPlanets);
   console.log('PlanetInfoScreen planetsList:', planetsList);
 
@@ -46,19 +52,20 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
     </View>
   );
 
-  // @ts-ignore
+  //@ts-ignore
   const {films, residents} = planetsList.find(e => e.name === planetData.name).planetInfo || {films: [], residents: []};
 
-  const planetInfoData = [
+  const planetInfoData: PlanetInfoDataType[] = [
     {title: t('filmsTitleSection'), icon: 'eyeo', data: films},
     {title: t('residentsTitleSection'), icon: 'meh', data: residents},
   ];
 
-  const keyExtractros = (item: FilmType | PeopleType) => item.url;
+  const keyExtractor: KeyExtractor = (item) => item.url;
 
-  const renderItem = ({item}: any) => <InfoWithState item={item} type={item.episode_id ? 'film' : ''}/>;
+  //@ts-ignore
+  const renderItem: RenderItem = ({item}) => <InfoWithState item={item} type={item.episode_id ? 'film' : ''}/>;
 
-  const renderSectionHeader = ({section: {title, icon}}: any) => {
+  const renderSectionHeader = ({section: {title, icon}}: RenderSectionHeaderType) => {
     return <Icon style={{...styles.containerIcon, backgroundColor: bgColor}} name={icon} size={30}
                  color={textColor}> {title}</Icon>;
   };
@@ -101,7 +108,9 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
         </View>
         <View style={{backgroundColor: bgColor}}>
           <Icon style={{...styles.containerIcon, backgroundColor: bgColor}} name={'infocirlceo'} size={30}
-                color={textColor}> {t('infoTitleSection')}</Icon>
+                color={textColor}>
+            {t('infoTitleSection')}
+          </Icon>
           <Text style={{...styles.textBoldMd, color: textColor}}>{t('climate')} {planetData.climate}</Text>
           <Text style={{...styles.textBoldMd, color: textColor}}>{t('diameter')} {planetData.diameter}</Text>
           <Text style={{...styles.textBoldMd, color: textColor}}>{t('gravity')} {planetData.gravity}</Text>
@@ -114,8 +123,7 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (props: Navigati
 
   return (
     <PlanetInfoView sections={planetInfoData}
-                    planetInfo={planetData}
-                    keyExtractros={keyExtractros}
+                    keyExtractor={keyExtractor}
                     renderSectionHeader={renderSectionHeader}
                     listHeaderComponent={listHeaderComponent}
                     renderItem={renderItem}

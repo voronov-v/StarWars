@@ -4,8 +4,9 @@ import {useSelector} from "react-redux";
 import {getIsDarkMode} from "@root/selectors";
 import {themeType} from "@root/redux/reducers/settingsReducer";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
+import {ErrorViewType} from "@root/components/ErrorView/types";
 
-export const ErrorView: FC<any> = ({errMsg, dispatch, reloadMsg}) => {
+export const ErrorView: FC<ErrorViewType> = ({errMsg, dispatch, reloadMsg}) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [textColor, bgColor, primary] = [theme.ERROR, theme.BACKGROUND, theme.PRIMARY];

@@ -1,9 +1,8 @@
-import { ListRenderItem } from 'react-native';
-import { ReactNode } from 'react';
-import { FilmType} from "../FilmsScreen/types";
+import {SectionListData, SectionListProps, SectionListRenderItem} from 'react-native';
+import {FilmType} from "../FilmsScreen/types";
+import {PlanetType} from "@root/screens/PlanetsScreen/types";
 
-export type RenderItemFilm = ListRenderItem<FilmType>;
-export type RenderItemPeople = ListRenderItem<PeopleType>;
+export type RenderItem = SectionListRenderItem<FilmType | PlanetType>;
 
 export type PeopleType = {
   name: string;
@@ -24,10 +23,17 @@ export type PeopleType = {
   edited: string;
 }
 
+export type KeyExtractor = SectionListProps<FilmType | PeopleType>['keyExtractor'];
+
+export type PlanetInfoDataType = { title: string, icon: string, data: FilmType[]|PlanetType[] }
+
+export type RenderSectionHeaderType = {
+  section: SectionListData<PlanetInfoDataType>
+}
+
 export type PlanetInfoViewProps = {
   sections: any,
-  planetInfo: any,
-  keyExtractros: any,
+  keyExtractor: KeyExtractor,
   renderSectionHeader: any,
   listHeaderComponent: any,
   renderItem: any,
@@ -35,10 +41,6 @@ export type PlanetInfoViewProps = {
 };
 
 export type ItemInfoProps = {
-  item: any
+  item: any,
   type: string
-}
-
-export type IProps = {
-  children: ReactNode;
 }

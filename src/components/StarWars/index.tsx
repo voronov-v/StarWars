@@ -1,16 +1,17 @@
 import React, {useEffect, useRef} from 'react';
-import {ScrollView, View, Image, Text} from 'react-native';
+import {ScrollView, View, Image, Text, NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
 import {useState} from "react";
 import {styles} from "@root/components/StarWars/styles";
+import {StarWarsType} from "@root/components/StarWars/types";
 
-export const StarWars = (props: any) => {
+export const StarWars = (props: StarWarsType) => {
   const {content, contentStyle, episode, title, titleStyle} = props;
   const [start, setStart] = useState(0);
   const [scrollInterval, setScrollInterval] = useState(0);
   const scrollView = useRef(null);
 
-  useEffect((): any => {
-    const activeInterval: any = setInterval(scrolling, 10);
+  useEffect(() => {
+    const activeInterval: number = setInterval(scrolling, 10);
     setScrollInterval(activeInterval);
     return () => {
       clearInterval(scrollInterval);
@@ -24,13 +25,13 @@ export const StarWars = (props: any) => {
     setStart(prevState => prevState + 3)
   };
 
-  const onScrollFunc = ({nativeEvent}: any) => {
+  const onScrollFunc = ({nativeEvent}: NativeSyntheticEvent<NativeScrollEvent>) => {
     //@ts-ignore
     const {contentOffset, contentSize} = nativeEvent;
     // console.log('contentSize.height', contentSize.height/2+100);
     // console.log('contentOffset.y', contentOffset.y);
 
-    if (start > contentSize.height/2+100) {
+    if (start > contentSize.height / 2 + 100) {
       // console.log('time to stop');
       clearInterval(scrollInterval);
       setScrollInterval(0);

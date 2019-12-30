@@ -41,13 +41,6 @@ export const BottomTabNavigator = createBottomTabNavigator({
     },
     Films: {
       screen: FilmsScreenNavigator,
-      // navigationOptions: {
-      //   title: 'Films',
-      //   tabBarIcon: (props) => {
-      //     const { tintColor } = props;
-      //     return <Icon color={tintColor} name={'movie'} size={25}/>;
-      //   },
-      // },
       navigationOptions: () => {
         // console.log('navigationOptions props', props);
         return {

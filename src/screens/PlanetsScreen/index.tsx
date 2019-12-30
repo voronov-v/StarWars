@@ -1,5 +1,11 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
-import {View, Text, ListRenderItemInfo, TouchableOpacity, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  ListRenderItemInfo,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import {PlanetsScreenView} from './PlanetsScreenView';
 import {PlanetType, RenderItem} from './types';
 import {styles} from './styles';
@@ -76,7 +82,6 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
 
   return (
     <View style={{...styles.container, backgroundColor: bgColor}}>
-
       <CustomButton wrapperStyle={{position: 'absolute', right: 20, bottom: 20, zIndex: 1}}
                     bgStyle={{backgroundColor: primaryVarBg}}
                     onPress={loadNext}>
