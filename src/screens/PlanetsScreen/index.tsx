@@ -4,13 +4,11 @@ import {
   Text,
   ListRenderItemInfo,
   TouchableOpacity,
-  TextInput,
 } from 'react-native';
 import {PlanetsScreenView} from './PlanetsScreenView';
 import {PlanetType, RenderItem} from './types';
 import {styles} from './styles';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
-import {Spinner} from "../../components/Spinner/Spinner";
 import {useDispatch, useSelector} from "react-redux";
 import {getIsDarkMode, getPlanets} from "../../selectors";
 import {LOAD_PLANETS} from "../../redux/reducers/planetsReducer";
@@ -18,8 +16,6 @@ import {useTranslation} from "react-i18next";
 import {themeType} from "@root/redux/reducers/settingsReducer";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
 import {ErrorView} from "@root/components/ErrorView";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import {CustomButton} from "@root/components/CustomButton";
 
 export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement<NavigationStackScreenProps> => {
   const {navigation} = props;
@@ -81,28 +77,18 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (props: NavigationS
   };
 
   return (
-    <View style={{...styles.container, backgroundColor: bgColor}}>
-      <CustomButton wrapperStyle={{position: 'absolute', right: 20, bottom: 20, zIndex: 1}}
-                    bgStyle={{backgroundColor: primaryVarBg}}
-                    onPress={loadNext}>
-        <Icon name={'expand-more'} size={40} color={primaryVar}/>
-      </CustomButton>
-
-      <Text style={{...styles.headText, color: textColor}}>{t('headTitle')}</Text>
-      <View style={{alignItems: 'center', flexDirection: 'row'}}>
-        <Icon name={'filter-list'} size={30} color={textColor}/>
-        <TextInput style={{...styles.filterStyle, borderColor: textColor, backgroundColor: bgColor, color: textColor}}
-                   placeholderTextColor={textColor}
-                   placeholder={'Filter'}
-                   onChangeText={text => filterList(text)}/>
-      </View>
-      {loading
-        ? <Spinner/>
-        : <PlanetsScreenView data={dataToRender}
-                             renderItem={renderItem}
-                             keyExtractor={keyExtractor}
-                             isDarkMode={isDarkMode}/>
-      }
-    </View>
+    <PlanetsScreenView data={dataToRender}
+                       renderItem={renderItem}
+                       keyExtractor={keyExtractor}
+                       isDarkMode={isDarkMode}
+                       loading={loading}
+                       loadNext={loadNext}
+                       filterList={filterList}
+                       bgColor ={bgColor}
+                       primaryVarBg={primaryVarBg}
+                       primaryVar={primaryVar}
+                       textColor={textColor}
+                       t={t}
+    />
   );
 };

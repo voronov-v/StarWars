@@ -1,6 +1,7 @@
 import {FlatListProps, ListRenderItem} from 'react-native';
 import {PeopleType} from '../PlanetInfoScreen/types';
 import {FilmType} from '../FilmsScreen/types';
+import {Namespace, UseTranslationOptions, UseTranslationResponse} from "react-i18next";
 
 export type PlanetType = {
   name: string;
@@ -25,6 +26,14 @@ export type PlanetsScreenViewProps = {
   renderItem: RenderItem;
   data: PlanetsData;
   isDarkMode: boolean;
+  loading: boolean,
+  loadNext: () => void;
+  filterList: (text: string) => void;
+  bgColor: string
+  primaryVarBg: string
+  primaryVar: string
+  textColor: string
+  t: (ns?:Namespace, options?: UseTranslationOptions,) => UseTranslationResponse
 };
 
 export type RenderItem = ListRenderItem<PlanetType>;
