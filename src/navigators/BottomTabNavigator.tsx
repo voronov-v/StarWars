@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 import {getIsDarkMode} from '@root/selectors';
 import {themeType} from '@root/redux/reducers/settingsReducer';
 import FilmsScreenNavigator from "@root/navigators/FilmsScreenNavigator";
+import {ConverterScreen} from "@root/screens/ConverterScreen";
 
 const TabBarComponent = (props: any) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
@@ -62,6 +63,16 @@ export const BottomTabNavigator = createBottomTabNavigator({
         },
       },
     },
+    Converter: {
+      screen: ConverterScreen,
+      navigationOptions: {
+        title: 'Converter',
+        tabBarIcon: (props) => {
+          const {tintColor} = props;
+          return <Icon color={tintColor} name={'all-inclusive'} size={25}/>;
+        },
+      }
+    }
   },
   {
     tabBarComponent: props => <TabBarComponent {...props} />,
