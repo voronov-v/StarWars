@@ -17,7 +17,6 @@ const CustomDrawerContentComponent = (props: any) => {
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [bgColor, activeTintColor, inactiveTintColor] = [theme.BACKGROUND, theme.PRIMARY, theme.ON_BACKGROUND];
   const newProps = {...props, activeTintColor: activeTintColor, inactiveTintColor: inactiveTintColor};
-  console.log('newProps', newProps);
 
   return (
     <View style={{flex: 1, backgroundColor: bgColor}}>
@@ -61,7 +60,7 @@ export const DrawerNavigator = createDrawerNavigator({
 }, {
   contentComponent: props => <CustomDrawerContentComponent {...props}/>,
   drawerPosition: 'left',
-  initialRouteName: 'StarWars',
+  initialRouteName: 'Converter',
   contentOptions: {
     labelStyle: {fontSize: 16, marginLeft: 0},
   },

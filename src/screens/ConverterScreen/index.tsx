@@ -5,14 +5,14 @@ import {getIsDarkMode} from "@root/selectors";
 import {themeType} from "@root/redux/reducers/settingsReducer";
 import {DARK_THEME, PRIMARY_THEME} from "@root/consts/themes";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {styles} from './styles';
+import {currType} from "@root/screens/ConverterScreen/types";
 
 export const ConverterScreen = () => {
 
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
   const [textColor, bgColor, primary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY];
-
-  type currType = { curr_id: number, curr_code: string, value: string, curr_rate: number, currIconName?: string };
 
   const [currArr, setCurrArr] = useState<currType[]>([
     {curr_id: 1, curr_code: 'BYN', value: '2.11', curr_rate: 2.11},
@@ -44,39 +44,30 @@ export const ConverterScreen = () => {
       if (!currField) {
         console.log('currField', currField);
         onChangeFieldText(nextVal, currField!.value);
-      } else Alert.alert('Error','Your currency already exists in the list')
+      } else Alert.alert('Error', 'Your currency already exists in the list')
     }
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: bgColor, alignItems: 'center', justifyContent: 'flex-start'}}>
-      <Text style={{color: textColor, paddingVertical: 20, fontSize: 20}}>Converter screen</Text>
+    <View style={{...styles.container, backgroundColor: bgColor}}>
+      <Text style={{...styles.title, color: textColor}}>Converter</Text>
       {
         currArr.map(e => {
             return (
-              <View key={e.curr_id}
-                    style={{flexDirection: 'row', marginVertical: 3, alignItems: 'center'}}>
-                <View style={{width: 25, alignItems: 'center'}}>
+              <View key={e.curr_id} style={styles.currencyFieldContainer}>
+                <View style={styles.converterIcon}>
                   {e.currIconName && <Icon name={e.currIconName} size={20} color={textColor}/>}
                 </View>
-                <TextInput style={{
-                  width: 250,
-                  height: 40,
-                  borderColor: textColor,
-                  color: textColor,
-                  borderWidth: 1,
-                  marginHorizontal: 3
-                }}
+                <TextInput style={{...styles.converterInput, borderColor: textColor, color: textColor}}
                            placeholder={'0'}
                            placeholderTextColor={textColor}
                            keyboardType={'decimal-pad'}
                            value={e.value}
-                           onChangeText={(text) => onChangeFieldText(e.curr_code, text)}
-                />
+                           onChangeText={(text) => onChangeFieldText(e.curr_code, text)}/>
                 <Picker selectedValue={e.curr_code}
                         onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.curr_code)}
-                        style={{width: 50, height: 50}}
-                        itemStyle={{height: 50, color: primary}}>
+                        style={styles.pickerStyle}
+                        itemStyle={{...styles.pickerItemStyle, color: primary}}>
                   {currArr.map(e => (<Picker.Item key={e.curr_id} label={e.curr_code} value={e.curr_code}/>))}
                 </Picker>
               </View>

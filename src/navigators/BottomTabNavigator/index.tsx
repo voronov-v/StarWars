@@ -21,7 +21,6 @@ type CustomIconType = { tintColor?: string, name: string, size: number }
 
 const CustomIcon = (props: CustomIconType) => {
   const {tintColor, name, size} = props;
-  console.log('props', props);
   return <Icon color={tintColor} name={name} size={size}/>;
 };
 
