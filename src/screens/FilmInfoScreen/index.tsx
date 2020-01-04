@@ -8,5 +8,5 @@ export const FilmInfoScreen: FC<NavigationStackScreenProps> = (props: Navigation
   const filmData: FilmType = navigation.getParam('filmData');
   console.log('filmData', filmData);
 
-  return <StarWars episode={filmData.episode_id} title={filmData.title} content={filmData.opening_crawl}/>
+  return <StarWars episode={filmData.episode_id.toString()} title={filmData.title} content={filmData.opening_crawl}/>
 };
