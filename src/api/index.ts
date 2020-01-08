@@ -25,5 +25,15 @@ export const API = {
     let data = await axios.get(url);
     console.log('API getPlanetInfo data', data);
     return data.data;
+  },
+  getCurrencyList: async (url: string) => {
+    let data = await axios.get(url);
+    console.log('API getCurrencyList data', data);
+    return data.data;
+  },
+  getCurrency: async (url: string) => {
+    let data = await axios.get(url);
+    console.log('API getCurrency data', data);
+    return data.data;
   }
 };

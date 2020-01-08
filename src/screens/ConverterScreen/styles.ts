@@ -7,8 +7,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   title: {
-    paddingVertical: 20,
+    paddingTop: 20,
     fontSize: 20
+  },
+  changeDateContainer: {
+    alignItems: 'center',
+    paddingTop: 5,
+    paddingBottom: 20
   },
   currencyFieldContainer: {
     flexDirection: 'row',

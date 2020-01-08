@@ -45,6 +45,7 @@ export const DrawerNavigator = createDrawerNavigator({
   },
   Converter: {
     screen: ConverterScreen,
+    // screen: ConverterScreen,
     navigationOptions: {
       title: 'Converter',
       drawerIcon: (props) => <CustomIcon {...props} name={'all-inclusive'} size={25}/>
