@@ -38,19 +38,19 @@ export const ConverterScreen = () => {
   const [textColor, bgColor, primary] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY];
 
   const onChangeFieldText = (code: string, value: string) => {
-    console.log(`code: ${code} value: ${value}`);
     if (!/^\d*\.?\d*$/.test(value)) {
       return Alert.alert(`Invalid input`, `on ${code} currency field`);
     }
 
-    // const rate = value !== '' ? Number.parseFloat(value) / currArr.find(e => e.curr_code === code)!.curr_rate : 0;
-    // console.log('rate', rate);
-    //
-    // let tmp = [...currArr].map((e) => {
-    //   e.value = e.curr_code === code ? value : (Math.round(rate * e.curr_rate * 100) / 100).toString();
-    //   return e;
-    // });
-    // setCurrArr(tmp);
+    const field = ratesToRender.find(e => e.Cur_Abbreviation === code)!;
+    const bynVal = value !== '' ? Number.parseFloat(value) * field.Cur_OfficialRate / field.Cur_Scale : 0;
+    console.log(`code: ${code} value: ${value} BYN: ${bynVal}`);
+
+    const tmp = [...ratesToRender].map((e) => {
+      e.Cur_Value = e.Cur_Abbreviation === code ? value : (Math.round(bynVal / e.Cur_OfficialRate * e.Cur_Scale * 100) / 100).toString();
+      return e;
+    });
+    setRatesToRender(tmp);
   };
 
   // const onChangeFieldCurrency = (nextVal: string, prevVal: string) => {
@@ -107,6 +107,7 @@ export const ConverterScreen = () => {
                          value={e.Cur_Value}
                          onChangeText={(text) => onChangeFieldText(e.Cur_Abbreviation, text)}
               />
+              <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>
               <Picker selectedValue={e.Cur_Abbreviation}
                 // onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.Cur_Abbreviation)}
                       style={styles.pickerStyle}
