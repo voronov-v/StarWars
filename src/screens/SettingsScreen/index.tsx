@@ -19,7 +19,12 @@ export const SettingsScreen = () => {
 
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [textColor, bgColor, primary, onBackground] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ON_BACKGROUND];
+  const [textColor, bgColor, primary, onBackground] = [
+    theme.ON_BACKGROUND,
+    theme.BACKGROUND,
+    theme.PRIMARY,
+    theme.ON_BACKGROUND,
+  ];
   const lang: string = useSelector((state: IState) => state.settings.language);
 
   const onLanguageChangePress = (lang: string) => {
@@ -29,16 +34,18 @@ export const SettingsScreen = () => {
 
   const onToggleTheme = () => dispatch({ type: TOGGLE_THEME });
 
-  const SettingsItem = ({ iconName, settingsName, children }: SettingsItemProps): ReactElement<SettingsItemProps> => {
+  const SettingsItem = ({
+    iconName,
+    settingsName,
+    children,
+  }: SettingsItemProps): ReactElement<SettingsItemProps> => {
     return (
       <View style={{ ...styles.containerItem, borderBottomColor: onBackground }}>
         <View style={styles.containerIcon}>
-          <Icon name={iconName} size={20} color={textColor}/>
+          <Icon name={iconName} size={20} color={textColor} />
           <Text style={{ ...styles.text, color: textColor }}>{t(settingsName)}</Text>
         </View>
-        <View>
-          {children}
-        </View>
+        <View>{children}</View>
       </View>
     );
   };
@@ -47,15 +54,22 @@ export const SettingsScreen = () => {
     <>
       <View style={{ ...styles.container, backgroundColor: bgColor }}>
         <SettingsItem iconName={'brightness-medium'} settingsName={'useDarkMode'}>
-          <CheckBox checked={isDarkMode} onPress={onToggleTheme} containerStyle={{ padding: 0 }}
-                    checkedColor={primary}/>
+          <CheckBox
+            checked={isDarkMode}
+            onPress={onToggleTheme}
+            containerStyle={{ padding: 0 }}
+            checkedColor={primary}
+          />
         </SettingsItem>
         <SettingsItem iconName={'language'} settingsName={'changeLangTitle'}>
-          <Picker selectedValue={lang} style={{ width: 50, height: 50 }}
-                  itemStyle={{ backgroundColor: 'green', height: 50, color: primary }}
-                  onValueChange={(itemValue) => onLanguageChangePress(itemValue)}>
-            <Picker.Item label="ENG" value="en"/>
-            <Picker.Item label="RUS" value="ru"/>
+          <Picker
+            selectedValue={lang}
+            style={{ width: 50, height: 50 }}
+            itemStyle={{ backgroundColor: 'green', height: 50, color: primary }}
+            onValueChange={(itemValue) => onLanguageChangePress(itemValue)}
+          >
+            <Picker.Item label='ENG' value='en' />
+            <Picker.Item label='RUS' value='ru' />
           </Picker>
         </SettingsItem>
       </View>

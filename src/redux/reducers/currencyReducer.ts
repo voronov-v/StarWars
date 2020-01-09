@@ -7,24 +7,23 @@ export const LOAD_CURRENCY_LIST = 'LOAD_CURRENCY_LIST',
   LOAD_CURRENCY_RATES_ON_DATE = 'LOAD_CURRENCY_RATES_ON_DATE',
   LOAD_CURRENCY_RATES_SUCCESS = 'LOAD_CURRENCY_RATES_SUCCESS',
   LOAD_CURRENCY_RATES_FAILED = 'LOAD_CURRENCY_RATES_FAILED',
-  CHANGE_CURRENCY_VALUE = 'CHANGE_CURRENCY_VALUE'
-;
+  CHANGE_CURRENCY_VALUE = 'CHANGE_CURRENCY_VALUE';
 
 export type CurrencyRateType = {
-  Cur_ID: number,
-  Date: Date,
-  Cur_Abbreviation: string,
-  Cur_Scale: number,
-  Cur_Name: string,
-  Cur_OfficialRate: number,
-  Cur_Value: string
-}
+  Cur_ID: number;
+  Date: Date;
+  Cur_Abbreviation: string;
+  Cur_Scale: number;
+  Cur_Name: string;
+  Cur_OfficialRate: number;
+  Cur_Value: string;
+};
 
 export type currencyReducerType = {
-  currencyRates?: CurrencyRateType[]
-  loading: boolean
-  errMsg: string
-}
+  currencyRates?: CurrencyRateType[];
+  loading: boolean;
+  errMsg: string;
+};
 
 const INITIAL_STATE: currencyReducerType = {
   loading: false,
@@ -39,7 +38,9 @@ export const CurrencyReducer = (state = INITIAL_STATE, action: IActionType) => {
       return { ...state, loading: true, errMsg: '' };
     case LOAD_CURRENCY_RATES_SUCCESS:
       const tmp: CurrencyRateType = action.payload
-        .filter((e: CurrencyRateType) => currenciesList.join(',').indexOf(e.Cur_Abbreviation) !== -1)
+        .filter(
+          (e: CurrencyRateType) => currenciesList.join(',').indexOf(e.Cur_Abbreviation) !== -1,
+        )
         .map((e: CurrencyRateType) => ({ ...e, Cur_Value: '' }));
       return { ...state, loading: false, currencyRates: tmp };
     case LOAD_CURRENCY_RATES_FAILED:

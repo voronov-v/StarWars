@@ -1,5 +1,5 @@
 export type StarWarsType = {
-  content: string,
-  episode: string,
-  title: string,
-}
+  content: string;
+  episode: string;
+  title: string;
+};

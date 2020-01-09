@@ -5,4 +5,4 @@
 //   RUB = 'RUB'
 // }
 
-export const currenciesList = ['USD', 'EUR', 'RUB', 'PLN'];//, 'UAH', 'BYN'
+export const currenciesList = ['USD', 'EUR', 'RUB', 'PLN']; //, 'UAH', 'BYN'

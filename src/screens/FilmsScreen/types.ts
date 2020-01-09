@@ -15,7 +15,7 @@ export type FilmType = {
   url: string;
   created: string;
   edited: string;
-}
+};
 
 export type KeyExtractor = FlatListProps<FilmType>['keyExtractor'];
 

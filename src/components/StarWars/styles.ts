@@ -1,12 +1,9 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
-    transform: [
-      {perspective: 400},
-      {rotateX: '30deg'},
-    ],
+    transform: [{ perspective: 400 }, { rotateX: '30deg' }],
   },
   contentContainer: {
     paddingTop: 200,

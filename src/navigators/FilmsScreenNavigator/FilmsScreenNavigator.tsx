@@ -1,23 +1,23 @@
-import {createStackNavigator} from "react-navigation-stack";
-import {FilmsScreen} from "@root/screens/FilmsScreen";
-import {FilmInfoScreen} from "@root/screens/FilmInfoScreen";
+import { createStackNavigator } from 'react-navigation-stack';
+import { FilmsScreen } from '@root/screens/FilmsScreen';
+import { FilmInfoScreen } from '@root/screens/FilmInfoScreen';
 
 export const FilmsScreenNavigator = createStackNavigator(
   {
     FilmsList: {
-      screen: FilmsScreen
-      ,
+      screen: FilmsScreen,
       navigationOptions: () => ({
-        header: null
+        header: null,
       }),
     },
     Info: {
       screen: FilmInfoScreen,
     },
-  }, {
+  },
+  {
     defaultNavigationOptions: {
       header: null,
     },
-    initialRouteName: 'FilmsList'
-  }
+    initialRouteName: 'FilmsList',
+  },
 );

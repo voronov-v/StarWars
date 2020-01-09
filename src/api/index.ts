@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const instance = axios.create({
   baseURL: 'https://swapi.co/api/',
@@ -35,5 +35,5 @@ export const API = {
     let data = await axios.get(url);
     // console.log('API getCurrency data', data);
     return data.data;
-  }
+  },
 };

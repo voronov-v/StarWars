@@ -1,6 +1,6 @@
-import {SectionListData, SectionListProps, SectionListRenderItem} from 'react-native';
-import {FilmType} from "../FilmsScreen/types";
-import {PlanetType} from "@root/screens/PlanetsScreen/types";
+import { SectionListData, SectionListProps, SectionListRenderItem } from 'react-native';
+import { FilmType } from '../FilmsScreen/types';
+import { PlanetType } from '@root/screens/PlanetsScreen/types';
 
 export type RenderItem = SectionListRenderItem<FilmType | PlanetType>;
 
@@ -21,26 +21,26 @@ export type PeopleType = {
   url: string;
   created: string;
   edited: string;
-}
+};
 
 export type KeyExtractor = SectionListProps<FilmType | PeopleType>['keyExtractor'];
 
-export type PlanetInfoDataType = { title: string, icon: string, data: FilmType[]|PlanetType[] }
+export type PlanetInfoDataType = { title: string; icon: string; data: FilmType[] | PlanetType[] };
 
 export type RenderSectionHeaderType = {
-  section: SectionListData<PlanetInfoDataType>
-}
+  section: SectionListData<PlanetInfoDataType>;
+};
 
 export type PlanetInfoViewProps = {
-  sections: any,
-  keyExtractor: KeyExtractor,
-  renderSectionHeader: any,
-  listHeaderComponent: any,
-  renderItem: any,
-  bgColor: string
+  sections: any;
+  keyExtractor: KeyExtractor;
+  renderSectionHeader: any;
+  listHeaderComponent: any;
+  renderItem: any;
+  bgColor: string;
 };
 
 export type ItemInfoProps = {
-  item: any,
-  type: string
-}
+  item: any;
+  type: string;
+};

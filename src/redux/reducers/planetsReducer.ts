@@ -1,56 +1,55 @@
-import {PlanetType} from "../../screens/PlanetsScreen/types";
-import {IActionType} from "../interfaces";
+import { PlanetType } from '../../screens/PlanetsScreen/types';
+import { IActionType } from '../interfaces';
 
-export const LOAD_PLANETS = "LOAD_PLANETS",
-  LOAD_PLANETS_FAILED = "LOAD_PLANETS_FAILED",
-  LOAD_PLANETS_SUCCEED = "LOAD_PLANETS_SUCCEED",
-  LOAD_PLANET_INFO = "LOAD_PLANET_INFO",
-  LOAD_PLANET_INFO_SUCCEED = "LOAD_PLANET_INFO_SUCCEED",
-  LOAD_PLANET_INFO_FAILED = "LOAD_PLANET_INFO_FAILED"
-;
+export const LOAD_PLANETS = 'LOAD_PLANETS',
+  LOAD_PLANETS_FAILED = 'LOAD_PLANETS_FAILED',
+  LOAD_PLANETS_SUCCEED = 'LOAD_PLANETS_SUCCEED',
+  LOAD_PLANET_INFO = 'LOAD_PLANET_INFO',
+  LOAD_PLANET_INFO_SUCCEED = 'LOAD_PLANET_INFO_SUCCEED',
+  LOAD_PLANET_INFO_FAILED = 'LOAD_PLANET_INFO_FAILED';
 
 export interface IPlanetsState {
-  loading: boolean
-  errMsg: string
-  planetsList: PlanetType[]
-  nextUrl?: string
+  loading: boolean;
+  errMsg: string;
+  planetsList: PlanetType[];
+  nextUrl?: string;
 }
 
 const INITIAL_STATE: IPlanetsState = {
   loading: false,
-  errMsg: "",
+  errMsg: '',
   planetsList: [],
 };
 
 export const planetsReducer = (state = INITIAL_STATE, action: IActionType) => {
   switch (action.type) {
     case LOAD_PLANETS:
-      return {...state, loading: true, errMsg: ''};
+      return { ...state, loading: true, errMsg: '' };
     case LOAD_PLANETS_SUCCEED:
       return {
         ...state,
         loading: false,
-        errMsg: "",
+        errMsg: '',
         planetsList: [...state.planetsList, ...action.payload.results],
-        nextUrl: action.payload.next
+        nextUrl: action.payload.next,
       };
     case LOAD_PLANETS_FAILED:
-      return {...state, loading: false, errMsg: action.payload};
+      return { ...state, loading: false, errMsg: action.payload };
     case LOAD_PLANET_INFO:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case LOAD_PLANET_INFO_SUCCEED:
-      let tmp = state.planetsList.map(e => {
+      let tmp = state.planetsList.map((e) => {
         if (e.name === action.payload.name) {
           e.planetInfo = {
             films: action.payload.films,
-            residents: action.payload.residents
-          }
+            residents: action.payload.residents,
+          };
         }
         return e;
       });
-      return {...state, loading: false, errMsg: "", planetsList: tmp};
+      return { ...state, loading: false, errMsg: '', planetsList: tmp };
     case LOAD_PLANET_INFO_FAILED:
-      return {...state, loading: false, errMsg: action.payload};
+      return { ...state, loading: false, errMsg: action.payload };
     default:
       return state;
   }

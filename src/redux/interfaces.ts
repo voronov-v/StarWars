@@ -1,12 +1,12 @@
-import {IFilmsState} from "../redux/reducers/filmsReducer";
-import {IPlanetsState} from "../redux/reducers/planetsReducer";
-import {settingsType} from "@root/redux/reducers/settingsReducer";
-import {currencyReducerType} from "@root/redux/reducers/currencyReducer";
+import { IFilmsState } from '../redux/reducers/filmsReducer';
+import { IPlanetsState } from '../redux/reducers/planetsReducer';
+import { settingsType } from '@root/redux/reducers/settingsReducer';
+import { currencyReducerType } from '@root/redux/reducers/currencyReducer';
 
 export type IActionType = {
-  payload?: any
-  type: string
-}
+  payload?: any;
+  type: string;
+};
 
 export type IState = {
   readonly planets: IPlanetsState;
