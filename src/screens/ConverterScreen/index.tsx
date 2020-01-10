@@ -47,7 +47,7 @@ export const ConverterScreen = () => {
     const field = ratesToRender.find((e) => e.Cur_Abbreviation === code)!;
     const bynVal =
       value !== '' ? (Number.parseFloat(value) * field.Cur_OfficialRate) / field.Cur_Scale : 0;
-    console.log(`code: ${code} value: ${value} BYN: ${bynVal}`);
+    console.log(`code: ${code}: ${value} BYN: ${bynVal}`);
 
     const tmp = [...ratesToRender].map((e) => {
       e.Cur_Value =
@@ -59,16 +59,17 @@ export const ConverterScreen = () => {
     setRatesToRender(tmp);
   };
 
-  // const onChangeFieldCurrency = (nextVal: string, prevVal: string) => {
-  //   if (nextVal !== prevVal) {
-  //     console.log(`${prevVal} => ${nextVal}`);
-  //     const currField = currArr.find((e) => e.curr_code === prevVal);
-  //     if (!currField) {
-  //       console.log('currField', currField);
-  //       onChangeFieldText(nextVal, currField!.value);
-  //     } else Alert.alert('Error', 'Your currency already exists in the list');
-  //   }
-  // };
+  const onChangeFieldCurrency = (nextVal: string, prevVal: string) => {
+    console.log(`nextVal: ${nextVal} prevVal: ${prevVal}`);
+    //   if (nextVal !== prevVal) {
+    //     console.log(`${prevVal} => ${nextVal}`);
+    //     const currField = currArr.find((e) => e.curr_code === prevVal);
+    //     if (!currField) {
+    //       console.log('currField', currField);
+    //       onChangeFieldText(nextVal, currField!.value);
+    //     } else Alert.alert('Error', 'Your currency already exists in the list');
+    //   }
+  };
 
   const handleDatePicked = (date: Date) => {
     const dat = moment(date).format('DD.MM.YYYY');
@@ -130,7 +131,7 @@ export const ConverterScreen = () => {
             <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>
             <Picker
               selectedValue={e.Cur_Abbreviation}
-              // onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.Cur_Abbreviation)}
+              onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.Cur_Abbreviation)}
               style={styles.pickerStyle}
               itemStyle={{ ...styles.pickerItemStyle, color: primary }}
             >
