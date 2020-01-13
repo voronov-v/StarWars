@@ -5,7 +5,7 @@ import { getIsDarkMode, getRates } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
 import { DARK_THEME, PRIMARY_THEME } from '@root/consts/themes';
 import { styles } from './styles';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePicker from '@root/components/CustomDateTimePicker';
 import moment from 'moment';
 //@ts-ignore
 import { Table, Row, Rows, TableWrapper } from 'react-native-table-component';
@@ -146,16 +146,8 @@ export const ConverterScreen = () => {
         isVisible={isDateTimePickerVisible}
         onConfirm={handleDatePicked}
         onCancel={() => setIsDateTimePickerVisible(false)}
+        date={moment(datePicker,'DD.MM.YYYY').toDate()}
       />
     </View>
   );
 };
-
-// const styles2 = StyleSheet.create({
-//   container: {flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff'},
-//   head: {height: 40, backgroundColor: '#f1f8ff'},
-//   wrapper: {flexDirection: 'row'},
-//   title: {flex: 1, backgroundColor: '#f6f8fa'},
-//   row: {height: 28},
-//   text: {textAlign: 'center'}
-// });
