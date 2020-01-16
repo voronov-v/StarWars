@@ -65,7 +65,7 @@ export const SettingsScreen = () => {
           <Picker
             selectedValue={lang}
             style={{ width: 50, height: 50 }}
-            itemStyle={{ backgroundColor: 'green', height: 50, color: primary }}
+            itemStyle={{ height: 50, color: primary }}
             onValueChange={(itemValue) => onLanguageChangePress(itemValue)}
           >
             <Picker.Item label='ENG' value='en' />

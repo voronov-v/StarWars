@@ -3,7 +3,7 @@ import { DatePickerAndroid, TimePickerAndroid } from 'react-native';
 import { CustomDatePickerAndroidPropsType } from '@root/components/CustomDateTimePicker/CustomDatePickerAndroid/types';
 
 export const CustomDatePickerAndroid = (props: CustomDatePickerAndroidPropsType) => {
-  console.log('CustomDatePickerAndroid props', props);
+  // console.log('CustomDatePickerAndroid props', props);
   const {
     date = new Date(),
     mode = 'date',
@@ -11,8 +11,7 @@ export const CustomDatePickerAndroid = (props: CustomDatePickerAndroidPropsType)
     timePickerModeAndroid = 'default',
     is24Hour = true,
     isVisible = true,
-    onHideAfterConfirm = () => {
-    },
+    onHideAfterConfirm = () => {},
   } = props;
 
   useEffect(() => {

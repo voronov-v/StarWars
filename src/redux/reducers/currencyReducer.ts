@@ -30,6 +30,16 @@ const INITIAL_STATE: currencyReducerType = {
   errMsg: '',
 };
 
+const BYNRatesObj: CurrencyRateType = {
+  Cur_ID: -1,
+  Date: new Date(),
+  Cur_Abbreviation: 'BYN',
+  Cur_Scale: 1,
+  Cur_Name: 'Белорусский рубль',
+  Cur_OfficialRate: 1,
+  Cur_Value: '',
+};
+
 export const CurrencyReducer = (state = INITIAL_STATE, action: IActionType) => {
   switch (action.type) {
     case LOAD_CURRENCY_LIST:
@@ -37,11 +47,12 @@ export const CurrencyReducer = (state = INITIAL_STATE, action: IActionType) => {
     case LOAD_CURRENCY_RATES_ON_DATE:
       return { ...state, loading: true, errMsg: '' };
     case LOAD_CURRENCY_RATES_SUCCESS:
-      const tmp: CurrencyRateType = action.payload
+      const tmp: CurrencyRateType[] = action.payload
         .filter(
           (e: CurrencyRateType) => currenciesList.join(',').indexOf(e.Cur_Abbreviation) !== -1,
         )
         .map((e: CurrencyRateType) => ({ ...e, Cur_Value: '' }));
+      tmp.unshift(BYNRatesObj);
       return { ...state, loading: false, currencyRates: tmp };
     case LOAD_CURRENCY_RATES_FAILED:
       return { ...state, loading: false, errMsg: action.payload };

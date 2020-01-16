@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
   changeDateContainer: {
     alignItems: 'center',
     paddingTop: 5,
-    paddingBottom: 20,
+    paddingVertical: 20,
+    flexDirection: 'row',
   },
   currencyFieldContainer: {
     flexDirection: 'row',
@@ -27,7 +28,7 @@ export const styles = StyleSheet.create({
   converterInput: {
     width: 250,
     height: 40,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     marginHorizontal: 3,
   },
   pickerStyle: {
@@ -37,4 +38,15 @@ export const styles = StyleSheet.create({
   pickerItemStyle: {
     height: 50,
   },
+  tableWrapper: {
+    // padding: 10,
+    width: '95%',
+    marginBottom: 20,
+  },
+  tableHead: {
+    height: 40,
+    borderWidth: 1,
+  },
+  tableRow: {},
+  tableTextStyle: {},
 });

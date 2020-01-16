@@ -46,3 +46,5 @@ export const DARK_THEME: themeType = {
   ON_BACKGROUND: '#FFFFFF',
   ON_ERROR: '#000000',
 };
+
+export const CONVERTER_THEME = {};

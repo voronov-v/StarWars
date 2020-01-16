@@ -7,8 +7,7 @@ import { CustomDatePickerIOSPropsType } from './types';
 import { colors } from '@root/components/CustomDateTimePicker/CustomDatePickerIOS/colors';
 
 export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
-  console.log('props', props);
-
+  // console.log('props', props);
   const {
     cancelTextIOS = 'Cancel',
     confirmTextIOS = 'Confirm',
@@ -19,10 +18,8 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
     isVisible = false,
     mode = 'date',
     neverDisableConfirmIOS = false,
-    onHideAfterConfirm = () => {
-    },
-    onDateChange = () => {
-    },
+    onHideAfterConfirm = () => {},
+    onDateChange = () => {},
     reactNativeModalPropsIOS = {},
     titleIOS = 'Pick a date',
     minuteInterval = 1,
@@ -45,7 +42,6 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
   const [userIsInteractingWithPicker, setUserIsInteractingWithPicker] = useState(false);
   const [myMinuteInterval, setMyMinuteInterval] = useState(minuteInterval);
   const [myConfirmed, setMyConfirmed] = useState(false);
-
 
   // componentWillReceiveProps(nextProps) {
   //   if (this.props.date.valueOf() !== nextProps.date.valueOf()) {
@@ -103,8 +99,7 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
 
   let confirmButton;
   if (customConfirmButtonIOS) {
-    if (
-      customConfirmButtonWhileInteractingIOS && userIsInteractingWithPicker) {
+    if (customConfirmButtonWhileInteractingIOS && userIsInteractingWithPicker) {
       confirmButton = customConfirmButtonWhileInteractingIOS;
     } else {
       confirmButton = customConfirmButtonIOS;
@@ -116,9 +111,12 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
   const cancelButton = <Text style={[styles.cancelText, cancelTextStyle]}>{cancelTextIOS}</Text>;
   const DatePickerComponent = customDatePickerIOS || DatePickerIOS;
   const reactNativeModalProps = {
-    onBackdropPress: dismissOnBackdropPressIOS ? handleCancel : () => null, ...reactNativeModalPropsIOS,
+    onBackdropPress: dismissOnBackdropPressIOS ? handleCancel : () => null,
+    ...reactNativeModalPropsIOS,
   };
-  const backgroundColor = isDarkModeEnabled ? colors.BACKGROUND_COLOR_DARK : colors.BACKGROUND_COLOR_LIGHT;
+  const backgroundColor = isDarkModeEnabled
+    ? colors.BACKGROUND_COLOR_DARK
+    : colors.BACKGROUND_COLOR_LIGHT;
 
   return (
     <ReactNativeModal
@@ -130,11 +128,12 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
       {...reactNativeModalProps}
     >
       <View style={[styles.datepickerContainer, { backgroundColor }, datePickerContainerStyleIOS]}>
-        {!hideTitleContainerIOS && (customTitleContainerIOS || titleContainer)
-        }
+        {!hideTitleContainerIOS && (customTitleContainerIOS || titleContainer)}
         {
           //@ts-ignore
-          <View onStartShouldSetResponderCapture={!neverDisableConfirmIOS ? handleUserTouchInit : null}>
+          <View
+            onStartShouldSetResponderCapture={!neverDisableConfirmIOS ? handleUserTouchInit : null}
+          >
             <DatePickerComponent
               ref={pickerRefCb}
               mode={mode}
@@ -149,9 +148,7 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
           style={styles.confirmButton}
           underlayColor={colors.HIGHLIGHT_COLOR}
           onPress={handleConfirm}
-          disabled={
-            !neverDisableConfirmIOS && userIsInteractingWithPicker
-          }
+          disabled={!neverDisableConfirmIOS && userIsInteractingWithPicker}
         >
           {confirmButton}
         </TouchableHighlight>
@@ -166,7 +163,4 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
       </TouchableHighlight>
     </ReactNativeModal>
   );
-
 };
-
-

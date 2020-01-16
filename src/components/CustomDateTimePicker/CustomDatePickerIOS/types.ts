@@ -8,7 +8,7 @@ export type CustomDatePickerIOSPropsType = {
   onHideAfterConfirm?: (date: Date) => void;
   isVisible?: boolean;
 
-  minuteInterval?: number
+  minuteInterval?: number;
   cancelTextIOS?: string;
   cancelTextStyle?: any;
   confirmTextIOS?: string;
