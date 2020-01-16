@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Picker, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsDarkMode, getRates } from '@root/selectors';
@@ -14,10 +14,10 @@ import { Spinner } from '@root/components/Spinner/Spinner';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
-import { chartDataType, chartTimeIntervalType } from "./types";
+import { chartTimeIntervalType, chartViewDataType, CustomLineChartProps } from "./types";
 import axios from 'axios';
 
-export const ConverterScreen = () => {
+export const ConverterScreen: FC = (): ReactElement => {
   const dispatch = useDispatch();
 
   const [datePicker, setDatePicker] = useState(moment(new Date()).format('DD.MM.YYYY'));
@@ -178,7 +178,7 @@ export const ConverterScreen = () => {
         })}
       </View>
 
-      {converterToggle && chartData.length>0 && <CustomLineChart chartData={chartData||[]}/>}
+      {converterToggle && chartData.length > 0 && <CustomLineChart chartData={chartData || []}/>}
 
       <Collapsible collapsed={converterToggle}>
         {ratesToRender.map((e) => {
@@ -224,12 +224,18 @@ export const ConverterScreen = () => {
   );
 };
 
-const CustomLineChart = (props: any) => {
+const CustomLineChart: FC<CustomLineChartProps> = (props: CustomLineChartProps): ReactElement<CustomLineChartProps> => {
   const { chartData } = props;
   console.log('dataFromProps', chartData);
-  const data: { yData: number[], xData: string[] } = chartData.reduce((prev: any, curr: chartDataType) => ({
+  const xDataFormatType =
+    chartData.length < 10 ? 'ddd, DD'
+      : chartData.length < 100 ? 'DD MMM'
+      : chartData.length < 200 ? 'MMM'
+        : 'MMMYYYY';
+
+  const data: chartViewDataType = chartData.reduce((prev: chartViewDataType, curr) => ({
       yData: [...prev.yData, curr.Cur_OfficialRate],
-      xData: [...prev.xData, moment(curr.Date).format('YY.MM').toString()]
+      xData: [...prev.xData, moment(curr.Date).format(xDataFormatType).toString()]
     })
     , { yData: [], xData: [] });
   console.log('data', data);
@@ -258,7 +264,7 @@ const CustomLineChart = (props: any) => {
           data={data.xData}
           contentInset={{ left: 25, right: 20 }}
           svg={{ fill: 'black', fontSize: 10 }}
-          style={{ marginHorizontal: -10}}
+          style={{ marginHorizontal: -10 }}
           numberOfTicks={8}
           formatLabel={(value) => data.xData[value]}
         />

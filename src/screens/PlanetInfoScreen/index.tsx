@@ -73,8 +73,8 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (
 
   const keyExtractor: KeyExtractor = (item) => item.url;
 
-  //@ts-ignore
   const renderItem: RenderItem = ({ item }) => (
+    //@ts-ignore
     <InfoWithState item={item} type={item.episode_id ? 'film' : ''} />
   );
 
