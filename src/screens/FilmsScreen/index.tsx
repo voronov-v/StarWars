@@ -33,9 +33,7 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (
     dispatch({ type: LOAD_FILMS, payload: filmsList });
   }, []);
 
-  const renderItem: RenderItem = ({
-    item,
-  }: ListRenderItemInfo<FilmType>): ReturnType<RenderItem> => {
+  const renderItem: RenderItem = ({ item }: ListRenderItemInfo<FilmType>): ReturnType<RenderItem> => {
     const onPress = () => {
       navigation.navigate('Info', { filmData: item });
     };
@@ -60,13 +58,7 @@ export const FilmsScreen: FC<NavigationStackScreenProps> = (
   if (loading) return <Spinner />;
 
   if (errMsg !== '')
-    return (
-      <ErrorView
-        errMsg={errMsg}
-        dispatch={() => dispatch({ type: LOAD_FILMS })}
-        reloadMsg={'Load Films!'}
-      />
-    );
+    return <ErrorView errMsg={errMsg} dispatch={() => dispatch({ type: LOAD_FILMS })} reloadMsg={'Load Films!'} />;
 
   return (
     <View style={{ ...styles.container, backgroundColor: bgColor }}>

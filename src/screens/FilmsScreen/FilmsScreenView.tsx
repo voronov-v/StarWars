@@ -7,12 +7,5 @@ export const FilmsScreenView: FC<FilmsScreenViewProps> = (
 ): ReactElement<FilmsScreenViewProps> => {
   const { keyExtractor, renderItem, data } = props;
 
-  return (
-    <FlatList
-      data={data}
-      initialNumToRender={data.length}
-      keyExtractor={keyExtractor}
-      renderItem={renderItem}
-    />
-  );
+  return <FlatList data={data} initialNumToRender={data.length} keyExtractor={keyExtractor} renderItem={renderItem} />;
 };

@@ -13,10 +13,7 @@ export const DrawerTrigger = withNavigation((props: NavigationInjectedProps) => 
   const primary = isDarkMode ? DARK_THEME.PRIMARY : PRIMARY_THEME.PRIMARY;
 
   return (
-    <TouchableOpacity
-      style={styles.trigger}
-      onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-    >
+    <TouchableOpacity style={styles.trigger} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
       <Icon name={'list'} size={40} color={primary} />
     </TouchableOpacity>
   );

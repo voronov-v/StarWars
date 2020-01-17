@@ -114,9 +114,7 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
     onBackdropPress: dismissOnBackdropPressIOS ? handleCancel : () => null,
     ...reactNativeModalPropsIOS,
   };
-  const backgroundColor = isDarkModeEnabled
-    ? colors.BACKGROUND_COLOR_DARK
-    : colors.BACKGROUND_COLOR_LIGHT;
+  const backgroundColor = isDarkModeEnabled ? colors.BACKGROUND_COLOR_DARK : colors.BACKGROUND_COLOR_LIGHT;
 
   return (
     <ReactNativeModal
@@ -131,9 +129,7 @@ export const CustomDatePickerIOS = (props: CustomDatePickerIOSPropsType) => {
         {!hideTitleContainerIOS && (customTitleContainerIOS || titleContainer)}
         {
           //@ts-ignore
-          <View
-            onStartShouldSetResponderCapture={!neverDisableConfirmIOS ? handleUserTouchInit : null}
-          >
+          <View onStartShouldSetResponderCapture={!neverDisableConfirmIOS ? handleUserTouchInit : null}>
             <DatePickerComponent
               ref={pickerRefCb}
               mode={mode}

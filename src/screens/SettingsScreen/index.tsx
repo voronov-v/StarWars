@@ -33,11 +33,7 @@ export const SettingsScreen = () => {
 
   const onToggleTheme = () => dispatch({ type: TOGGLE_THEME });
 
-  const SettingsItem = ({
-    iconName,
-    settingsName,
-    children,
-  }: SettingsItemProps): ReactElement<SettingsItemProps> => {
+  const SettingsItem = ({ iconName, settingsName, children }: SettingsItemProps): ReactElement<SettingsItemProps> => {
     return (
       <View style={{ ...styles.containerItem, borderBottomColor: onBackground }}>
         <View style={styles.containerIcon}>

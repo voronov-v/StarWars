@@ -1,9 +1,4 @@
-import {
-  createDrawerNavigator,
-  DrawerActions,
-  DrawerIconProps,
-  DrawerItems,
-} from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerActions, DrawerIconProps, DrawerItems } from 'react-navigation-drawer';
 import { ConverterScreen } from '@root/screens/ConverterScreen';
 import { SettingsScreen } from '@root/screens/SettingsScreen';
 import { BottomTabNavigator } from '../BottomTabNavigator';
@@ -20,11 +15,7 @@ const CustomDrawerContentComponent = (props: any) => {
   const { navigation } = props;
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [bgColor, activeTintColor, inactiveTintColor] = [
-    theme.BACKGROUND,
-    theme.PRIMARY,
-    theme.ON_BACKGROUND,
-  ];
+  const [bgColor, activeTintColor, inactiveTintColor] = [theme.BACKGROUND, theme.PRIMARY, theme.ON_BACKGROUND];
   const newProps = {
     ...props,
     activeTintColor: activeTintColor,

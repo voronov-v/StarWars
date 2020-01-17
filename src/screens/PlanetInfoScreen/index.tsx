@@ -3,13 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { PlanetInfoView } from './PlanetInfoView';
 import { Button, Text, TouchableOpacity, View } from 'react-native';
-import {
-  ItemInfoProps,
-  KeyExtractor,
-  PlanetInfoDataType,
-  RenderItem,
-  RenderSectionHeaderType,
-} from './types';
+import { ItemInfoProps, KeyExtractor, PlanetInfoDataType, RenderItem, RenderSectionHeaderType } from './types';
 import { Spinner } from '@root/components/Spinner/Spinner';
 import { styles } from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -80,12 +74,7 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (
 
   const renderSectionHeader = ({ section: { title, icon } }: RenderSectionHeaderType) => {
     return (
-      <Icon
-        style={{ ...styles.containerIcon, backgroundColor: bgColor }}
-        name={icon}
-        size={30}
-        color={textColor}
-      >
+      <Icon style={{ ...styles.containerIcon, backgroundColor: bgColor }} name={icon} size={30} color={textColor}>
         {' '}
         {title}
       </Icon>
@@ -103,9 +92,7 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (
               Episode {item.episode_id}: {item.title}
             </Text>
             <Text style={{ ...styles.textBoldMd, color: primary }}>{item.release_date}</Text>
-            {hiddenInfo && (
-              <Text style={{ ...styles.textSm, color: textColor }}>{item.opening_crawl}</Text>
-            )}
+            {hiddenInfo && <Text style={{ ...styles.textSm, color: textColor }}>{item.opening_crawl}</Text>}
           </View>
         ) : (
           <View style={{ backgroundColor: bgColor }}>
@@ -115,15 +102,9 @@ export const PlanetInfoScreen: FC<NavigationStackScreenProps> = (
             {hiddenInfo && (
               <View>
                 <Text style={{ ...styles.textSm, color: textColor }}>basic info:</Text>
-                <Text style={{ ...styles.textSm, color: textColor }}>
-                  eye_color: {item.eye_color}
-                </Text>
-                <Text style={{ ...styles.textSm, color: textColor }}>
-                  hair_color: {item.hair_color}
-                </Text>
-                <Text style={{ ...styles.textSm, color: textColor }}>
-                  skin_color: {item.skin_color}
-                </Text>
+                <Text style={{ ...styles.textSm, color: textColor }}>eye_color: {item.eye_color}</Text>
+                <Text style={{ ...styles.textSm, color: textColor }}>hair_color: {item.hair_color}</Text>
+                <Text style={{ ...styles.textSm, color: textColor }}>skin_color: {item.skin_color}</Text>
                 <Text style={{ ...styles.textSm, color: textColor }}>mass: {item.mass}</Text>
               </View>
             )}

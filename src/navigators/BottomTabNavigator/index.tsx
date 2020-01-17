@@ -12,11 +12,7 @@ import FilmsScreenNavigator from '@root/navigators/FilmsScreenNavigator';
 const TabBarComponent = (props: any) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [bgColor, activeTintColor, inactiveTintColor] = [
-    theme.default,
-    theme.PRIMARY,
-    theme.SECONDARY,
-  ];
+  const [bgColor, activeTintColor, inactiveTintColor] = [theme.default, theme.PRIMARY, theme.SECONDARY];
   const newProps = {
     ...props,
     activeTintColor: activeTintColor,

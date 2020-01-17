@@ -1,12 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  ScrollView,
-  View,
-  Image,
-  Text,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from 'react-native';
+import { ScrollView, View, Image, Text, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { useState } from 'react';
 import { styles } from '@root/components/StarWars/styles';
 import { StarWarsType } from '@root/components/StarWars/types';
@@ -52,10 +45,7 @@ export const StarWars = (props: StarWarsType) => {
         console.log('View layout nativeEvent.layout', nativeEvent.layout);
       }}
     >
-      <Image
-        style={{ position: 'absolute', width: '100%', height: '30%' }}
-        source={require('./transform.png')}
-      />
+      <Image style={{ position: 'absolute', width: '100%', height: '30%' }} source={require('./transform.png')} />
       <ScrollView
         style={styles.container}
         scrollEventThrottle={16}
@@ -65,9 +55,7 @@ export const StarWars = (props: StarWarsType) => {
         onScroll={(event) => onScrollFunc(event)}
         ref={scrollView}
       >
-        <Text style={[styles.textStyle, { fontSize: 32, paddingBottom: 10 }]}>
-          Episode {episode}
-        </Text>
+        <Text style={[styles.textStyle, { fontSize: 32, paddingBottom: 10 }]}>Episode {episode}</Text>
         <Text style={[styles.textStyle, { fontSize: 32, paddingBottom: 40 }]}>{title}</Text>
         <Text style={[styles.textStyle]}>{content}</Text>
       </ScrollView>

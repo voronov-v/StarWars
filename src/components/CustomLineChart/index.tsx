@@ -8,16 +8,10 @@ import { styles } from './styles';
 export const CustomLineChart: FC<CustomLineChartProps> = (
   props: CustomLineChartProps,
 ): ReactElement<CustomLineChartProps> => {
-  const { chartData } = props;
-  console.log('dataFromProps', chartData);
+  const { chartData = [] } = props;
+  // console.log('dataFromProps', chartData);
   const xDataFormatType =
-    chartData.length < 10
-      ? 'ddd, DD'
-      : chartData.length < 100
-      ? 'DD MMM'
-      : chartData.length < 200
-      ? 'MMM'
-      : 'MMMYYYY';
+    chartData.length < 10 ? 'ddd, DD' : chartData.length < 100 ? 'DD MMM' : chartData.length < 200 ? 'MMM' : 'MMMYYYY';
 
   const data: chartViewDataType = chartData.reduce(
     (prev: chartViewDataType, curr) => ({
@@ -31,7 +25,7 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
     }),
     { yData: [], xData: [] },
   );
-  console.log('data', data);
+  // console.log('data', data);
 
   const contentInset = { top: 10, bottom: 10 };
   // const svgStyle = {};

@@ -38,15 +38,4 @@ export const styles = StyleSheet.create({
   pickerItemStyle: {
     height: 50,
   },
-  tableWrapper: {
-    // padding: 10,
-    width: '95%',
-    marginBottom: 20,
-  },
-  tableHead: {
-    height: 40,
-    borderWidth: 1,
-  },
-  tableRow: {},
-  tableTextStyle: {},
 });

@@ -12,11 +12,7 @@ export const initStore = async () => {
   const customStore = await loadState();
   console.log('App customStore', customStore);
   const sagaMiddleware = createSagaMiddleware();
-  const store: Store = createStore(
-    rootReducer,
-    customStore,
-    composeWithDevTools(applyMiddleware(sagaMiddleware)),
-  );
+  const store: Store = createStore(rootReducer, customStore, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
   store.subscribe(() => {
     saveState(store.getState());

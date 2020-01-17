@@ -39,9 +39,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (
 
   useEffect(() => setDataToRender(planetsList), [planetsList]);
 
-  const renderItem: RenderItem = ({
-    item,
-  }: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
+  const renderItem: RenderItem = ({ item }: ListRenderItemInfo<PlanetType>): ReturnType<RenderItem> => {
     const onPress = () => {
       navigation.navigate('PlanetInfo', { planetData: item });
     };
@@ -69,9 +67,7 @@ export const PlanetsScreen: FC<NavigationStackScreenProps> = (
 
   const filterList = (text: string) => {
     if (text) {
-      const tmp = planetsList.filter(
-        (e) => e.name.toLowerCase().indexOf(text.toLowerCase()) !== -1,
-      );
+      const tmp = planetsList.filter((e) => e.name.toLowerCase().indexOf(text.toLowerCase()) !== -1);
       setDataToRender(tmp);
     } else setDataToRender(planetsList);
   };

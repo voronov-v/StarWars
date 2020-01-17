@@ -11,9 +11,7 @@ export const Spinner = () => {
   const [bgColor, primary] = [theme.BACKGROUND, theme.PRIMARY];
 
   return (
-    <View
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: bgColor }}
-    >
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: bgColor }}>
       <ActivityIndicator color={primary} size={'large'} />
     </View>
   );

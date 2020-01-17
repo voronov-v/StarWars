@@ -12,9 +12,7 @@ export const ErrorView: FC<ErrorViewType> = ({ errMsg, dispatch, reloadMsg }) =>
   const [textColor, bgColor, primary] = [theme.ERROR, theme.BACKGROUND, theme.PRIMARY];
 
   return (
-    <View
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: bgColor }}
-    >
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: bgColor }}>
       <Text style={{ color: textColor, fontSize: 18, fontWeight: 'bold' }}>Error: {errMsg}</Text>
       <Button color={primary} title={reloadMsg} onPress={dispatch} />
     </View>

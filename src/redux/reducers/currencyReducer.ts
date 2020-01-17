@@ -48,9 +48,7 @@ export const CurrencyReducer = (state = INITIAL_STATE, action: IActionType) => {
       return { ...state, loading: true, errMsg: '' };
     case LOAD_CURRENCY_RATES_SUCCESS:
       const tmp: CurrencyRateType[] = action.payload
-        .filter(
-          (e: CurrencyRateType) => currenciesList.join(',').indexOf(e.Cur_Abbreviation) !== -1,
-        )
+        .filter((e: CurrencyRateType) => currenciesList.join(',').indexOf(e.Cur_Abbreviation) !== -1)
         .map((e: CurrencyRateType) => ({ ...e, Cur_Value: '' }));
       tmp.unshift(BYNRatesObj);
       return { ...state, loading: false, currencyRates: tmp };

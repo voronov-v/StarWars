@@ -7,41 +7,31 @@ import { DARK_THEME, PRIMARY_THEME } from '@root/consts/themes';
 import { styles } from './styles';
 import DateTimePicker from '@root/components/CustomDateTimePicker';
 import moment, { DurationInputArg1, DurationInputArg2 } from 'moment';
-//@ts-ignore
-import { Row, Rows, Table, TableWrapper } from 'react-native-table-component';
 import { LOAD_CURRENCY_RATES_ON_DATE } from '@root/redux/reducers/currencyReducer';
 import { Spinner } from '@root/components/Spinner/Spinner';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { chartTimeIntervalType } from './types';
 import axios from 'axios';
 import { CustomLineChart } from '@root/components/CustomLineChart';
+import { ChartTimeIntervalsBar } from '@root/components/ChartTimeIntervalsBar';
+import { CurrencyRatesTable } from '@root/components/CurrencyRatesTable';
 
 export const ConverterScreen: FC = (): ReactElement => {
   const dispatch = useDispatch();
 
+  const { currencyRates = [], loading } = useSelector(getRates);
+  const isDarkMode = useSelector(getIsDarkMode);
+
+  const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
+  const [textColor, bgColor, primary, errColor] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ERROR];
+
+  const [err, setErr] = useState({ isError: false, errMsg: '' });
   const [datePicker, setDatePicker] = useState(moment(new Date()).format('DD.MM.YYYY'));
   const [chartInterval, setChartInterval] = useState('w');
   const [chartData, setChartData] = useState([]);
-
-  const chartTimeIntervals: chartTimeIntervalType[] = [
-    { name: '1 Week', shortName: 'w', shiftType: 'days', shiftAmount: 7 },
-    { name: '1 Month', shortName: 'm', shiftType: 'months', shiftAmount: 1 },
-    { name: '3 Months', shortName: '3m', shiftType: 'months', shiftAmount: 3 },
-    { name: '6 Months', shortName: '6m', shiftType: 'months', shiftAmount: 6 },
-    { name: '1 Year', shortName: 'y', shiftType: 'years', shiftAmount: 1 },
-  ];
-
   const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(false);
   const [converterToggle, setConverterToggle] = useState(true);
-
-  const currency = useSelector(getRates);
-  const { currencyRates, loading } = currency;
-
-  const rowsData = currencyRates
-    ? currencyRates.map((e) => [e.Cur_Name, e.Cur_OfficialRate, e.Cur_Abbreviation, e.Cur_Scale])
-    : [];
-  const [ratesToRender, setRatesToRender] = useState(currencyRates || []);
+  const [ratesToRender, setRatesToRender] = useState(currencyRates);
 
   useEffect(() => {
     const date = moment(datePicker, 'DD.MM.YYYY').format('YYYY-MM-DD');
@@ -52,16 +42,6 @@ export const ConverterScreen: FC = (): ReactElement => {
     setRatesToRender(currencyRates || []);
   }, [currencyRates]);
 
-  const isDarkMode: boolean = useSelector(getIsDarkMode);
-  const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [textColor, bgColor, primary, errColor] = [
-    theme.ON_BACKGROUND,
-    theme.BACKGROUND,
-    theme.PRIMARY,
-    theme.ERROR,
-  ];
-  const [err, setErr] = useState({ isError: false, errMsg: '' });
-
   const onChangeFieldText = (code: string, value: string) => {
     setErr({ isError: true, errMsg: '' });
     if (!/^\d*\.?\d*$/.test(value)) {
@@ -70,8 +50,7 @@ export const ConverterScreen: FC = (): ReactElement => {
     }
 
     const field = ratesToRender.find((e) => e.Cur_Abbreviation === code)!;
-    const bynVal =
-      value !== '' ? (Number.parseFloat(value) * field.Cur_OfficialRate) / field.Cur_Scale : 0;
+    const bynVal = value !== '' ? (Number.parseFloat(value) * field.Cur_OfficialRate) / field.Cur_Scale : 0;
     console.log(`code: ${code}: ${value} BYN: ${bynVal}`);
 
     const tmp = [...ratesToRender].map((e) => {
@@ -80,9 +59,7 @@ export const ConverterScreen: FC = (): ReactElement => {
       } else if (e.Cur_Abbreviation === code) {
         e.Cur_Value = value;
       } else {
-        e.Cur_Value = (
-          Math.round((bynVal / e.Cur_OfficialRate) * e.Cur_Scale * 100) / 100
-        ).toString();
+        e.Cur_Value = (Math.round((bynVal / e.Cur_OfficialRate) * e.Cur_Scale * 100) / 100).toString();
       }
       return e;
     });
@@ -92,14 +69,6 @@ export const ConverterScreen: FC = (): ReactElement => {
 
   const onChangeFieldCurrency = (nextVal: string, prevVal: string) => {
     console.log(`nextVal: ${nextVal} prevVal: ${prevVal}`);
-    //   if (nextVal !== prevVal) {
-    //     console.log(`${prevVal} => ${nextVal}`);
-    //     const currField = currArr.find((e) => e.curr_code === prevVal);
-    //     if (!currField) {
-    //       console.log('currField', currField);
-    //       onChangeFieldText(nextVal, currField!.value);
-    //     } else Alert.alert('Error', 'Your currency already exists in the list');
-    //   }
   };
 
   const handleDatePicked = (date: Date) => {
@@ -113,19 +82,21 @@ export const ConverterScreen: FC = (): ReactElement => {
     shiftType: DurationInputArg2,
     shiftAmount: DurationInputArg1,
   ) => {
-    const dateFrom = moment(datePicker, 'DD.MM.YYYY')
-      .add(-shiftAmount, shiftType)
-      .format('YYYY.MM.DD');
-    const dateTo = moment(datePicker, 'DD.MM.YYYY').format('YYYY.MM.DD');
-    console.log(`dateFrom ${dateFrom.toString()} dateTo: ${dateTo.toString()}`);
+    if (chartInterval !== shortName || chartData.length === 0) {
+      const dateFrom = moment(datePicker, 'DD.MM.YYYY')
+        .add(-shiftAmount, shiftType)
+        .format('YYYY.MM.DD');
+      const dateTo = moment(datePicker, 'DD.MM.YYYY').format('YYYY.MM.DD');
+      console.log(`dateFrom ${dateFrom.toString()} dateTo: ${dateTo.toString()}`);
 
-    const data = await axios.get('http://www.nbrb.by/API/ExRates/Rates/Dynamics/145', {
-      params: { startDate: dateFrom, endDate: dateTo },
-    });
-    console.log('data', data.data);
+      const data = await axios.get('http://www.nbrb.by/API/ExRates/Rates/Dynamics/145', {
+        params: { startDate: dateFrom, endDate: dateTo },
+      });
+      console.log('data', data.data);
 
-    setChartData(data.data);
-    setChartInterval(shortName);
+      setChartData(data.data);
+      setChartInterval(shortName);
+    }
   };
 
   if (loading) {
@@ -134,72 +105,28 @@ export const ConverterScreen: FC = (): ReactElement => {
 
   return (
     <View style={{ ...styles.container, backgroundColor: bgColor }}>
-      <TouchableOpacity
-        style={styles.changeDateContainer}
-        onPress={() => setIsDateTimePickerVisible(true)}
-      >
+      <TouchableOpacity style={styles.changeDateContainer} onPress={() => setIsDateTimePickerVisible(true)}>
         <Text style={{ color: primary, fontSize: 20 }}>{datePicker} </Text>
         <Icon name={'calendar'} size={25} color={primary} />
       </TouchableOpacity>
 
-      <View style={styles.tableWrapper}>
-        <Table borderStyle={{}}>
-          <Row
-            data={['Currency', 'Rate', 'Code', 'Count']}
-            style={{ ...styles.tableHead, borderColor: textColor }}
-            flexArr={[2, 1, 1, 1]}
-            textStyle={{
-              color: textColor,
-              textAlign: 'center',
-              fontSize: 18,
-              fontWeight: 'bold',
-              fontStyle: 'italic',
-            }}
-          />
-          <TableWrapper style={{ flexDirection: 'row' }}>
-            <Rows
-              data={rowsData}
-              flexArr={[2, 1, 1, 1]}
-              style={{ height: 30 }}
-              textStyle={{ color: textColor, textAlign: 'center', fontSize: 15 }}
-            />
-          </TableWrapper>
-        </Table>
-      </View>
+      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor} />
 
-      <Collapsible collapsed={err.isError}>
-        <Text style={{ color: errColor, fontSize: 22 }}>{err.errMsg}</Text>
-      </Collapsible>
+      <ChartTimeIntervalsBar
+        onChartIntervalChange={onChartIntervalChange}
+        activeChartInterval={chartInterval}
+        activeColor={primary}
+        inactiveColor={textColor}
+      />
+      <CustomLineChart chartData={chartData} />
 
       <TouchableOpacity onPress={() => setConverterToggle(!converterToggle)}>
         <Text style={{ color: textColor, paddingBottom: 15 }}>toggle</Text>
       </TouchableOpacity>
 
-      <View style={{ flexDirection: 'row' }}>
-        {chartTimeIntervals.map((e) => {
-          return (
-            <TouchableOpacity
-              key={e.shortName}
-              style={{ paddingHorizontal: 7 }}
-              onPress={() => onChartIntervalChange(e.shortName, e.shiftType, e.shiftAmount)}
-            >
-              <Text
-                style={[
-                  {
-                    fontSize: 18,
-                    fontWeight: '500',
-                  },
-                  chartInterval === e.shortName ? { color: primary } : { color: textColor },
-                ]}
-              >
-                {e.shortName}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      {converterToggle && chartData.length > 0 && <CustomLineChart chartData={chartData || []} />}
+      <Collapsible collapsed={err.isError}>
+        <Text style={{ color: errColor, fontSize: 22 }}>{err.errMsg}</Text>
+      </Collapsible>
 
       <Collapsible collapsed={converterToggle}>
         {ratesToRender.map((e) => {
@@ -213,9 +140,7 @@ export const ConverterScreen: FC = (): ReactElement => {
                 value={e.Cur_Value}
                 onChangeText={(text) => onChangeFieldText(e.Cur_Abbreviation, text)}
               />
-              {Platform.OS === 'android' && (
-                <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>
-              )}
+              {Platform.OS === 'android' && <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>}
               <Picker
                 selectedValue={e.Cur_Abbreviation}
                 onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.Cur_Abbreviation)}
@@ -223,11 +148,7 @@ export const ConverterScreen: FC = (): ReactElement => {
                 itemStyle={{ ...styles.pickerItemStyle, color: primary }}
               >
                 {ratesToRender.map((e) => (
-                  <Picker.Item
-                    key={e.Cur_ID}
-                    label={e.Cur_Abbreviation}
-                    value={e.Cur_Abbreviation}
-                  />
+                  <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation} />
                 ))}
               </Picker>
             </View>
