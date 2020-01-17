@@ -1,10 +1,10 @@
-import { chartDataType } from "@root/screens/ConverterScreen/types";
+import { chartDataType } from '@root/screens/ConverterScreen/types';
 
 export type chartViewDataType = {
-  yData: number[],
-  xData: string[]
+  yData: number[];
+  xData: string[];
 };
 
 export type CustomLineChartProps = {
-  chartData: chartDataType[]
+  chartData: chartDataType[];
 };

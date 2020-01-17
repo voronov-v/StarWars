@@ -1,42 +1,30 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import { applyMiddleware, createStore, Store } from 'redux';
-import { rootReducer } from './reducers';
+import { rootReducer } from '@root/redux/reducers';
+import { loadState, saveState } from '@root/redux/customPersistor';
 import createSagaMiddleware from 'redux-saga';
-import { sagas } from './sagas/index';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { persistStore, persistReducer } from 'redux-persist';
-import { Persistor } from 'redux-persist/es/types';
-//@ts-ignore
-import I18N from '@root/i18n';
-import { i18n } from 'i18next';
+import { sagas } from '@root/redux/sagas';
+import i18n from '@root/i18n';
 
-const sagaMiddleware = createSagaMiddleware();
+export const store = createStore(rootReducer);
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
+export const initStore = async () => {
+  const customStore = await loadState();
+  console.log('App customStore', customStore);
+  const sagaMiddleware = createSagaMiddleware();
+  const store: Store = createStore(
+    rootReducer,
+    customStore,
+    composeWithDevTools(applyMiddleware(sagaMiddleware)),
+  );
+
+  store.subscribe(() => {
+    saveState(store.getState());
+  });
+
+  sagaMiddleware.run(sagas);
+
+  console.log('new store', store.getState());
+  await i18n.changeLanguage(store.getState().settings.language);
+  return store;
 };
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store: Store = createStore(
-  persistedReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware)),
-);
-
-sagaMiddleware.run(sagas);
-
-const persistorCallBack = async (i18n: i18n, lang: string) => {
-  await i18n.changeLanguage(lang);
-};
-
-const persistor: Persistor = persistStore(store, null
-  , () =>
-  persistorCallBack(I18N, store.getState().settings.language),
-);
-// persistor.purge();
-
-console.log('store', store.getState());
-console.log('persistor', persistor.getState());
-
-export const storeObject: { persistor: Persistor; store: Store } = { store, persistor };

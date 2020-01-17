@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import { View, Text, Picker } from 'react-native';
-//@ts-ignore
 import i18n from '@root/i18n';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';

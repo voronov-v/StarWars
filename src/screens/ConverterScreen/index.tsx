@@ -13,9 +13,9 @@ import { LOAD_CURRENCY_RATES_ON_DATE } from '@root/redux/reducers/currencyReduce
 import { Spinner } from '@root/components/Spinner/Spinner';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { chartTimeIntervalType} from "./types";
+import { chartTimeIntervalType } from './types';
 import axios from 'axios';
-import { CustomLineChart } from "@root/components/CustomLineChart";
+import { CustomLineChart } from '@root/components/CustomLineChart';
 
 export const ConverterScreen: FC = (): ReactElement => {
   const dispatch = useDispatch();
@@ -108,22 +108,28 @@ export const ConverterScreen: FC = (): ReactElement => {
     setIsDateTimePickerVisible(false);
   };
 
-  const onChartIntervalChange = async (shortName: string, shiftType: DurationInputArg2, shiftAmount: DurationInputArg1) => {
-    const dateFrom = moment(datePicker, 'DD.MM.YYYY').add(-shiftAmount, shiftType).format('YYYY.MM.DD');
+  const onChartIntervalChange = async (
+    shortName: string,
+    shiftType: DurationInputArg2,
+    shiftAmount: DurationInputArg1,
+  ) => {
+    const dateFrom = moment(datePicker, 'DD.MM.YYYY')
+      .add(-shiftAmount, shiftType)
+      .format('YYYY.MM.DD');
     const dateTo = moment(datePicker, 'DD.MM.YYYY').format('YYYY.MM.DD');
     console.log(`dateFrom ${dateFrom.toString()} dateTo: ${dateTo.toString()}`);
 
     const data = await axios.get('http://www.nbrb.by/API/ExRates/Rates/Dynamics/145', {
-      params: { startDate: dateFrom, endDate: dateTo }
+      params: { startDate: dateFrom, endDate: dateTo },
     });
     console.log('data', data.data);
 
     setChartData(data.data);
-    setChartInterval(shortName)
+    setChartInterval(shortName);
   };
 
   if (loading) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   return (
@@ -133,7 +139,7 @@ export const ConverterScreen: FC = (): ReactElement => {
         onPress={() => setIsDateTimePickerVisible(true)}
       >
         <Text style={{ color: primary, fontSize: 20 }}>{datePicker} </Text>
-        <Icon name={'calendar'} size={25} color={primary}/>
+        <Icon name={'calendar'} size={25} color={primary} />
       </TouchableOpacity>
 
       <View style={styles.tableWrapper}>
@@ -142,7 +148,13 @@ export const ConverterScreen: FC = (): ReactElement => {
             data={['Currency', 'Rate', 'Code', 'Count']}
             style={{ ...styles.tableHead, borderColor: textColor }}
             flexArr={[2, 1, 1, 1]}
-            textStyle={{ color: textColor, textAlign: 'center', fontSize: 18, fontWeight: 'bold', fontStyle: 'italic' }}
+            textStyle={{
+              color: textColor,
+              textAlign: 'center',
+              fontSize: 18,
+              fontWeight: 'bold',
+              fontStyle: 'italic',
+            }}
           />
           <TableWrapper style={{ flexDirection: 'row' }}>
             <Rows
@@ -164,21 +176,30 @@ export const ConverterScreen: FC = (): ReactElement => {
       </TouchableOpacity>
 
       <View style={{ flexDirection: 'row' }}>
-        {chartTimeIntervals.map(e => {
+        {chartTimeIntervals.map((e) => {
           return (
-            <TouchableOpacity key={e.shortName}
-                              style={{ paddingHorizontal: 7 }}
-                              onPress={() => onChartIntervalChange(e.shortName, e.shiftType, e.shiftAmount)}>
-              <Text style={[{
-                fontSize: 18,
-                fontWeight: '500'
-              }, chartInterval === e.shortName ? { color: primary } : { color: textColor }]}>{e.shortName}</Text>
+            <TouchableOpacity
+              key={e.shortName}
+              style={{ paddingHorizontal: 7 }}
+              onPress={() => onChartIntervalChange(e.shortName, e.shiftType, e.shiftAmount)}
+            >
+              <Text
+                style={[
+                  {
+                    fontSize: 18,
+                    fontWeight: '500',
+                  },
+                  chartInterval === e.shortName ? { color: primary } : { color: textColor },
+                ]}
+              >
+                {e.shortName}
+              </Text>
             </TouchableOpacity>
-          )
+          );
         })}
       </View>
 
-      {converterToggle && chartData.length > 0 && <CustomLineChart chartData={chartData || []}/>}
+      {converterToggle && chartData.length > 0 && <CustomLineChart chartData={chartData || []} />}
 
       <Collapsible collapsed={converterToggle}>
         {ratesToRender.map((e) => {
@@ -223,5 +244,3 @@ export const ConverterScreen: FC = (): ReactElement => {
     </View>
   );
 };
-
-

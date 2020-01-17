@@ -1,24 +1,36 @@
-import React, { FC, ReactElement } from "react";
-import { chartViewDataType, CustomLineChartProps } from "./types";
-import moment from "moment";
-import { View } from "react-native";
-import { Grid, LineChart, XAxis, YAxis } from "react-native-svg-charts";
-import {styles} from './styles'
+import React, { FC, ReactElement } from 'react';
+import { chartViewDataType, CustomLineChartProps } from './types';
+import moment from 'moment';
+import { View } from 'react-native';
+import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
+import { styles } from './styles';
 
-export const CustomLineChart: FC<CustomLineChartProps> = (props: CustomLineChartProps): ReactElement<CustomLineChartProps> => {
+export const CustomLineChart: FC<CustomLineChartProps> = (
+  props: CustomLineChartProps,
+): ReactElement<CustomLineChartProps> => {
   const { chartData } = props;
   console.log('dataFromProps', chartData);
   const xDataFormatType =
-    chartData.length < 10 ? 'ddd, DD'
-      : chartData.length < 100 ? 'DD MMM'
-      : chartData.length < 200 ? 'MMM'
-        : 'MMMYYYY';
+    chartData.length < 10
+      ? 'ddd, DD'
+      : chartData.length < 100
+      ? 'DD MMM'
+      : chartData.length < 200
+      ? 'MMM'
+      : 'MMMYYYY';
 
-  const data: chartViewDataType = chartData.reduce((prev: chartViewDataType, curr) => ({
+  const data: chartViewDataType = chartData.reduce(
+    (prev: chartViewDataType, curr) => ({
       yData: [...prev.yData, curr.Cur_OfficialRate],
-      xData: [...prev.xData, moment(curr.Date).format(xDataFormatType).toString()]
-    })
-    , { yData: [], xData: [] });
+      xData: [
+        ...prev.xData,
+        moment(curr.Date)
+          .format(xDataFormatType)
+          .toString(),
+      ],
+    }),
+    { yData: [], xData: [] },
+  );
   console.log('data', data);
 
   const contentInset = { top: 10, bottom: 10 };
@@ -40,7 +52,7 @@ export const CustomLineChart: FC<CustomLineChartProps> = (props: CustomLineChart
           svg={{ stroke: 'rgb(134, 65, 244)' }}
           style={{ flex: 1, marginHorizontal: 10 }}
         >
-          <Grid/>
+          <Grid />
         </LineChart>
         <XAxis
           data={data.xData}
