@@ -52,7 +52,6 @@ export const DrawerNavigator = createDrawerNavigator(
     },
     Converter: {
       screen: ConverterScreen,
-      // screen: ConverterScreen,
       navigationOptions: {
         title: 'Converter',
         drawerIcon: (props) => <CustomIcon {...props} name={'all-inclusive'} size={25} />,
@@ -69,7 +68,7 @@ export const DrawerNavigator = createDrawerNavigator(
   {
     contentComponent: (props) => <CustomDrawerContentComponent {...props} />,
     drawerPosition: 'left',
-    initialRouteName: 'StarWars',
+    initialRouteName: 'Converter',
     contentOptions: {
       labelStyle: { fontSize: 16, marginLeft: 0 },
     },
