@@ -13,12 +13,3 @@ export type chartDataType = {
   Date: Date
 };
 
-export type chartViewDataType = {
-  yData: number[],
-  xData: string[]
-};
-
-export type CustomLineChartProps = {
-  chartData: chartDataType[]
-};
-

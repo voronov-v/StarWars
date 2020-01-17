@@ -14,7 +14,7 @@ export const App: React.FC = (): React.ReactElement => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor} onBeforeLift={onBeforeLift}>
         <ThemeWrapper>
-          <RootNavigator screenProps={{ language: store.getState().settings.language }} />
+          <RootNavigator />
         </ThemeWrapper>
       </PersistGate>
     </Provider>

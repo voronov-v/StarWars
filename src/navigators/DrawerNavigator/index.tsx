@@ -78,7 +78,7 @@ export const DrawerNavigator = createDrawerNavigator(
   {
     contentComponent: (props) => <CustomDrawerContentComponent {...props} />,
     drawerPosition: 'left',
-    initialRouteName: 'Converter',
+    initialRouteName: 'StarWars',
     contentOptions: {
       labelStyle: { fontSize: 16, marginLeft: 0 },
     },
