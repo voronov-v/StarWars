@@ -1,5 +1,5 @@
 import React, { FC, MutableRefObject, ReactElement, useEffect, useRef, useState } from 'react';
-import { Dimensions, Picker, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, Dimensions, Picker, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsDarkMode, getRates } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
@@ -27,7 +27,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const isDarkMode = useSelector(getIsDarkMode);
 
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [textColor, bgColor, primary, errColor] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ERROR];
+  const [textColor, bgColor, primary, errColor, primaryVarBg] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ERROR, theme.PRIMARY_VAR_BG];
 
   const _panel: MutableRefObject<null> = useRef(null);
 
@@ -37,7 +37,9 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const [chartInterval, setChartInterval] = useState('w');
   const [chartData, setChartData] = useState([]);
   const [ratesToRender, setRatesToRender] = useState(currencyRates);
-  const [isOpenTable] = useState(false);
+  const [isGraphFaded, setIsGraphFaded] = useState(1);
+  const [converterFade, setConverterFade] = useState(new Animated.Value(isGraphFaded));
+  const [graphFade, setGraphFade] = useState(new Animated.Value(+!isGraphFaded));
 
   useEffect(() => {
     const date = moment(datePickerValue).format('YYYY-MM-DD');
@@ -48,7 +50,8 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     setRatesToRender(currencyRates);
   }, [currencyRates]);
 
-  useEffect(() => {}, [chartInterval]);
+  useEffect(() => {
+  }, [chartInterval]);
 
   const onChangeFieldText = (code: string, value: string) => {
     setErr({ isError: true, errMsg: '' });
@@ -113,8 +116,20 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     }
   };
 
+  const toggleGraph = () => {
+    if (isGraphFaded === 0) {
+      console.log('animated');
+      Animated.timing(converterFade, { toValue: 1, duration: 3000 }).start();
+      setGraphFade(new Animated.Value(0));
+    } else {
+      Animated.timing(graphFade, { toValue: 1, duration: 3000 }).start();
+      setConverterFade(new Animated.Value(0));
+    }
+    setIsGraphFaded(+!isGraphFaded);
+  };
+
   if (loading) {
-    return <Spinner />;
+    return <Spinner/>;
   }
 
   return (
@@ -123,7 +138,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={{ position: 'absolute', left: 10, top: 10 }}
       >
-        <Icon name={'menu-fold'} size={30} color={primary} />
+        <Icon name={'menu-fold'} size={30} color={primary}/>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -135,70 +150,77 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         }}
       >
         <Text style={{ color: primary, fontSize: 25 }}>{datePickerValue.toDateString()} </Text>
-        <Icon name={'calendar'} size={25} color={primary} />
+        <Icon name={'calendar'} size={25} color={primary}/>
       </TouchableOpacity>
 
-      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor} />
+      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
 
-      {isOpenTable && (
-        <>
+      <Collapsible collapsed={err.isError}>
+        <Text style={{ color: errColor, fontSize: 22 }}>{err.errMsg}</Text>
+      </Collapsible>
+
+      <TouchableOpacity style={{alignItems: 'flex-start', width: '100%', paddingLeft: 10}} onPress={() => toggleGraph()}>
+        <Icon name={isGraphFaded ? 'linechart' : 'bank'}
+              size={25}
+              color={primaryVarBg}>{isGraphFaded === 1 ? ' Graph' : ' Converter'}</Icon>
+      </TouchableOpacity>
+
+      {isGraphFaded === 1 ? (
+        <Animated.View style={{ opacity: converterFade }}>
+          {ratesToRender.map((e) => {
+            return (
+              <View key={e.Cur_ID} style={styles.currencyFieldContainer}>
+                <TextInput
+                  style={{
+                    ...styles.converterInput,
+                    borderBottomColor: textColor,
+                    color: textColor,
+                  }}
+                  placeholder={'0'}
+                  placeholderTextColor={textColor}
+                  keyboardType={'decimal-pad'}
+                  value={e.Cur_Value}
+                  onChangeText={(text) => onChangeFieldText(e.Cur_Abbreviation, text)}
+                />
+                {Platform.OS === 'android' && <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>}
+                <Picker
+                  selectedValue={e.Cur_Abbreviation}
+                  onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.Cur_Abbreviation)}
+                  style={styles.pickerStyle}
+                  itemStyle={{ ...styles.pickerItemStyle, color: primary }}
+                >
+                  {ratesToRender.map((e) => (
+                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation}/>
+                  ))}
+                </Picker>
+              </View>
+            );
+          })}
+        </Animated.View>
+      ) : (
+        <Animated.View style={{ opacity: graphFade }}>
           <ChartTimeIntervalsBar
             onChartIntervalChange={onChartIntervalChange}
             activeChartInterval={chartInterval}
             activeColor={primary}
             inactiveColor={textColor}
           />
-          <CustomLineChart chartData={chartData} />
-        </>
+          <CustomLineChart chartData={chartData}/>
+        </Animated.View>
       )}
-
-      <Collapsible collapsed={err.isError}>
-        <Text style={{ color: errColor, fontSize: 22 }}>{err.errMsg}</Text>
-      </Collapsible>
-
-      {ratesToRender.map((e) => {
-        return (
-          <View key={e.Cur_ID} style={styles.currencyFieldContainer}>
-            <TextInput
-              style={{
-                ...styles.converterInput,
-                borderBottomColor: textColor,
-                color: textColor,
-              }}
-              placeholder={'0'}
-              placeholderTextColor={textColor}
-              keyboardType={'decimal-pad'}
-              value={e.Cur_Value}
-              onChangeText={(text) => onChangeFieldText(e.Cur_Abbreviation, text)}
-            />
-            {Platform.OS === 'android' && <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>}
-            <Picker
-              selectedValue={e.Cur_Abbreviation}
-              onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.Cur_Abbreviation)}
-              style={styles.pickerStyle}
-              itemStyle={{ ...styles.pickerItemStyle, color: primary }}
-            >
-              {ratesToRender.map((e) => (
-                <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation} />
-              ))}
-            </Picker>
-          </View>
-        );
-      })}
 
       <SlidingUpPanel
         ref={_panel}
         draggableRange={{ top: Dimensions.get('screen').height / 3.3, bottom: 0 }}
-        // animatedValue={_draggedValue}
         onBottomReached={() => setIsDatePickerVisible(false)}
-        backdropOpacity={0}
+        backdropOpacity={0.7}
       >
         {(dragHandler: any) => (
           <>
             {isDatePickerVisible && (
               <View style={styles.sliderWrapper}>
                 <View style={styles.sliderHeader} {...dragHandler}>
-                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }} />
+                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }}/>
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                   <DateTimePicker

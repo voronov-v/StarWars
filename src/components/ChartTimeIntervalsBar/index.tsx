@@ -15,7 +15,7 @@ export const ChartTimeIntervalsBar: FC<TimeIntervalBarProps> = (props: TimeInter
   ];
 
   return (
-    <View style={{ flexDirection: 'row', paddingBottom: 20 }}>
+    <View style={{ flexDirection: 'row', paddingBottom: 20, justifyContent: 'center' }}>
       {chartTimeIntervals.map((e) => {
         return (
           <TouchableOpacity

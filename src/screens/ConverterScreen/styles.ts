@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   },
   sliderWrapper: {
     height: 230,
-    paddingHorizontal: 15,
+    paddingHorizontal: 25,
   },
   sliderHeader: {
     alignItems: 'center',

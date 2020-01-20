@@ -1,5 +1,5 @@
 import { createDrawerNavigator, DrawerActions, DrawerIconProps, DrawerItems } from 'react-navigation-drawer';
-import { ConverterScreen } from '@root/screens/ConverterScreen';
+// import { ConverterScreen } from '@root/screens/ConverterScreen';
 import { SettingsScreen } from '@root/screens/SettingsScreen';
 import { BottomTabNavigator } from '../BottomTabNavigator';
 import { createAppContainer } from 'react-navigation';
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { getIsDarkMode } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
 import { DARK_THEME, PRIMARY_THEME } from '@root/consts/themes';
+import { ConverterBottomNavigator } from '@root/navigators/ConverterBottomNavigator';
 
 const CustomDrawerContentComponent = (props: any) => {
   const { navigation } = props;
@@ -51,7 +52,7 @@ export const DrawerNavigator = createDrawerNavigator(
       },
     },
     Converter: {
-      screen: ConverterScreen,
+      screen: ConverterBottomNavigator,
       navigationOptions: {
         title: 'Converter',
         drawerIcon: (props) => <CustomIcon {...props} name={'all-inclusive'} size={25} />,
