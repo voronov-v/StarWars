@@ -20,12 +20,13 @@ export type CurrencyRateType = {
 };
 
 export type currencyReducerType = {
-  currencyRates?: CurrencyRateType[];
+  currencyRates: CurrencyRateType[];
   loading: boolean;
   errMsg: string;
 };
 
 const INITIAL_STATE: currencyReducerType = {
+  currencyRates: [],
   loading: false,
   errMsg: '',
 };

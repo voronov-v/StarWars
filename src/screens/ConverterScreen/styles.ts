@@ -12,9 +12,8 @@ export const styles = StyleSheet.create({
   },
   changeDateContainer: {
     alignItems: 'center',
-    paddingTop: 5,
-    paddingVertical: 20,
     flexDirection: 'row',
+    paddingVertical: 10,
   },
   currencyFieldContainer: {
     flexDirection: 'row',
@@ -37,5 +36,19 @@ export const styles = StyleSheet.create({
   },
   pickerItemStyle: {
     height: 50,
+  },
+  sliderWrapper: {
+    height: 230,
+    paddingHorizontal: 15,
+  },
+  sliderHeader: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+  },
+  sliderHeaderItem: {
+    width: 80,
+    height: 5,
+    borderRadius: 50,
   },
 });
