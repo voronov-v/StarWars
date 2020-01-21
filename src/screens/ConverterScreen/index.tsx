@@ -6,11 +6,10 @@ import { themeType } from '@root/redux/reducers/settingsReducer';
 import { DARK_THEME, PRIMARY_THEME } from '@root/consts/themes';
 import { styles } from './styles';
 import moment, { DurationInputArg1, DurationInputArg2 } from 'moment';
-import { LOAD_CURRENCY_RATES_ON_DATE } from '@root/redux/reducers/currencyReducer';
+import { LOAD_CURRENCY_GRAPH_DATA, LOAD_CURRENCY_RATES_ON_DATE } from '@root/redux/reducers/currencyReducer';
 import { Spinner } from '@root/components/Spinner/Spinner';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/AntDesign';
-import axios from 'axios';
 import { CurrencyRatesTable } from '@root/components/CurrencyRatesTable';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ChartTimeIntervalsBar } from '@root/components/ChartTimeIntervalsBar';
@@ -23,11 +22,19 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const { navigation } = props;
   const dispatch = useDispatch();
 
-  const { currencyRates, loading } = useSelector(getRates);
+  const { currencyRates, loading, currencyGraphData, loadingGraph } = useSelector(getRates);
   const isDarkMode = useSelector(getIsDarkMode);
 
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
-  const [textColor, bgColor, primary, errColor, primaryVarBg] = [theme.ON_BACKGROUND, theme.BACKGROUND, theme.PRIMARY, theme.ERROR, theme.PRIMARY_VAR_BG];
+  const [textColor, bgColor, primary, errColor, primaryVarBg, primaryLight] = [
+    theme.ON_BACKGROUND,
+    theme.BACKGROUND,
+    theme.PRIMARY,
+    theme.ERROR,
+    theme.PRIMARY_VAR_BG,
+    theme.PRIMARY_VAR,
+    theme.PRIMARY_LIGHT
+  ];
 
   const _panel: MutableRefObject<null> = useRef(null);
 
@@ -35,7 +42,6 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [chartInterval, setChartInterval] = useState('w');
-  const [chartData, setChartData] = useState([]);
   const [ratesToRender, setRatesToRender] = useState(currencyRates);
   const [isGraphFaded, setIsGraphFaded] = useState(1);
   const [converterFade, setConverterFade] = useState(new Animated.Value(isGraphFaded));
@@ -90,19 +96,23 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     shiftType: DurationInputArg2,
     shiftAmount: DurationInputArg1,
   ) => {
-    if (chartInterval !== shortName || chartData.length === 0) {
+    if (chartInterval !== shortName || currencyGraphData.length === 0) {
       const dateFrom = moment(datePickerValue)
         .add(-shiftAmount, shiftType)
         .format('YYYY.MM.DD');
       const dateTo = moment(datePickerValue).format('YYYY.MM.DD');
-      console.log(`dateFrom ${dateFrom.toString()} dateTo: ${dateTo.toString()}`);
 
-      const data = await axios.get('http://www.nbrb.by/API/ExRates/Rates/Dynamics/145', {
-        params: { startDate: dateFrom, endDate: dateTo },
+      dispatch({
+        type: LOAD_CURRENCY_GRAPH_DATA,
+        payload: { dateFrom: dateFrom.toString(), dateTo: dateTo.toString() },
       });
-      console.log('data', data.data);
 
-      setChartData(data.data);
+      //   const data = await axios.get('http://www.nbrb.by/API/ExRates/Rates/Dynamics/145', {
+      //     params: { startDate: dateFrom, endDate: dateTo },
+      //   });
+      //   console.log('data', data.data);
+      //
+      //   setChartData(data.data);
       setChartInterval(shortName);
     }
   };
@@ -110,15 +120,14 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const setDate = (event: any, date?: Date | undefined) => {
     console.log('event', event);
     console.log('date', date);
-    setIsDatePickerVisible(false);
-    if (event.type === 'set' || date) {
-      setDatePickerValue(date || datePickerValue);
+    if (event.type === 'set') {
+      setIsDatePickerVisible(false);
     }
+    setDatePickerValue(date || datePickerValue);
   };
 
   const toggleGraph = () => {
     if (isGraphFaded === 0) {
-      console.log('animated');
       Animated.timing(converterFade, { toValue: 1, duration: 3000 }).start();
       setGraphFade(new Animated.Value(0));
     } else {
@@ -149,8 +158,8 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
           _panel.current.show();
         }}
       >
-        <Text style={{ color: primary, fontSize: 25 }}>{datePickerValue.toDateString()} </Text>
-        <Icon name={'calendar'} size={25} color={primary}/>
+        <Text style={{ color: primary, fontSize: 30 }}>{datePickerValue.toDateString()} </Text>
+        <Icon name={'calendar'} size={30} color={primary}/>
       </TouchableOpacity>
 
       <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
@@ -159,10 +168,13 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         <Text style={{ color: errColor, fontSize: 22 }}>{err.errMsg}</Text>
       </Collapsible>
 
-      <TouchableOpacity style={{alignItems: 'flex-start', width: '100%', paddingLeft: 10}} onPress={() => toggleGraph()}>
-        <Icon name={isGraphFaded ? 'linechart' : 'bank'}
-              size={25}
-              color={primaryVarBg}>{isGraphFaded === 1 ? ' Graph' : ' Converter'}</Icon>
+      <TouchableOpacity
+        style={{ alignSelf: 'flex-start', marginLeft: 10, marginBottom: 10, backgroundColor:primaryLight, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 50 }}
+        onPress={() => toggleGraph()}
+      >
+        <Icon name={isGraphFaded ? 'linechart' : 'bank'} size={25} color={bgColor} style={{ alignSelf: 'center' }}>
+          {isGraphFaded === 1 ? ' Graph' : ' Converter'}
+        </Icon>
       </TouchableOpacity>
 
       {isGraphFaded === 1 ? (
@@ -203,9 +215,11 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             onChartIntervalChange={onChartIntervalChange}
             activeChartInterval={chartInterval}
             activeColor={primary}
+            btnBgColor={primaryVarBg}
             inactiveColor={textColor}
+
           />
-          <CustomLineChart chartData={chartData}/>
+          <CustomLineChart graphData={currencyGraphData} loadingGraph={loadingGraph}/>
         </Animated.View>
       )}
 
@@ -213,7 +227,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         ref={_panel}
         draggableRange={{ top: Dimensions.get('screen').height / 3.3, bottom: 0 }}
         onBottomReached={() => setIsDatePickerVisible(false)}
-        backdropOpacity={0.7}
+        // showBackdrop={false}
       >
         {(dragHandler: any) => (
           <>
@@ -229,6 +243,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
                     is24Hour={true}
                     display='default'
                     onChange={setDate}
+                    maximumDate={new Date()}
                   />
                 </View>
               </View>

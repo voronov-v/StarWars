@@ -2,6 +2,8 @@ import { IActionType } from '@root/redux/interfaces';
 import { call, put } from 'redux-saga/effects';
 import { API } from '@root/api';
 import {
+  LOAD_CURRENCY_GRAPH_DATA_FAILED,
+  LOAD_CURRENCY_GRAPH_DATA_SUCCESS,
   LOAD_CURRENCY_LIST_FAILED,
   LOAD_CURRENCY_LIST_SUCCESS,
   LOAD_CURRENCY_RATES_FAILED,
@@ -28,5 +30,19 @@ export function* fetchCurrencyRatesOnDate(action: IActionType) {
     yield put({ type: LOAD_CURRENCY_RATES_SUCCESS, payload: data });
   } catch (e) {
     yield put({ type: LOAD_CURRENCY_RATES_FAILED, payload: e.message });
+  }
+}
+
+export function* fetchCurrencyGraphData(action: IActionType) {
+  try {
+    console.log('action:', action.payload);
+    const data = yield call(
+      API.getCurrencyRatesOnPeriod,
+      `http://www.nbrb.by/API/ExRates/Rates/Dynamics/145`,
+      action.payload,
+    );
+    yield put({ type: LOAD_CURRENCY_GRAPH_DATA_SUCCESS, payload: data });
+  } catch (e) {
+    yield put({ type: LOAD_CURRENCY_GRAPH_DATA_FAILED, payload: e.message });
   }
 }

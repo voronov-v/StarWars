@@ -8,6 +8,7 @@ export type themeType = {
   name: string;
   default: string;
   PRIMARY: string;
+  PRIMARY_LIGHT: string;
   PRIMARY_VAR: string;
   PRIMARY_VAR_BG: string;
   SECONDARY: string;
@@ -15,6 +16,8 @@ export type themeType = {
   ERROR: string;
   ON_BACKGROUND: string;
   ON_ERROR: string;
+  BLACK: string;
+  WHITE: string;
 };
 
 export type settingsType = {

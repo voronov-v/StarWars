@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   changeDateContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 25,
   },
   currencyFieldContainer: {
     flexDirection: 'row',

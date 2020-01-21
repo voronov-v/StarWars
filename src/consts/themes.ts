@@ -8,23 +8,11 @@ export enum colors {
   yellow = '#e8be2b',
 }
 
-// export const PRIMARY_THEME:themeType = {
-//   name: 'light',
-//   default: '#fff',
-//   PRIMARY: '#6200EE',
-//   PRIMARY_VARIANT: '#3700B3',
-//   SECONDARY: '#03DAC6',
-//   BACKGROUND: '#999999',
-//   SURFACE: '#FFFFFF',
-//   ERROR: '#B00020',
-//   ON_BACKGROUND: '#000000',
-//   ON_ERROR: '#FFFFFF'
-// };
-
 export const PRIMARY_THEME: themeType = {
   name: 'light',
   default: '#eeeeee',
   PRIMARY: '#0091ea',
+  PRIMARY_LIGHT: '#1976d2', //'#e91e63'
   PRIMARY_VAR: '#FFFFFF',
   PRIMARY_VAR_BG: '#039be5',
   SECONDARY: '#ff8a65',
@@ -32,12 +20,15 @@ export const PRIMARY_THEME: themeType = {
   ERROR: '#B00020',
   ON_BACKGROUND: '#282828',
   ON_ERROR: '#FFFFFF',
+  BLACK: '#000',
+  WHITE: '#FFF',
 };
 
 export const DARK_THEME: themeType = {
   name: 'dark',
   default: '#000',
   PRIMARY: '#fd7014', //'#e91e63'
+  PRIMARY_LIGHT: '#ee6002', //'#e91e63'
   PRIMARY_VAR: '#FFFFFF',
   PRIMARY_VAR_BG: '#e91e63',
   SECONDARY: '#e0f2f1',
@@ -45,6 +36,8 @@ export const DARK_THEME: themeType = {
   ERROR: '#CF6679',
   ON_BACKGROUND: '#FFFFFF',
   ON_ERROR: '#000000',
+  BLACK: '#000',
+  WHITE: '#FFF',
 };
 
 export const CONVERTER_THEME = {};

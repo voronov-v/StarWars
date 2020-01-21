@@ -20,7 +20,7 @@ export const initStore = async () => {
 
   sagaMiddleware.run(sagas);
 
-  console.log('new store', store.getState());
+  // console.log('new store', store.getState());
   await i18n.changeLanguage(store.getState().settings.language);
   return store;
 };

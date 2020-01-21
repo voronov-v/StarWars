@@ -15,12 +15,19 @@ export const ChartTimeIntervalsBar: FC<TimeIntervalBarProps> = (props: TimeInter
   ];
 
   return (
-    <View style={{ flexDirection: 'row', paddingBottom: 20, justifyContent: 'center' }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
       {chartTimeIntervals.map((e) => {
         return (
           <TouchableOpacity
             key={e.shortName}
-            style={{ paddingHorizontal: 7 }}
+            style={{
+              paddingVertical: 5,
+              paddingHorizontal: 10,
+              borderRadius: 50,
+              // backgroundColor: btnBgColor,
+              marginHorizontal: 5,
+              marginTop: 5,
+            }}
             onPress={() => onChartIntervalChange(e.shortName, e.shiftType, e.shiftAmount)}
           >
             <Text

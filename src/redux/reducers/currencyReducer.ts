@@ -1,5 +1,6 @@
 import { IActionType } from '@root/redux/interfaces';
 import { currenciesList } from '@root/consts';
+import { graphDataType } from '@root/screens/ConverterScreen/types';
 
 export const LOAD_CURRENCY_LIST = 'LOAD_CURRENCY_LIST',
   LOAD_CURRENCY_LIST_SUCCESS = 'LOAD_CURRENCY_LIST_SUCCESS',
@@ -7,7 +8,10 @@ export const LOAD_CURRENCY_LIST = 'LOAD_CURRENCY_LIST',
   LOAD_CURRENCY_RATES_ON_DATE = 'LOAD_CURRENCY_RATES_ON_DATE',
   LOAD_CURRENCY_RATES_SUCCESS = 'LOAD_CURRENCY_RATES_SUCCESS',
   LOAD_CURRENCY_RATES_FAILED = 'LOAD_CURRENCY_RATES_FAILED',
-  CHANGE_CURRENCY_VALUE = 'CHANGE_CURRENCY_VALUE';
+  CHANGE_CURRENCY_VALUE = 'CHANGE_CURRENCY_VALUE',
+  LOAD_CURRENCY_GRAPH_DATA = 'LOAD_CURRENCY_GRAPH_DATA',
+  LOAD_CURRENCY_GRAPH_DATA_SUCCESS = 'LOAD_CURRENCY_GRAPH_DATA_SUCCESS',
+  LOAD_CURRENCY_GRAPH_DATA_FAILED = 'LOAD_CURRENCY_GRAPH_DATA_FAILED';
 
 export type CurrencyRateType = {
   Cur_ID: number;
@@ -21,13 +25,17 @@ export type CurrencyRateType = {
 
 export type currencyReducerType = {
   currencyRates: CurrencyRateType[];
+  currencyGraphData: graphDataType[];
   loading: boolean;
+  loadingGraph: boolean;
   errMsg: string;
 };
 
 const INITIAL_STATE: currencyReducerType = {
   currencyRates: [],
+  currencyGraphData: [],
   loading: false,
+  loadingGraph: false,
   errMsg: '',
 };
 
@@ -58,6 +66,12 @@ export const CurrencyReducer = (state = INITIAL_STATE, action: IActionType) => {
     case CHANGE_CURRENCY_VALUE:
       console.log('CHANGE_CURRENCY_VALUE', action);
       return { ...state };
+    case LOAD_CURRENCY_GRAPH_DATA:
+      return { ...state, loadingGraph: true, errMsg: '' };
+    case LOAD_CURRENCY_GRAPH_DATA_SUCCESS:
+      return { ...state, loadingGraph: false, currencyGraphData: action.payload };
+    case LOAD_CURRENCY_GRAPH_DATA_FAILED:
+      return { ...state, loadingGraph: false, errMsg: action.payload };
     default:
       return state;
   }

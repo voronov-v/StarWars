@@ -8,7 +8,7 @@ import { initStore, store } from '@root/redux/store';
 export const App: React.FC = (): React.ReactElement => {
   const [tmpStore, setTmpStore] = useState(store);
   const [isLoad, setIsLoad] = useState(false);
-
+  console.log('App isLoad', isLoad);
   useEffect(() => {
     const initApp = async () => {
       const store = await initStore();

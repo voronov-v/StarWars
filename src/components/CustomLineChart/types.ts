@@ -1,4 +1,4 @@
-import { chartDataType } from '@root/screens/ConverterScreen/types';
+import { graphDataType } from '@root/screens/ConverterScreen/types';
 
 export type chartViewDataType = {
   yData: number[];
@@ -6,5 +6,6 @@ export type chartViewDataType = {
 };
 
 export type CustomLineChartProps = {
-  chartData: chartDataType[];
+  graphData: graphDataType[];
+  loadingGraph: boolean;
 };
