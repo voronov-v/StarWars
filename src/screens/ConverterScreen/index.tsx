@@ -5,14 +5,15 @@ import { getIsDarkMode, getRates } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
 import { DARK_THEME, PRIMARY_THEME } from '@root/consts/themes';
 import { styles } from './styles';
-import moment, { DurationInputArg1, DurationInputArg2 } from 'moment';
+import { onChartIntervalChangeType } from './types';
+import moment from 'moment';
 import { LOAD_CURRENCY_GRAPH_DATA, LOAD_CURRENCY_RATES_ON_DATE } from '@root/redux/reducers/currencyReducer';
 import { Spinner } from '@root/components/Spinner/Spinner';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { CurrencyRatesTable } from '@root/components/CurrencyRatesTable';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { ChartTimeIntervalsBar } from '@root/components/ChartTimeIntervalsBar';
+import { chartTimeIntervals, ChartTimeIntervalsBar } from '@root/components/ChartTimeIntervalsBar';
 import { CustomLineChart } from '@root/components/CustomLineChart';
 import { DrawerActions } from 'react-navigation-drawer';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
@@ -22,7 +23,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const { navigation } = props;
   const dispatch = useDispatch();
 
-  const { currencyRates, loading, currencyGraphData, loadingGraph } = useSelector(getRates);
+  const { currencyRates, loading, currencyGraphData, loadingGraph, graphCurr, graphInterval } = useSelector(getRates);
   const isDarkMode = useSelector(getIsDarkMode);
 
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
@@ -34,39 +35,39 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     theme.PRIMARY_VAR_BG,
     theme.PRIMARY_LIGHT,
   ];
-
   const _panel: MutableRefObject<null> = useRef(null);
 
   const [err, setErr] = useState({ isError: false, errMsg: '' });
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
-  const [chartInterval, setChartInterval] = useState('w');
   const [ratesToRender, setRatesToRender] = useState(currencyRates);
   const [isGraphFaded, setIsGraphFaded] = useState(1);
   const [converterFade, setConverterFade] = useState(new Animated.Value(isGraphFaded));
   const [graphFade, setGraphFade] = useState(new Animated.Value(+!isGraphFaded));
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const [currentTime, setCurrentTime] = useState(new Date());
-  useEffect(() => {
-    let diff = 60 - new Date().getSeconds();
-    const timer = setTimeout(() => {
-      diff = 60;
-      setCurrentTime(new Date());
-    }, diff * 1000);
-
-    return () => clearTimeout(timer);
-  }, [currentTime]);
+  // const [currentTime, setCurrentTime] = useState(new Date());
+  // useEffect(() => {
+  //   let diff = 60 - new Date().getSeconds();
+  //   const timer = setTimeout(() => {
+  //     diff = 60;
+  //     setCurrentTime(new Date());
+  //   }, diff * 1000);
+  //
+  //   return () => clearTimeout(timer);
+  // }, [currentTime]);
 
   useEffect(() => {
     const date = moment(datePickerValue).format('YYYY-MM-DD');
-    dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date } });
+    dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date, graphCurr } });
   }, [datePickerValue]);
 
   useEffect(() => {
     setRatesToRender(currencyRates);
   }, [currencyRates]);
 
-  useEffect(() => {}, [chartInterval]);
+  // useEffect(() => {
+  // }, [chartInterval]);
 
   const onChangeFieldText = (code: string, value: string) => {
     setErr({ isError: true, errMsg: '' });
@@ -100,22 +101,21 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     console.log(`nextVal: ${nextVal} prevVal: ${prevVal}`);
   };
 
-  const onChartIntervalChange = async (
-    shortName: string,
-    shiftType: DurationInputArg2,
-    shiftAmount: DurationInputArg1,
+  const onChartIntervalChange: onChartIntervalChangeType = async (
+    shortName = graphInterval || 'w',
+    currId = ratesToRender.find((rate) => rate.Cur_Abbreviation === graphCurr)!.Cur_ID,
   ) => {
-    if (chartInterval !== shortName || currencyGraphData.length === 0) {
+    if (graphInterval !== shortName || currencyGraphData.length === 0 || currId !== undefined) {
+      const intervalObj = chartTimeIntervals.find((interval) => interval.shortName === shortName)!;
       const dateFrom = moment(datePickerValue)
-        .add(-shiftAmount, shiftType)
+        .add(-intervalObj.shiftAmount, intervalObj.shiftType)
         .format('YYYY.MM.DD');
       const dateTo = moment(datePickerValue).format('YYYY.MM.DD');
 
       dispatch({
         type: LOAD_CURRENCY_GRAPH_DATA,
-        payload: { dateFrom: dateFrom.toString(), dateTo: dateTo.toString() },
+        payload: { dateFrom: dateFrom.toString(), dateTo: dateTo.toString(), currId, graphInterval: shortName },
       });
-      setChartInterval(shortName);
     }
   };
 
@@ -140,16 +140,16 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   };
 
   if (loading) {
-    return <Spinner />;
+    return <Spinner/>;
   }
 
   return (
-    <View style={{ ...styles.container, backgroundColor: bgColor }}>
+    <View style={{ ...styles.container, backgroundColor: bgColor, ...{ opacity: modalVisible ? 0.3 : 1 } }}>
       <TouchableOpacity
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={{ position: 'absolute', left: 10, top: 10 }}
       >
-        <Icon name={'menu-fold'} size={30} color={primary} />
+        <Icon name={'menu-fold'} size={30} color={primary}/>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -161,14 +161,14 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         }}
       >
         <Text style={{ color: primary, fontSize: 30 }}>{datePickerValue.toDateString()} </Text>
-        <Icon name={'calendar'} size={30} color={primary} />
+        <Icon name={'calendar'} size={30} color={primary}/>
       </TouchableOpacity>
 
       {/*<View>*/}
       {/*  <Text style={{ color: primary }}>currentTime={currentTime.toTimeString()}</Text>*/}
       {/*</View>*/}
 
-      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor} />
+      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
 
       <TouchableOpacity
         style={{ ...styles.toggleGraphBtn, backgroundColor: primaryLight }}
@@ -204,7 +204,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
                   itemStyle={{ ...styles.pickerItemStyle, color: primary }}
                 >
                   {ratesToRender.map((e) => (
-                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation} />
+                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation}/>
                   ))}
                 </Picker>
               </View>
@@ -215,12 +215,20 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         <Animated.View style={{ opacity: graphFade }}>
           <ChartTimeIntervalsBar
             onChartIntervalChange={onChartIntervalChange}
-            activeChartInterval={chartInterval}
+            activeChartInterval={graphInterval}
             activeColor={primary}
             btnBgColor={primaryVarBg}
             inactiveColor={textColor}
           />
-          <CustomLineChart graphData={currencyGraphData} loadingGraph={loadingGraph} />
+          <CustomLineChart
+            graphData={currencyGraphData}
+            loadingGraph={loadingGraph}
+            ratesToRender={ratesToRender}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            graphCurr={graphCurr}
+            onChartIntervalChange={onChartIntervalChange}
+          />
         </Animated.View>
       )}
 
@@ -232,14 +240,13 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         ref={_panel}
         draggableRange={{ top: Dimensions.get('screen').height / 3.3, bottom: 0 }}
         onBottomReached={() => setIsDatePickerVisible(false)}
-        // showBackdrop={false}
       >
         {(dragHandler: any) => (
           <>
             {isDatePickerVisible && (
               <View style={styles.sliderWrapper}>
                 <View style={styles.sliderHeader} {...dragHandler}>
-                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }} />
+                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }}/>
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                   <DateTimePicker

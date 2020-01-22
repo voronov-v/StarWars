@@ -1,4 +1,5 @@
-import { DurationInputArg1, DurationInputArg2 } from 'moment';
+import { DurationInputArg2 } from 'moment';
+import { onChartIntervalChangeType } from '@root/screens/ConverterScreen/types';
 
 export type chartTimeIntervalType = {
   name: string;
@@ -8,7 +9,7 @@ export type chartTimeIntervalType = {
 };
 
 export type TimeIntervalBarProps = {
-  onChartIntervalChange: (shortName: string, shiftType: DurationInputArg2, shiftAmount: DurationInputArg1) => void;
+  onChartIntervalChange: onChartIntervalChangeType;
   activeChartInterval: string;
   activeColor: string;
   inactiveColor: string;

@@ -37,6 +37,7 @@ export const API = {
     return data.data;
   },
   getCurrencyRatesOnPeriod: async (url: string, params: { dateFrom: string; dateTo: string }) => {
+    console.log('params', params);
     const data = await axios.get(url, {
       params: { startDate: params.dateFrom, endDate: params.dateTo },
     });

@@ -1,15 +1,22 @@
 import React, { FC, ReactElement } from 'react';
 import { chartViewDataType, CustomLineChartProps } from './types';
 import moment from 'moment';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Modal, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import { styles } from './styles';
 
 export const CustomLineChart: FC<CustomLineChartProps> = (
   props: CustomLineChartProps,
 ): ReactElement<CustomLineChartProps> => {
-  const { graphData = [], loadingGraph = false } = props;
-  // console.log('dataFromProps', chartData);
+  const {
+    graphData = [],
+    loadingGraph = false,
+    ratesToRender = [],
+    modalVisible,
+    setModalVisible,
+    graphCurr,
+    onChartIntervalChange,
+  } = props;
   const xDataFormatType =
     graphData.length < 10 ? 'ddd, DD' : graphData.length < 100 ? 'DDMMM' : graphData.length < 200 ? 'MMM' : 'MMMYYYY';
 
@@ -26,6 +33,12 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
     { yData: [], xData: [] },
   );
 
+  const closeModal = (currId: number) => {
+    console.log('currId', currId);
+    setModalVisible(false);
+    onChartIntervalChange(undefined, currId);
+  };
+
   return (
     <View style={styles.container}>
       {loadingGraph ? (
@@ -34,9 +47,29 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
         </View>
       ) : (
         <>
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              position: 'absolute',
+              zIndex: 1,
+              left: 20,
+            }}
+          >
+            <TouchableOpacity
+              style={{ paddingHorizontal: 10 }}
+              onPress={() => {
+                console.log('change graph');
+                setModalVisible(true);
+              }}
+            >
+              <Text style={{ fontSize: 18, fontWeight: '600' }}>BYN / {graphCurr}</Text>
+            </TouchableOpacity>
+          </View>
           <YAxis
+            yAccessor={({ item }) => item}
             data={data.yData}
-            contentInset={{ top: 0, bottom: 20 }}
+            contentInset={{ top: 20, bottom: 20 }}
             svg={{ fill: 'black', fontSize: 10 }}
             numberOfTicks={10}
             formatLabel={(value) => `${value}`}
@@ -61,6 +94,33 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
           </View>
         </>
       )}
+
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        animationType={'fade'}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableHighlight
+          style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+          onPress={() => setModalVisible(false)}
+        >
+          <View style={{ width: 300, backgroundColor: 'white', alignItems: 'center' }}>
+            {ratesToRender.map((rate) => {
+              if (rate.Cur_Abbreviation === 'BYN') return null;
+              return (
+                <TouchableOpacity
+                  key={rate.Cur_ID}
+                  onPress={() => closeModal(rate.Cur_ID)}
+                  style={{ padding: 10, width: '100%' }}
+                >
+                  <Text>{rate.Cur_Name}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </TouchableHighlight>
+      </Modal>
     </View>
   );
 };

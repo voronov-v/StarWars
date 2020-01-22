@@ -38,7 +38,7 @@ export function* fetchCurrencyGraphData(action: IActionType) {
     console.log('action:', action.payload);
     const data = yield call(
       API.getCurrencyRatesOnPeriod,
-      `http://www.nbrb.by/API/ExRates/Rates/Dynamics/145`,
+      `http://www.nbrb.by/API/ExRates/Rates/Dynamics/${action.payload.currId}`,
       action.payload,
     );
     yield put({ type: LOAD_CURRENCY_GRAPH_DATA_SUCCESS, payload: data });

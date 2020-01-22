@@ -12,8 +12,8 @@ export const App: React.FC = (): React.ReactElement => {
   useEffect(() => {
     const initApp = async () => {
       const store = await initStore();
-      setTmpStore(store);
-      setIsLoading(false);
+      await setTmpStore(store);
+      await setIsLoading(false);
     };
     initApp();
   }, []);
@@ -21,10 +21,10 @@ export const App: React.FC = (): React.ReactElement => {
   return (
     <Provider store={tmpStore}>
       {loading ? (
-        <Spinner/>
+        <Spinner />
       ) : (
         <ThemeWrapper>
-          <RootNavigator/>
+          <RootNavigator />
         </ThemeWrapper>
       )}
     </Provider>

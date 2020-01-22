@@ -26,6 +26,8 @@ export type CurrencyRateType = {
 export type currencyReducerType = {
   currencyRates: CurrencyRateType[];
   currencyGraphData: graphDataType[];
+  graphCurr: string;
+  graphInterval: string;
   loading: boolean;
   loadingGraph: boolean;
   errMsg: string;
@@ -34,6 +36,8 @@ export type currencyReducerType = {
 const INITIAL_STATE: currencyReducerType = {
   currencyRates: [],
   currencyGraphData: [],
+  graphCurr: 'USD',
+  graphInterval: '',
   loading: false,
   loadingGraph: false,
   errMsg: '',
@@ -67,7 +71,14 @@ export const CurrencyReducer = (state = INITIAL_STATE, action: IActionType) => {
       console.log('CHANGE_CURRENCY_VALUE', action);
       return { ...state };
     case LOAD_CURRENCY_GRAPH_DATA:
-      return { ...state, loadingGraph: true, errMsg: '' };
+      const newGraphCurr = state.currencyRates.find((rate) => rate.Cur_ID === action.payload.currId)!.Cur_Abbreviation;
+      return {
+        ...state,
+        loadingGraph: true,
+        errMsg: '',
+        graphCurr: newGraphCurr,
+        graphInterval: action.payload.graphInterval,
+      };
     case LOAD_CURRENCY_GRAPH_DATA_SUCCESS:
       return { ...state, loadingGraph: false, currencyGraphData: action.payload };
     case LOAD_CURRENCY_GRAPH_DATA_FAILED:
