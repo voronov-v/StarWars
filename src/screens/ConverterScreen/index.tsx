@@ -46,17 +46,6 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const [graphFade, setGraphFade] = useState(new Animated.Value(+!isGraphFaded));
   const [modalVisible, setModalVisible] = useState(false);
 
-  // const [currentTime, setCurrentTime] = useState(new Date());
-  // useEffect(() => {
-  //   let diff = 60 - new Date().getSeconds();
-  //   const timer = setTimeout(() => {
-  //     diff = 60;
-  //     setCurrentTime(new Date());
-  //   }, diff * 1000);
-  //
-  //   return () => clearTimeout(timer);
-  // }, [currentTime]);
-
   useEffect(() => {
     const date = moment(datePickerValue).format('YYYY-MM-DD');
     dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date, graphCurr } });
@@ -65,9 +54,6 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   useEffect(() => {
     setRatesToRender(currencyRates);
   }, [currencyRates]);
-
-  // useEffect(() => {
-  // }, [chartInterval]);
 
   const onChangeFieldText = (code: string, value: string) => {
     setErr({ isError: true, errMsg: '' });
@@ -95,10 +81,6 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     });
     console.log('tmp', tmp);
     setRatesToRender(tmp);
-  };
-
-  const onChangeFieldCurrency = (nextVal: string, prevVal: string) => {
-    console.log(`nextVal: ${nextVal} prevVal: ${prevVal}`);
   };
 
   const onChartIntervalChange: onChartIntervalChangeType = async (
@@ -164,10 +146,6 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         <Icon name={'calendar'} size={30} color={primary}/>
       </TouchableOpacity>
 
-      {/*<View>*/}
-      {/*  <Text style={{ color: primary }}>currentTime={currentTime.toTimeString()}</Text>*/}
-      {/*</View>*/}
-
       <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
 
       <TouchableOpacity
@@ -197,11 +175,9 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
                   onChangeText={(text) => onChangeFieldText(e.Cur_Abbreviation, text)}
                 />
                 {Platform.OS === 'android' && <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>}
-                <Picker
-                  selectedValue={e.Cur_Abbreviation}
-                  onValueChange={(itemValue) => onChangeFieldCurrency(itemValue, e.Cur_Abbreviation)}
-                  style={styles.pickerStyle}
-                  itemStyle={{ ...styles.pickerItemStyle, color: primary }}
+                <Picker selectedValue={e.Cur_Abbreviation}
+                        style={styles.pickerStyle}
+                        itemStyle={{ ...styles.pickerItemStyle, color: primary }}
                 >
                   {ratesToRender.map((e) => (
                     <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation}/>
