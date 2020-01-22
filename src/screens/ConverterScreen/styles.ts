@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   },
   converterInput: {
     width: 250,
-    height: 30,
+    height: 40,
     borderBottomWidth: 1,
     marginHorizontal: 3,
   },

@@ -104,10 +104,11 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const setDate = (event: any, date?: Date | undefined) => {
     console.log('event', event);
     console.log('date', date);
-    if (event.type === 'set') {
+    if (event.type === 'set' || event.type === 'dismissed') {
       setIsDatePickerVisible(false);
     }
     setDatePickerValue(date || datePickerValue);
+    //todo onChartIntervalChange()
   };
 
   const toggleGraph = () => {
@@ -122,7 +123,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   };
 
   if (loading) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   return (
@@ -131,7 +132,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={{ position: 'absolute', left: 10, top: 10 }}
       >
-        <Icon name={'menu-fold'} size={30} color={primary}/>
+        <Icon name={'menu-fold'} size={30} color={primary} />
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -139,14 +140,14 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         onPress={() => {
           setIsDatePickerVisible(!isDatePickerVisible);
           //@ts-ignore
-          _panel.current.show();
+          Platform.OS === 'ios' && _panel.current.show();
         }}
       >
         <Text style={{ color: primary, fontSize: 30 }}>{datePickerValue.toDateString()} </Text>
-        <Icon name={'calendar'} size={30} color={primary}/>
+        <Icon name={'calendar'} size={30} color={primary} />
       </TouchableOpacity>
 
-      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
+      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor} />
 
       <TouchableOpacity
         style={{ ...styles.toggleGraphBtn, backgroundColor: primaryLight }}
@@ -175,12 +176,13 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
                   onChangeText={(text) => onChangeFieldText(e.Cur_Abbreviation, text)}
                 />
                 {Platform.OS === 'android' && <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>}
-                <Picker selectedValue={e.Cur_Abbreviation}
-                        style={styles.pickerStyle}
-                        itemStyle={{ ...styles.pickerItemStyle, color: primary }}
+                <Picker
+                  selectedValue={e.Cur_Abbreviation}
+                  style={styles.pickerStyle}
+                  itemStyle={{ ...styles.pickerItemStyle, color: primary }}
                 >
                   {ratesToRender.map((e) => (
-                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation}/>
+                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation} />
                   ))}
                 </Picker>
               </View>
@@ -222,7 +224,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             {isDatePickerVisible && (
               <View style={styles.sliderWrapper}>
                 <View style={styles.sliderHeader} {...dragHandler}>
-                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }}/>
+                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }} />
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                   <DateTimePicker

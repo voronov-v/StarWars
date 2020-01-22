@@ -27,7 +27,7 @@ export const ChartTimeIntervalsBar: FC<TimeIntervalBarProps> = (props: TimeInter
             }}
             onPress={() => onChartIntervalChange(e.shortName)}
           >
-            <Text style={{ ...styles.btnText, color: inactiveColor }}>{e.shortName}</Text>
+            <Text style={{ ...styles.btnText, color: inactiveColor }}>{e.shortName} </Text>
           </TouchableOpacity>
         );
       })}

@@ -7,7 +7,6 @@ import { getIsDarkMode } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
 import { ConverterScreen } from '@root/screens/ConverterScreen';
 import { GraphScreen } from '@root/screens/GraphScreen';
-import { FBScreen } from '@root/screens/FBScreen';
 
 const TabBarComponent = (props: any) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
@@ -42,13 +41,6 @@ export const ConverterBottomNavigator = createBottomTabNavigator(
       navigationOptions: {
         title: 'Graph',
         tabBarIcon: (props) => <CustomIcon {...props} name={'trending-up'} size={25} />,
-      },
-    },
-    FBLogin: {
-      screen: FBScreen,
-      navigationOptions: {
-        title: 'FB',
-        tabBarIcon: (props) => <CustomIcon {...props} name={'perm-identity'} size={25} />,
       },
     },
   },

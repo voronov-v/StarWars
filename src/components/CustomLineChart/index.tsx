@@ -39,6 +39,8 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
     onChartIntervalChange(undefined, currId);
   };
 
+  console.log('graphCurr', graphCurr);
+
   return (
     <View style={styles.container}>
       {loadingGraph ? (
@@ -63,7 +65,7 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
                 setModalVisible(true);
               }}
             >
-              <Text style={{ fontSize: 18, fontWeight: '600' }}>BYN / {graphCurr}</Text>
+              <Text style={{ fontSize: 18, fontWeight: '600' }}>BYN / {graphCurr} </Text>
             </TouchableOpacity>
           </View>
           <YAxis
