@@ -2,9 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   tableWrapper: {
-    // padding: 10,
     width: '95%',
-    marginBottom: 20,
   },
   tableHead: {
     height: 40,
@@ -14,7 +12,6 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    fontStyle: 'italic',
   },
   tableRow: {
     textAlign: 'center',

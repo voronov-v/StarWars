@@ -7,24 +7,24 @@ import { initStore, store } from '@root/redux/store';
 
 export const App: React.FC = (): React.ReactElement => {
   const [tmpStore, setTmpStore] = useState(store);
-  const [isLoad, setIsLoad] = useState(false);
-  console.log('App isLoad', isLoad);
+  const [loading, setIsLoading] = useState(true);
+  console.log('App loading', loading);
   useEffect(() => {
     const initApp = async () => {
       const store = await initStore();
       setTmpStore(store);
-      setIsLoad(true);
+      setIsLoading(false);
     };
     initApp();
   }, []);
 
   return (
     <Provider store={tmpStore}>
-      {!isLoad ? (
-        <Spinner />
+      {loading ? (
+        <Spinner/>
       ) : (
         <ThemeWrapper>
-          <RootNavigator />
+          <RootNavigator/>
         </ThemeWrapper>
       )}
     </Provider>

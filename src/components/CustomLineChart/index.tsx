@@ -11,7 +11,7 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
   const { graphData = [], loadingGraph = false } = props;
   // console.log('dataFromProps', chartData);
   const xDataFormatType =
-    graphData.length < 10 ? 'ddd, DD' : graphData.length < 100 ? 'DD MMM' : graphData.length < 200 ? 'MMM' : 'MMMYYYY';
+    graphData.length < 10 ? 'ddd, DD' : graphData.length < 100 ? 'DDMMM' : graphData.length < 200 ? 'MMM' : 'MMMYYYY';
 
   const data: chartViewDataType = graphData.reduce(
     (prev: chartViewDataType, curr) => ({
@@ -25,9 +25,6 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
     }),
     { yData: [], xData: [] },
   );
-  // console.log('data', data);
-
-  const contentInset = { top: 10, bottom: 10 };
 
   return (
     <View style={styles.container}>
@@ -39,15 +36,15 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
         <>
           <YAxis
             data={data.yData}
-            contentInset={contentInset}
+            contentInset={{ top: 0, bottom: 20 }}
             svg={{ fill: 'black', fontSize: 10 }}
-            numberOfTicks={12}
+            numberOfTicks={10}
             formatLabel={(value) => `${value}`}
           />
-          <View style={{ width: '100%', paddingRight: 30 }}>
+          <View style={{ width: '100%', paddingRight: 40 }}>
             <LineChart
               data={data.yData}
-              contentInset={contentInset}
+              contentInset={{ top: 0, bottom: 20 }}
               svg={{ stroke: '#000' }}
               style={{ flex: 1, marginHorizontal: 10 }}
             >
@@ -55,7 +52,7 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
             </LineChart>
             <XAxis
               data={data.yData}
-              contentInset={{ left: 25, right: 25 }}
+              contentInset={{ left: 20, right: 20 }}
               svg={{ fill: 'black', fontSize: 10 }}
               style={{ marginHorizontal: -10 }}
               numberOfTicks={8}

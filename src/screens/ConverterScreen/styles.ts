@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   },
   converterInput: {
     width: 250,
-    height: 40,
+    height: 30,
     borderBottomWidth: 1,
     marginHorizontal: 3,
   },
@@ -49,6 +49,14 @@ export const styles = StyleSheet.create({
   sliderHeaderItem: {
     width: 80,
     height: 5,
+    borderRadius: 50,
+  },
+  toggleGraphBtn: {
+    alignSelf: 'flex-start',
+    marginLeft: 10,
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 50,
   },
 });

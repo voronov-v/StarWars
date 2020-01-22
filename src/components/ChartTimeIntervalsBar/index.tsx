@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import React, { FC, ReactElement } from 'react';
-import { TimeIntervalBarProps } from './types';
-import { chartTimeIntervalType } from './types';
+import { TimeIntervalBarProps, chartTimeIntervalType } from './types';
+import { styles } from './styles';
 
 export const ChartTimeIntervalsBar: FC<TimeIntervalBarProps> = (props: TimeIntervalBarProps): ReactElement => {
   const { onChartIntervalChange, activeChartInterval, activeColor, inactiveColor } = props;
@@ -15,29 +15,18 @@ export const ChartTimeIntervalsBar: FC<TimeIntervalBarProps> = (props: TimeInter
   ];
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+    <View style={styles.container}>
       {chartTimeIntervals.map((e) => {
         return (
           <TouchableOpacity
             key={e.shortName}
             style={{
-              paddingVertical: 5,
-              paddingHorizontal: 10,
-              borderRadius: 50,
-              // backgroundColor: btnBgColor,
-              marginHorizontal: 5,
-              marginTop: 5,
+              ...styles.btn,
+              borderColor: activeColor, ...{ borderWidth: activeChartInterval === e.shortName ? 2 : 0 }
             }}
             onPress={() => onChartIntervalChange(e.shortName, e.shiftType, e.shiftAmount)}
           >
-            <Text
-              style={[
-                { fontSize: 18, fontWeight: '500' },
-                activeChartInterval === e.shortName ? { color: activeColor } : { color: inactiveColor },
-              ]}
-            >
-              {e.shortName}
-            </Text>
+            <Text style={{ ...styles.btnText, color: inactiveColor }}>{e.shortName}</Text>
           </TouchableOpacity>
         );
       })}

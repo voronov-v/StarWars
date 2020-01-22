@@ -12,5 +12,5 @@ export type TimeIntervalBarProps = {
   activeChartInterval: string;
   activeColor: string;
   inactiveColor: string;
-  btnBgColor: string
+  btnBgColor: string;
 };

@@ -32,8 +32,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     theme.PRIMARY,
     theme.ERROR,
     theme.PRIMARY_VAR_BG,
-    theme.PRIMARY_VAR,
-    theme.PRIMARY_LIGHT
+    theme.PRIMARY_LIGHT,
   ];
 
   const _panel: MutableRefObject<null> = useRef(null);
@@ -47,6 +46,17 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const [converterFade, setConverterFade] = useState(new Animated.Value(isGraphFaded));
   const [graphFade, setGraphFade] = useState(new Animated.Value(+!isGraphFaded));
 
+  const [currentTime, setCurrentTime] = useState(new Date());
+  useEffect(() => {
+    let diff = 60 - new Date().getSeconds();
+    const timer = setTimeout(() => {
+      diff = 60;
+      setCurrentTime(new Date());
+    }, diff * 1000);
+
+    return () => clearTimeout(timer);
+  }, [currentTime]);
+
   useEffect(() => {
     const date = moment(datePickerValue).format('YYYY-MM-DD');
     dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date } });
@@ -56,8 +66,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     setRatesToRender(currencyRates);
   }, [currencyRates]);
 
-  useEffect(() => {
-  }, [chartInterval]);
+  useEffect(() => {}, [chartInterval]);
 
   const onChangeFieldText = (code: string, value: string) => {
     setErr({ isError: true, errMsg: '' });
@@ -106,13 +115,6 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         type: LOAD_CURRENCY_GRAPH_DATA,
         payload: { dateFrom: dateFrom.toString(), dateTo: dateTo.toString() },
       });
-
-      //   const data = await axios.get('http://www.nbrb.by/API/ExRates/Rates/Dynamics/145', {
-      //     params: { startDate: dateFrom, endDate: dateTo },
-      //   });
-      //   console.log('data', data.data);
-      //
-      //   setChartData(data.data);
       setChartInterval(shortName);
     }
   };
@@ -138,7 +140,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   };
 
   if (loading) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   return (
@@ -147,7 +149,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={{ position: 'absolute', left: 10, top: 10 }}
       >
-        <Icon name={'menu-fold'} size={30} color={primary}/>
+        <Icon name={'menu-fold'} size={30} color={primary} />
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -159,17 +161,17 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         }}
       >
         <Text style={{ color: primary, fontSize: 30 }}>{datePickerValue.toDateString()} </Text>
-        <Icon name={'calendar'} size={30} color={primary}/>
+        <Icon name={'calendar'} size={30} color={primary} />
       </TouchableOpacity>
 
-      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
+      {/*<View>*/}
+      {/*  <Text style={{ color: primary }}>currentTime={currentTime.toTimeString()}</Text>*/}
+      {/*</View>*/}
 
-      <Collapsible collapsed={err.isError}>
-        <Text style={{ color: errColor, fontSize: 22 }}>{err.errMsg}</Text>
-      </Collapsible>
+      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor} />
 
       <TouchableOpacity
-        style={{ alignSelf: 'flex-start', marginLeft: 10, marginBottom: 10, backgroundColor:primaryLight, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 50 }}
+        style={{ ...styles.toggleGraphBtn, backgroundColor: primaryLight }}
         onPress={() => toggleGraph()}
       >
         <Icon name={isGraphFaded ? 'linechart' : 'bank'} size={25} color={bgColor} style={{ alignSelf: 'center' }}>
@@ -202,7 +204,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
                   itemStyle={{ ...styles.pickerItemStyle, color: primary }}
                 >
                   {ratesToRender.map((e) => (
-                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation}/>
+                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation} />
                   ))}
                 </Picker>
               </View>
@@ -217,11 +219,14 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             activeColor={primary}
             btnBgColor={primaryVarBg}
             inactiveColor={textColor}
-
           />
-          <CustomLineChart graphData={currencyGraphData} loadingGraph={loadingGraph}/>
+          <CustomLineChart graphData={currencyGraphData} loadingGraph={loadingGraph} />
         </Animated.View>
       )}
+
+      <Collapsible collapsed={err.isError}>
+        <Text style={{ color: errColor, fontSize: 22 }}>{err.errMsg}</Text>
+      </Collapsible>
 
       <SlidingUpPanel
         ref={_panel}
@@ -234,7 +239,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             {isDatePickerVisible && (
               <View style={styles.sliderWrapper}>
                 <View style={styles.sliderHeader} {...dragHandler}>
-                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }}/>
+                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }} />
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                   <DateTimePicker
