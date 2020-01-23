@@ -39,8 +39,6 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
     onChartIntervalChange(undefined, currId);
   };
 
-  console.log('graphCurr', graphCurr);
-
   return (
     <View style={styles.container}>
       {loadingGraph ? (
@@ -103,20 +101,13 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
         animationType={'fade'}
         onRequestClose={() => setModalVisible(false)}
       >
-        <TouchableHighlight
-          style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
-          onPress={() => setModalVisible(false)}
-        >
-          <View style={{ width: 300, backgroundColor: 'white', alignItems: 'center' }}>
+        <TouchableHighlight style={styles.modalBackground} onPress={() => setModalVisible(false)}>
+          <View style={styles.modalContainer}>
             {ratesToRender.map((rate) => {
               if (rate.Cur_Abbreviation === 'BYN') return null;
               return (
-                <TouchableOpacity
-                  key={rate.Cur_ID}
-                  onPress={() => closeModal(rate.Cur_ID)}
-                  style={{ padding: 10, width: '100%' }}
-                >
-                  <Text>{rate.Cur_Name}</Text>
+                <TouchableOpacity key={rate.Cur_ID} onPress={() => closeModal(rate.Cur_ID)} style={styles.modalBtn}>
+                  <Text style={styles.modalBtnText}>{rate.Cur_Name}</Text>
                 </TouchableOpacity>
               );
             })}

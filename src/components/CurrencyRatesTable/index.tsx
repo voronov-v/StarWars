@@ -10,20 +10,20 @@ export const CurrencyRatesTable: FC<CurrencyRatesTableProps> = (props): ReactEle
   const rowsData = ratesToRender.map((e) => [e.Cur_Name, e.Cur_OfficialRate, e.Cur_Abbreviation, e.Cur_Scale]);
 
   return (
-    <View style={styles.tableWrapper}>
+    <View style={styles.container}>
       <Table borderStyle={{}}>
         <Row
-          data={['Currency', 'Rate', 'Code', 'Count']}
+          data={['Валюта', 'Курс', 'Код', 'Кол-во']}
           style={{ ...styles.tableHead, borderColor: textColor }}
           flexArr={[2, 1, 1, 1]}
-          textStyle={{ ...styles.tableHeadRow, color: textColor }}
+          textStyle={{ ...styles.headRowText, color: textColor }}
         />
         <TableWrapper style={{ flexDirection: 'row' }}>
           <Rows
             data={rowsData}
             flexArr={[2, 1, 1, 1]}
             style={{ height: 30 }}
-            textStyle={{ ...styles.tableRow, color: textColor }}
+            textStyle={{ ...styles.rowText, color: textColor }}
           />
         </TableWrapper>
       </Table>

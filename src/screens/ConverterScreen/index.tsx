@@ -1,5 +1,5 @@
 import React, { FC, MutableRefObject, ReactElement, useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, Picker, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, Dimensions, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsDarkMode, getRates } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
@@ -7,6 +7,7 @@ import { DARK_THEME, PRIMARY_THEME } from '@root/consts/themes';
 import { styles } from './styles';
 import { onChartIntervalChangeType } from './types';
 import moment from 'moment';
+import 'moment/locale/ru';
 import { LOAD_CURRENCY_GRAPH_DATA, LOAD_CURRENCY_RATES_ON_DATE } from '@root/redux/reducers/currencyReducer';
 import { Spinner } from '@root/components/Spinner/Spinner';
 import Collapsible from 'react-native-collapsible';
@@ -48,7 +49,8 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
 
   useEffect(() => {
     const date = moment(datePickerValue).format('YYYY-MM-DD');
-    dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date, graphCurr } });
+    dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date } });
+    // onChartIntervalChange();
   }, [datePickerValue]);
 
   useEffect(() => {
@@ -104,11 +106,14 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const setDate = (event: any, date?: Date | undefined) => {
     console.log('event', event);
     console.log('date', date);
+    console.log('datePickerValue', datePickerValue);
     if (event.type === 'set' || event.type === 'dismissed') {
       setIsDatePickerVisible(false);
     }
     setDatePickerValue(date || datePickerValue);
-    //todo onChartIntervalChange()
+    //todo
+    // onChartIntervalChange()
+    //
   };
 
   const toggleGraph = () => {
@@ -143,7 +148,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
           Platform.OS === 'ios' && _panel.current.show();
         }}
       >
-        <Text style={{ color: primary, fontSize: 30 }}>{datePickerValue.toDateString()} </Text>
+        <Text style={{ ...styles.title, color: primary }}>{moment(datePickerValue).format('ddd D.M.Y')}</Text>
         <Icon name={'calendar'} size={30} color={primary} />
       </TouchableOpacity>
 
@@ -154,9 +159,10 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         onPress={() => toggleGraph()}
       >
         <Icon name={isGraphFaded ? 'linechart' : 'bank'} size={25} color={bgColor} style={{ alignSelf: 'center' }}>
-          {isGraphFaded === 1 ? ' Graph' : ' Converter'}
+          {isGraphFaded === 1 ? ' График' : ' Конвертер'}
         </Icon>
       </TouchableOpacity>
+
 
       {isGraphFaded === 1 ? (
         <Animated.View style={{ opacity: converterFade }}>
@@ -175,16 +181,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
                   value={e.Cur_Value}
                   onChangeText={(text) => onChangeFieldText(e.Cur_Abbreviation, text)}
                 />
-                {Platform.OS === 'android' && <Text style={{ color: textColor }}>{e.Cur_Abbreviation}</Text>}
-                <Picker
-                  selectedValue={e.Cur_Abbreviation}
-                  style={styles.pickerStyle}
-                  itemStyle={{ ...styles.pickerItemStyle, color: primary }}
-                >
-                  {ratesToRender.map((e) => (
-                    <Picker.Item key={e.Cur_ID} label={e.Cur_Abbreviation} value={e.Cur_Abbreviation} />
-                  ))}
-                </Picker>
+                <Text style={{ ...styles.currencyText, color: textColor }}>{e.Cur_Abbreviation}</Text>
               </View>
             );
           })}

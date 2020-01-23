@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { fonts } from '@root/consts/themes';
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,6 +16,6 @@ export const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontFamily: fonts.light,
   },
 });

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { fonts } from '@root/consts/themes';
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,8 +8,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   title: {
-    paddingTop: 20,
-    fontSize: 20,
+    fontSize: 30,
+    fontFamily: fonts.regular,
+  },
+  currencyText: {
+    fontSize: 18,
+    fontFamily: fonts.regular,
   },
   changeDateContainer: {
     alignItems: 'center',

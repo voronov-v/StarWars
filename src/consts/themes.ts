@@ -40,4 +40,10 @@ export const DARK_THEME: themeType = {
   WHITE: '#FFF',
 };
 
-export const CONVERTER_THEME = {};
+export enum fonts {
+  light = 'Roboto-Light',
+  regular = 'Roboto-Regular',
+  bold = 'Roboto-Bold',
+  italic = 'Roboto-Italic',
+  thin = 'Roboto-Thin',
+}

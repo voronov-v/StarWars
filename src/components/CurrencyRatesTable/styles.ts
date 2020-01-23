@@ -1,21 +1,22 @@
 import { StyleSheet } from 'react-native';
+import { fonts } from '@root/consts/themes';
 
 export const styles = StyleSheet.create({
-  tableWrapper: {
+  container: {
     width: '95%',
   },
   tableHead: {
-    height: 40,
+    paddingVertical: 5,
     borderWidth: 1,
   },
-  tableHeadRow: {
+  headRowText: {
     textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: fonts.bold,
   },
-  tableRow: {
+  rowText: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 16,
+    fontFamily: fonts.regular,
   },
-  tableTextStyle: {},
 });
