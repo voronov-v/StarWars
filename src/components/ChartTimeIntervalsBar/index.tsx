@@ -12,7 +12,7 @@ export const chartTimeIntervals: chartTimeIntervalType[] = [
 ];
 
 export const ChartTimeIntervalsBar: FC<TimeIntervalBarProps> = (props: TimeIntervalBarProps): ReactElement => {
-  const { onChartIntervalChange, activeChartInterval, activeColor, inactiveColor } = props;
+  const { reloadGraph, activeChartInterval, activeColor, inactiveColor } = props;
 
   return (
     <View style={styles.container}>
@@ -25,7 +25,7 @@ export const ChartTimeIntervalsBar: FC<TimeIntervalBarProps> = (props: TimeInter
               borderColor: activeColor,
               ...{ borderWidth: activeChartInterval === e.shortName ? 2 : 0 },
             }}
-            onPress={() => onChartIntervalChange(e.shortName)}
+            onPress={() => reloadGraph(e.shortName)}
           >
             <Text style={{ ...styles.btnText, color: inactiveColor }}>{e.shortName} </Text>
           </TouchableOpacity>

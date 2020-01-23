@@ -15,7 +15,7 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
     modalVisible,
     setModalVisible,
     graphCurr,
-    onChartIntervalChange,
+    reloadGraph,
   } = props;
   const xDataFormatType =
     graphData.length < 10 ? 'ddd, DD' : graphData.length < 100 ? 'DDMMM' : graphData.length < 200 ? 'MMM' : 'MMMYYYY';
@@ -36,7 +36,7 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
   const closeModal = (currId: number) => {
     console.log('currId', currId);
     setModalVisible(false);
-    onChartIntervalChange(undefined, currId);
+    reloadGraph(undefined, currId);
   };
 
   return (

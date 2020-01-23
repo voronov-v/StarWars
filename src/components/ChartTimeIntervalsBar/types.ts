@@ -9,7 +9,7 @@ export type chartTimeIntervalType = {
 };
 
 export type TimeIntervalBarProps = {
-  onChartIntervalChange: onChartIntervalChangeType;
+  reloadGraph: onChartIntervalChangeType;
   activeChartInterval: string;
   activeColor: string;
   inactiveColor: string;

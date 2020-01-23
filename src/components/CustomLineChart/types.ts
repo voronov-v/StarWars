@@ -14,5 +14,5 @@ export type CustomLineChartProps = {
   modalVisible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
   graphCurr: string;
-  onChartIntervalChange: onChartIntervalChangeType;
+  reloadGraph: onChartIntervalChangeType;
 };

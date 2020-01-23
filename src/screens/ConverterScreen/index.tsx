@@ -1,7 +1,7 @@
 import React, { FC, MutableRefObject, ReactElement, useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsDarkMode, getRates } from '@root/selectors';
+import { getIsDarkMode, getCurrency } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
 import { DARK_THEME, PRIMARY_THEME } from '@root/consts/themes';
 import { styles } from './styles';
@@ -24,7 +24,9 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   const { navigation } = props;
   const dispatch = useDispatch();
 
-  const { currencyRates, loading, currencyGraphData, loadingGraph, graphCurr, graphInterval } = useSelector(getRates);
+  const { currencyRates, loading, currencyGraphData, loadingGraph, graphCurr, graphInterval } = useSelector(
+    getCurrency,
+  );
   const isDarkMode = useSelector(getIsDarkMode);
 
   const theme: themeType = isDarkMode ? DARK_THEME : PRIMARY_THEME;
@@ -50,7 +52,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   useEffect(() => {
     const date = moment(datePickerValue).format('YYYY-MM-DD');
     dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date } });
-    // onChartIntervalChange();
+    graphInterval !== '' && reloadGraph();
   }, [datePickerValue]);
 
   useEffect(() => {
@@ -85,7 +87,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
     setRatesToRender(tmp);
   };
 
-  const onChartIntervalChange: onChartIntervalChangeType = async (
+  const reloadGraph: onChartIntervalChangeType = async (
     shortName = graphInterval || 'w',
     currId = ratesToRender.find((rate) => rate.Cur_Abbreviation === graphCurr)!.Cur_ID,
   ) => {
@@ -105,15 +107,10 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
 
   const setDate = (event: any, date?: Date | undefined) => {
     console.log('event', event);
-    console.log('date', date);
-    console.log('datePickerValue', datePickerValue);
     if (event.type === 'set' || event.type === 'dismissed') {
       setIsDatePickerVisible(false);
     }
     setDatePickerValue(date || datePickerValue);
-    //todo
-    // onChartIntervalChange()
-    //
   };
 
   const toggleGraph = () => {
@@ -148,7 +145,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
           Platform.OS === 'ios' && _panel.current.show();
         }}
       >
-        <Text style={{ ...styles.title, color: primary }}>{moment(datePickerValue).format('ddd D.M.Y')}</Text>
+        <Text style={{ ...styles.title, color: primary }}>{moment(datePickerValue).format('ddd DD.MM.Y')}</Text>
         <Icon name={'calendar'} size={30} color={primary} />
       </TouchableOpacity>
 
@@ -189,7 +186,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
       ) : (
         <Animated.View style={{ opacity: graphFade }}>
           <ChartTimeIntervalsBar
-            onChartIntervalChange={onChartIntervalChange}
+            reloadGraph={reloadGraph}
             activeChartInterval={graphInterval}
             activeColor={primary}
             btnBgColor={primaryVarBg}
@@ -202,7 +199,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             graphCurr={graphCurr}
-            onChartIntervalChange={onChartIntervalChange}
+            reloadGraph={reloadGraph}
           />
         </Animated.View>
       )}
