@@ -118,10 +118,10 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
 
   const toggleGraph = () => {
     if (isGraphFaded === 0) {
-      Animated.timing(converterFade, { toValue: 1, duration: 3000 }).start();
+      Animated.timing(converterFade, { toValue: 1, duration: 2000 }).start();
       setGraphFade(new Animated.Value(0));
     } else {
-      Animated.timing(graphFade, { toValue: 1, duration: 3000 }).start();
+      Animated.timing(graphFade, { toValue: 1, duration: 2000 }).start();
       setConverterFade(new Animated.Value(0));
     }
     setIsGraphFaded(+!isGraphFaded);

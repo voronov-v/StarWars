@@ -9,6 +9,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     borderWidth: 1,
   },
+  tableRow: {
+    paddingVertical: 5,
+  },
   headRowText: {
     textAlign: 'center',
     fontSize: 20,
