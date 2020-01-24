@@ -15,10 +15,10 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { CurrencyRatesTable } from '@root/components/CurrencyRatesTable';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { chartTimeIntervals, ChartTimeIntervalsBar } from '@root/components/ChartTimeIntervalsBar';
-import { CustomLineChart } from '@root/components/CustomLineChart';
 import { DrawerActions } from 'react-navigation-drawer';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import SlidingUpPanel from 'rn-sliding-up-panel';
+import { CustomGraph } from '@root/components/CustomGraph';
 
 export const ConverterScreen: FC<NavigationStackScreenProps> = (props: NavigationStackScreenProps): ReactElement => {
   const { navigation } = props;
@@ -125,7 +125,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   };
 
   if (loading) {
-    return <Spinner />;
+    return <Spinner/>;
   }
 
   return (
@@ -134,7 +134,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={{ position: 'absolute', left: 10, top: 10 }}
       >
-        <Icon name={'menu-fold'} size={30} color={primary} />
+        <Icon name={'menu-fold'} size={30} color={primary}/>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -146,10 +146,10 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         }}
       >
         <Text style={{ ...styles.title, color: primary }}>{moment(datePickerValue).format('ddd DD.MM.Y')}</Text>
-        <Icon name={'calendar'} size={30} color={primary} />
+        <Icon name={'calendar'} size={30} color={primary}/>
       </TouchableOpacity>
 
-      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor} />
+      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
 
       <TouchableOpacity
         style={{ ...styles.toggleGraphBtn, backgroundColor: primaryLight }}
@@ -159,7 +159,6 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
           {isGraphFaded === 1 ? ' График' : ' Конвертер'}
         </Icon>
       </TouchableOpacity>
-
 
       {isGraphFaded === 1 ? (
         <Animated.View style={{ opacity: converterFade }}>
@@ -192,7 +191,8 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             btnBgColor={primaryVarBg}
             inactiveColor={textColor}
           />
-          <CustomLineChart
+          {currencyGraphData.length>0 &&
+          <CustomGraph
             graphData={currencyGraphData}
             loadingGraph={loadingGraph}
             ratesToRender={ratesToRender}
@@ -200,7 +200,9 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             setModalVisible={setModalVisible}
             graphCurr={graphCurr}
             reloadGraph={reloadGraph}
-          />
+            />
+          }
+
         </Animated.View>
       )}
 
@@ -218,7 +220,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             {isDatePickerVisible && (
               <View style={styles.sliderWrapper}>
                 <View style={styles.sliderHeader} {...dragHandler}>
-                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }} />
+                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }}/>
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                   <DateTimePicker

@@ -3,11 +3,7 @@ import { colors, fonts } from '@root/consts/themes';
 
 export const styles = StyleSheet.create({
   container: {
-    height: 350,
-    backgroundColor: 'white',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    flexDirection: 'row',
+    height: 300,
   },
   modalBackground: {
     flex: 1,
