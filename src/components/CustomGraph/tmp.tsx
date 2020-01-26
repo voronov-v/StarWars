@@ -1,14 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, Dimensions, Animated, TextInput, } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Dimensions, Animated, TextInput } from 'react-native';
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
 import * as path from 'svg-path-properties';
 import * as shape from 'd3-shape';
 
-import {
-  scaleTime,
-  scaleLinear,
-  scaleQuantile,
-} from 'd3-scale';
+import { scaleTime, scaleLinear, scaleQuantile } from 'd3-scale';
 
 const d3 = { shape };
 
@@ -26,17 +22,10 @@ const data = [
   { x: 1579554000000, y: 2.1205 },
   { x: 1579640400000, y: 2.1195 },
   { x: 1579726800000, y: 2.1156 },
-  { x: 1579813200000, y: 2.1137 }
+  { x: 1579813200000, y: 2.1137 },
 ];
 
-const yRange = [
-  2.1137,
-  2.1156,
-  2.1195,
-  2.1205,
-  2.1228,
-  2.1247,
-];
+const yRange = [2.1137, 2.1156, 2.1195, 2.1205, 2.1228, 2.1247];
 
 // const data = [
 //   { x: new Date(2018, 9, 1), y: 0 },
@@ -50,12 +39,19 @@ const yRange = [
 //   { x: new Date(2018, 10, 20), y: 0 },
 // ];
 
-const scaleX = scaleTime().domain([1579208400000, 1579813200000]).range([0, width]);
-const scaleY = scaleLinear().domain([2.1137, 2.1247]).range([height - verticalPadding, verticalPadding]);
-const scaleLabel = scaleQuantile().domain([2.1137, 2.1247]).range(yRange);
-const line = d3.shape.line()
-  .x(d => scaleX(d.x))
-  .y(d => scaleY(d.y))
+const scaleX = scaleTime()
+  .domain([1579208400000, 1579813200000])
+  .range([0, width]);
+const scaleY = scaleLinear()
+  .domain([2.1137, 2.1247])
+  .range([height - verticalPadding, verticalPadding]);
+const scaleLabel = scaleQuantile()
+  .domain([2.1137, 2.1247])
+  .range(yRange);
+const line = d3.shape
+  .line()
+  .x((d) => scaleX(d.x))
+  .y((d) => scaleY(d.y))
   .curve(d3.shape.curveBasis)(data);
 const properties = path.svgPathProperties(line);
 const lineLength = properties.getTotalLength();
@@ -93,18 +89,18 @@ export class GraphScreen2 extends React.Component {
         <View style={styles.container}>
           <Svg {...{ width, height }}>
             <Defs>
-              <LinearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="gradient">
-                <Stop stopColor="#CDE3F8" offset="0%"/>
-                <Stop stopColor="#eef6fd" offset="80%"/>
-                <Stop stopColor="#FEFFFF" offset="100%"/>
+              <LinearGradient x1='50%' y1='0%' x2='50%' y2='100%' id='gradient'>
+                <Stop stopColor='#CDE3F8' offset='0%' />
+                <Stop stopColor='#eef6fd' offset='80%' />
+                <Stop stopColor='#FEFFFF' offset='100%' />
               </LinearGradient>
             </Defs>
-            <Path d={line} fill="transparent" stroke="#367be2" strokeWidth={5}/>
-            <Path d={`${line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)"/>
-            <View ref={this.cursor} style={styles.cursor}/>
+            <Path d={line} fill='transparent' stroke='#367be2' strokeWidth={5} />
+            <Path d={`${line} L ${width} ${height} L 0 ${height}`} fill='url(#gradient)' />
+            <View ref={this.cursor} style={styles.cursor} />
           </Svg>
           <Animated.View style={[styles.label, { transform: [{ translateX }] }]}>
-            <TextInput ref={this.label}/>
+            <TextInput ref={this.label} />
           </Animated.View>
           <Animated.ScrollView
             style={StyleSheet.absoluteFill}

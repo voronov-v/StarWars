@@ -37,7 +37,7 @@ export const CustomGraph: FC<CustomLineChartProps> = (
 
   const [x] = useState(new Animated.Value(0));
 
-  const { data, dataY, dataX, maxY, minY } = graphData.reduce(
+  const tmp = graphData.reduce(
     (prev: any, curr: graphDataType) => {
       const maxY = prev.maxY > curr.Cur_OfficialRate ? prev.maxY : curr.Cur_OfficialRate;
       const minY = prev.minY < curr.Cur_OfficialRate ? prev.minY : curr.Cur_OfficialRate;
@@ -51,6 +51,7 @@ export const CustomGraph: FC<CustomLineChartProps> = (
     },
     { data: [], dataY: [], dataX: [], maxY: -999, minY: 999 },
   );
+  const { data, dataY, dataX, maxY, minY } = tmp;
   dataY.sort();
 
   useEffect(() => {
@@ -86,7 +87,9 @@ export const CustomGraph: FC<CustomLineChartProps> = (
 
   const moveCursor = (value: number) => {
     const { x, y } = properties.getPointAtLength(lineLength - value);
-    cursor && cursor.current.setNativeProps({ top: y - cursorRadius, left: x - cursorRadius });
+    // console.log(`x:${x} y:${y}`);
+    console.log('tmp', tmp);
+    cursor && cursor.current.setNativeProps({ top: y + cursorRadius, left: x - cursorRadius });
     const labelY = scaleLabelY(scaleY.invert(y));
     const labelX = scaleLabelX(scaleX.invert(x));
     label && label.current.setNativeProps({ text: `${moment(labelX).format('DD.MM.YYYY')}: ${labelY}` });
@@ -100,46 +103,39 @@ export const CustomGraph: FC<CustomLineChartProps> = (
 
   return (
     <View style={styles.container}>
-      {loadingGraph ? (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <ActivityIndicator color={'orange'} size={'large'}/>
-        </View>
-      ) : (
-        <>
-          <View style={styles.graphHead}>
-            <TouchableOpacity style={styles.graphBtn} onPress={() => setModalVisible(true)}>
-              <Text style={{ fontSize: 18, fontWeight: '600' }}>BYN / {graphCurr} </Text>
-            </TouchableOpacity>
-            <Animated.View style={styles.graphLabel}>
-              <TextInput style={styles.graphLabelText} ref={label} editable={false}/>
-            </Animated.View>
-          </View>
+      {loadingGraph && <ActivityIndicator color={'orange'} size={'large'} style={styles.activity} />}
+      <View style={styles.graphHead}>
+        <TouchableOpacity style={styles.graphBtn} onPress={() => setModalVisible(true)}>
+          <Text style={styles.graphBtnText}>BYN / {graphCurr} </Text>
+        </TouchableOpacity>
+        <Animated.View style={styles.graphLabel}>
+          <TextInput style={styles.graphLabelText} ref={label} editable={false} />
+        </Animated.View>
+      </View>
 
-          <View style={styles.graphContainer}>
-            <Svg {...{ width, height }}>
-              <Defs>
-                <LinearGradient x1={'50%'} y1={'0%'} x2={'50%'} y2={'100%'} id={'gradient'}>
-                  <Stop stopColor={'#CDE3F8'} offset={'0%'}/>
-                  <Stop stopColor={'#eef6fd'} offset={'80%'}/>
-                  <Stop stopColor={'#FEFFFF'} offset={'100%'}/>
-                </LinearGradient>
-              </Defs>
-              <Path d={line} fill={'transparent'} stroke={'#367be2'} strokeWidth={5}/>
-              <Path d={`${line} L ${width} ${height} L 0 ${height}`} fill={'url(#gradient)'}/>
-              <View ref={cursor} style={styles.graphCursor}/>
-            </Svg>
-            <Animated.ScrollView
-              style={StyleSheet.absoluteFill}
-              contentContainerStyle={{ width: lineLength * 2 }}
-              showsHorizontalScrollIndicator={false}
-              scrollEventThrottle={16}
-              bounces={false}
-              onScroll={Animated.event([{ nativeEvent: { contentOffset: { x } } }], { useNativeDriver: true })}
-              horizontal
-            />
-          </View>
-        </>
-      )}
+      <View style={styles.graphContainer}>
+        <Svg {...{ width, height }}>
+          <Defs>
+            <LinearGradient x1={'50%'} y1={'0%'} x2={'50%'} y2={'100%'} id={'gradient'}>
+              <Stop stopColor={'#CDE3F8'} offset={'0%'} />
+              <Stop stopColor={'#eef6fd'} offset={'80%'} />
+              <Stop stopColor={'#FEFFFF'} offset={'100%'} />
+            </LinearGradient>
+          </Defs>
+          <Path d={line} fill={'transparent'} stroke={'#367be2'} strokeWidth={5} />
+          <Path d={`${line} L ${width} ${height} L 0 ${height}`} fill={'url(#gradient)'} />
+        </Svg>
+        <View style={styles.graphCursor} ref={cursor} />
+        <Animated.ScrollView
+          style={StyleSheet.absoluteFill}
+          contentContainerStyle={{ width: lineLength * 2 }}
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={16}
+          bounces={false}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { x } } }], { useNativeDriver: true })}
+          horizontal
+        />
+      </View>
 
       <Modal
         transparent={true}

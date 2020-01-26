@@ -5,22 +5,28 @@ export const { width } = Dimensions.get('window');
 export const cursorRadius = 12;
 export const height = 250;
 export const verticalPadding = 5;
-const graphVerticalPadding = 20;
 
 export const styles = StyleSheet.create({
   container: {
-    height: height,
-    marginTop: graphVerticalPadding
+    flex: 1,
+    justifyContent: 'flex-start',
+    marginTop: 10,
+  },
+  activity: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 10,
   },
   graphContainer: {
-    height,
+    height: height,
     width,
-    // paddingTop: graphVerticalPadding,
+    paddingTop: 25,
   },
   graphHead: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 10
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   graphBtn: {
     backgroundColor: 'orange',
@@ -28,15 +34,20 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 50,
   },
+  graphBtnText: {
+    fontSize: 18,
+    fontFamily: fonts.bold,
+  },
   graphLabel: {
     paddingVertical: 5,
   },
   graphLabelText: {
     color: 'white',
     fontFamily: fonts.regular,
-    fontSize: 18
+    fontSize: 18,
   },
   graphCursor: {
+    position: 'absolute',
     width: cursorRadius * 2,
     height: cursorRadius * 2,
     borderRadius: cursorRadius,

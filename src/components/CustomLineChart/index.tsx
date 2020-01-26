@@ -1,22 +1,14 @@
 import React, { FC, ReactElement } from 'react';
 import { chartViewDataType, CustomLineChartProps } from './types';
 import moment from 'moment';
-import { ActivityIndicator, Modal, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import { styles } from './styles';
 
 export const CustomLineChart: FC<CustomLineChartProps> = (
   props: CustomLineChartProps,
 ): ReactElement<CustomLineChartProps> => {
-  const {
-    graphData = [],
-    loadingGraph = false,
-    ratesToRender = [],
-    modalVisible,
-    setModalVisible,
-    graphCurr,
-    reloadGraph,
-  } = props;
+  const { graphData = [], loadingGraph = false, setModalVisible, graphCurr } = props;
   const xDataFormatType =
     graphData.length < 10 ? 'ddd, DD' : graphData.length < 100 ? 'DDMMM' : graphData.length < 200 ? 'MMM' : 'MMMYYYY';
 
@@ -32,12 +24,6 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
     }),
     { yData: [], xData: [] },
   );
-
-  const closeModal = (currId: number) => {
-    console.log('currId', currId);
-    setModalVisible(false);
-    reloadGraph(undefined, currId);
-  };
 
   return (
     <View style={styles.container}>
@@ -94,26 +80,6 @@ export const CustomLineChart: FC<CustomLineChartProps> = (
           </View>
         </>
       )}
-
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        animationType={'fade'}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableHighlight style={styles.modalBackground} onPress={() => setModalVisible(false)}>
-          <View style={styles.modalContainer}>
-            {ratesToRender.map((rate) => {
-              if (rate.Cur_Abbreviation === 'BYN') return null;
-              return (
-                <TouchableOpacity key={rate.Cur_ID} onPress={() => closeModal(rate.Cur_ID)} style={styles.modalBtn}>
-                  <Text style={styles.modalBtnText}>{rate.Cur_Name}</Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </TouchableHighlight>
-      </Modal>
     </View>
   );
 };

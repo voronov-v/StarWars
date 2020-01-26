@@ -125,7 +125,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
   };
 
   if (loading) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   return (
@@ -134,7 +134,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={{ position: 'absolute', left: 10, top: 10 }}
       >
-        <Icon name={'menu-fold'} size={30} color={primary}/>
+        <Icon name={'menu-fold'} size={30} color={primary} />
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -146,10 +146,10 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
         }}
       >
         <Text style={{ ...styles.title, color: primary }}>{moment(datePickerValue).format('ddd DD.MM.Y')}</Text>
-        <Icon name={'calendar'} size={30} color={primary}/>
+        <Icon name={'calendar'} size={30} color={primary} />
       </TouchableOpacity>
 
-      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor}/>
+      <CurrencyRatesTable ratesToRender={ratesToRender} textColor={textColor} />
 
       <TouchableOpacity
         style={{ ...styles.toggleGraphBtn, backgroundColor: primaryLight }}
@@ -191,18 +191,17 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             btnBgColor={primaryVarBg}
             inactiveColor={textColor}
           />
-          {currencyGraphData.length>0 &&
-          <CustomGraph
-            graphData={currencyGraphData}
-            loadingGraph={loadingGraph}
-            ratesToRender={ratesToRender}
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            graphCurr={graphCurr}
-            reloadGraph={reloadGraph}
+          {currencyGraphData.length > 0 && (
+            <CustomGraph
+              graphData={currencyGraphData}
+              loadingGraph={loadingGraph}
+              ratesToRender={ratesToRender}
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              graphCurr={graphCurr}
+              reloadGraph={reloadGraph}
             />
-          }
-
+          )}
         </Animated.View>
       )}
 
@@ -220,7 +219,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
             {isDatePickerVisible && (
               <View style={styles.sliderWrapper}>
                 <View style={styles.sliderHeader} {...dragHandler}>
-                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }}/>
+                  <View style={{ ...styles.sliderHeaderItem, backgroundColor: textColor }} />
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                   <DateTimePicker
