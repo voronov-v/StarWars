@@ -4,7 +4,6 @@ import { colors, fonts } from '@root/consts/themes';
 export const { width } = Dimensions.get('window');
 export const cursorRadius = 12;
 export const height = 250;
-export const verticalPadding = 5;
 
 export const styles = StyleSheet.create({
   container: {
@@ -36,7 +35,7 @@ export const styles = StyleSheet.create({
   },
   graphBtnText: {
     fontSize: 18,
-    fontFamily: fonts.bold,
+    fontFamily: fonts.regular,
   },
   graphLabel: {
     paddingVertical: 5,
@@ -44,7 +43,7 @@ export const styles = StyleSheet.create({
   graphLabelText: {
     color: 'white',
     fontFamily: fonts.regular,
-    fontSize: 18,
+    fontSize: 20,
   },
   graphCursor: {
     position: 'absolute',

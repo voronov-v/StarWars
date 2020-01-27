@@ -200,6 +200,8 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
               setModalVisible={setModalVisible}
               graphCurr={graphCurr}
               reloadGraph={reloadGraph}
+              bgColor={primaryLight}
+              textColor={bgColor}
             />
           )}
         </Animated.View>
