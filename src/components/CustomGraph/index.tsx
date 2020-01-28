@@ -31,7 +31,7 @@ export const CustomGraph: FC<CustomLineChartProps> = (
     graphCurr,
     reloadGraph,
     bgColor,
-    textColor
+    textColor,
   } = props;
 
   const cursor = useRef<any>(null);
@@ -53,16 +53,28 @@ export const CustomGraph: FC<CustomLineChartProps> = (
   );
   dataY.sort();
 
+  const averageValue =
+    dataY.length > 0 ? Math.round((dataY.reduce((a, b) => a + b, 0) / dataY.length) * 10000) / 10000 : 0;
+  console.log('avg', averageValue);
+
   useEffect(() => {
     x.removeAllListeners();
     x.addListener(({ value }) => moveCursor(value));
     moveCursor(0);
   }, [graphData]);
 
-  const scaleX = scaleTime().domain([data[0].x, data[data.length - 1].x]).range([0, width]);
-  const scaleY = scaleLinear().domain([minY, maxY]).range([height, 0]);
-  const scaleLabelY = scaleQuantile().domain([minY, maxY]).range(dataY);
-  const scaleLabelX = scaleQuantile().domain([dataX[0], dataX[dataX.length - 1]]).range(dataX);
+  const scaleX = scaleTime()
+    .domain([data[0].x, data[data.length - 1].x])
+    .range([0, width]);
+  const scaleY = scaleLinear()
+    .domain([minY, maxY])
+    .range([height, 0]);
+  const scaleLabelY = scaleQuantile()
+    .domain([minY, maxY])
+    .range(dataY);
+  const scaleLabelX = scaleQuantile()
+    .domain([dataX[0], dataX[dataX.length - 1]])
+    .range(dataX);
 
   const d3 = { shape };
   const line =
@@ -91,14 +103,16 @@ export const CustomGraph: FC<CustomLineChartProps> = (
 
   return (
     <View style={styles.container}>
-      {loadingGraph && <ActivityIndicator color={'orange'} size={'large'} style={styles.activity}/>}
+      {loadingGraph && <ActivityIndicator color={'orange'} size={'large'} style={styles.activity} />}
       <View style={styles.graphHead}>
-        <TouchableOpacity style={{ ...styles.graphBtn, backgroundColor: bgColor }}
-                          onPress={() => setModalVisible(true)}>
+        <TouchableOpacity
+          style={{ ...styles.graphBtn, backgroundColor: bgColor }}
+          onPress={() => setModalVisible(true)}
+        >
           <Text style={{ ...styles.graphBtnText, color: textColor }}>BYN / {graphCurr} </Text>
         </TouchableOpacity>
         <Animated.View style={styles.graphLabel}>
-          <TextInput style={styles.graphLabelText} ref={label} editable={false}/>
+          <TextInput style={styles.graphLabelText} ref={label} editable={false} />
         </Animated.View>
       </View>
 
@@ -106,15 +120,15 @@ export const CustomGraph: FC<CustomLineChartProps> = (
         <Svg {...{ width, height }}>
           <Defs>
             <LinearGradient x1={'50%'} y1={'0%'} x2={'50%'} y2={'100%'} id={'gradient'}>
-              <Stop stopColor={'#CDE3F8'} offset={'0%'}/>
-              <Stop stopColor={'#eef6fd'} offset={'80%'}/>
-              <Stop stopColor={'#FEFFFF'} offset={'100%'}/>
+              <Stop stopColor={'#CDE3F8'} offset={'0%'} />
+              <Stop stopColor={'#eef6fd'} offset={'80%'} />
+              <Stop stopColor={'#FEFFFF'} offset={'100%'} />
             </LinearGradient>
           </Defs>
-          <Path d={line} fill={'transparent'} stroke={'#367be2'} strokeWidth={7}/>
-          <Path d={`${line} L ${width} ${height} L 0 ${height}`} fill={'url(#gradient)'}/>
+          <Path d={line} fill={'transparent'} stroke={'#367be2'} strokeWidth={7} />
+          <Path d={`${line} L ${width} ${height} L 0 ${height}`} fill={'url(#gradient)'} />
         </Svg>
-        <View style={styles.graphCursor} ref={cursor}/>
+        <View style={styles.graphCursor} ref={cursor} />
         <Animated.ScrollView
           style={StyleSheet.absoluteFill}
           contentContainerStyle={{ width: lineLength * 2 }}

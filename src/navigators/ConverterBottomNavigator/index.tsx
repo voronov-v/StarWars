@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { getIsDarkMode } from '@root/selectors';
 import { themeType } from '@root/redux/reducers/settingsReducer';
 import { ConverterScreen } from '@root/screens/ConverterScreen';
-import { GraphScreen } from '@root/screens/GraphScreen';
+import { ConverterMapScreen } from '@root/screens/ConverterMapScreen';
 
 const TabBarComponent = (props: any) => {
   const isDarkMode: boolean = useSelector(getIsDarkMode);
@@ -37,9 +37,9 @@ export const ConverterBottomNavigator = createBottomTabNavigator(
       },
     },
     Graph: {
-      screen: GraphScreen,
+      screen: ConverterMapScreen,
       navigationOptions: {
-        title: 'Graph',
+        title: 'Map api',
         tabBarIcon: (props) => <CustomIcon {...props} name={'trending-up'} size={25} />,
       },
     },
