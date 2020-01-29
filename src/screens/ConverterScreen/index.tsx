@@ -51,7 +51,7 @@ export const ConverterScreen: FC<NavigationStackScreenProps> = (props: Navigatio
 
   useEffect(() => {
     const date = moment(datePickerValue).format('YYYY-MM-DD');
-    dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: { date } });
+    dispatch({ type: LOAD_CURRENCY_RATES_ON_DATE, payload: date });
     graphInterval !== '' && reloadGraph();
   }, [datePickerValue]);
 

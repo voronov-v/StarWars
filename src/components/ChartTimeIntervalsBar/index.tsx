@@ -5,6 +5,7 @@ import { styles } from './styles';
 
 export const chartTimeIntervals: chartTimeIntervalType[] = [
   { name: '1 Week', shortName: 'w', shiftType: 'days', shiftAmount: 7 },
+  { name: '15 Days', shortName: '15d', shiftType: 'days', shiftAmount: 15 },
   { name: '1 Month', shortName: 'm', shiftType: 'months', shiftAmount: 1 },
   { name: '3 Months', shortName: '3m', shiftType: 'months', shiftAmount: 3 },
   { name: '6 Months', shortName: '6m', shiftType: 'months', shiftAmount: 6 },

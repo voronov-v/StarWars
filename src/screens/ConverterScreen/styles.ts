@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontFamily: fonts.regular,
+    paddingHorizontal: 5,
   },
   currencyText: {
     fontSize: 18,

@@ -1,5 +1,5 @@
 import { IActionType } from '@root/redux/interfaces';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { API } from '@root/api';
 import {
   LOAD_CURRENCY_GRAPH_DATA_FAILED,
@@ -23,11 +23,16 @@ export function* fetchCurrencyList(action: IActionType) {
 export function* fetchCurrencyRatesOnDate(action: IActionType) {
   try {
     console.log('action:', action);
-    const data = yield call(
-      API.getCurrency,
-      `http://www.nbrb.by/api/exrates/rates?ondate=${action.payload.date}&periodicity=0`,
-    );
-    yield put({ type: LOAD_CURRENCY_RATES_SUCCESS, payload: data });
+    const { currencyRatesDate, currencyRates } = yield select((state) => state.currency);
+    if (currencyRatesDate !== action.payload || currencyRates.length === 0) {
+      const data = yield call(
+        API.getCurrency,
+        `http://www.nbrb.by/api/exrates/rates?ondate=${action.payload}&periodicity=0`,
+      );
+      yield put({ type: LOAD_CURRENCY_RATES_SUCCESS, payload: { data, date: action.payload } });
+    } else {
+      yield put({ type: LOAD_CURRENCY_RATES_SUCCESS, payload: { data: currencyRates, date: action.payload } });
+    }
   } catch (e) {
     yield put({ type: LOAD_CURRENCY_RATES_FAILED, payload: e.message });
   }
