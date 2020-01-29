@@ -1,56 +1,33 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, Platform } from 'react-native';
 import MapView, { Circle, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import { styles } from './styles';
 import { debounce } from 'lodash';
 import axios from 'axios';
 import Geolocation from '@react-native-community/geolocation';
 import { gPlaceType } from '@root/screens/ConverterMapScreen/types';
-import { PermissionsAndroid } from 'react-native';
 //@ts-ignore
 import { GOOGLE_MAP_API_KEY } from 'react-native-dotenv';
-
-export async function requestLocationPermission() {
-  try {
-    const granted = await PermissionsAndroid.request(
-      //@ts-ignore
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Example App',
-        message: 'Example App access to your location ',
-      },
-    );
-    console.log('granted', granted);
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('You can use the location');
-    } else {
-      console.log('location permission denied');
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-}
+import { requestLocationPermission } from '@root/screens/ConverterMapScreen/services';
 
 export const ConverterMapScreen = () => {
-  const minskRegion = {
-    longitude: 27.600363940000534,
-    latitude: 53.896797825905956,
-    longitudeDelta: 0.05,
-    latitudeDelta: 0.05,
-  };
-
-  const [region, setRegion] = useState<Region>(minskRegion);
-  const [initCurrPosition, setInitCurrPosition] = useState(false);
+  const [region, setRegion] = useState<Region>({
+    latitude: 0,
+    longitude: 0,
+    longitudeDelta: 0,
+    latitudeDelta: 0,
+  });
   const [markers, setMarkers] = useState<ReactElement[]>([]);
+  const markerRadius = 750;
 
   useEffect(() => {
     const getLocation = async () => {
       try {
-        await requestLocationPermission();
+        Platform.OS === 'android' && (await requestLocationPermission());
         await Geolocation.getCurrentPosition((info) => {
           console.log('getCurrentPosition info', info);
-          setRegion({ ...region, latitude: info.coords.latitude, longitude: info.coords.longitude });
-          setInitCurrPosition(true);
+          const { latitude, longitude } = info.coords;
+          setRegion({ latitude, longitude, latitudeDelta: 0.05, longitudeDelta: 0.05 });
         });
       } catch (e) {
         console.log('error', e);
@@ -60,21 +37,16 @@ export const ConverterMapScreen = () => {
   }, []);
 
   const onRegionChange = debounce((region: Region) => {
-    console.log('delta', region.latitudeDelta);
     setRegion(region);
   }, 200);
 
-  const round4 = (number: number) => {
-    return Math.round(number * 10000) / 10000;
-  };
+  const round4 = (number: number) => Math.round(number * 10000) / 10000;
 
   const loadMarkers = async (type: string) => {
-    const radius = 750;
-
     const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?', {
       params: {
-        location: `${region.latitude},${region.longitude}`,
-        radius: radius,
+        location: `${region?.latitude},${region?.longitude}`,
+        radius: markerRadius,
         type: type,
         key: GOOGLE_MAP_API_KEY,
       },
@@ -105,7 +77,7 @@ export const ConverterMapScreen = () => {
 
   return (
     <View style={styles.container}>
-      {initCurrPosition && (
+      {region.latitude !== 0 && (
         <>
           <MapView
             provider={PROVIDER_GOOGLE}
@@ -114,14 +86,11 @@ export const ConverterMapScreen = () => {
             region={region}
             onRegionChange={onRegionChange}
             showsUserLocation={true}
+            showsMyLocationButton={true}
           >
             {markers}
-            <Circle radius={750} center={{ latitude: region.latitude, longitude: region.longitude }} />
+            <Circle radius={markerRadius} center={{ latitude: region.latitude, longitude: region.longitude }} />
           </MapView>
-          <TouchableOpacity style={{ ...styles.btn, ...styles.btnHome }} onPress={() => setRegion(minskRegion)}>
-            <Text style={styles.btnText}>Home</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity style={{ ...styles.btn, ...styles.btnLoad }} onPress={() => loadMarkers('bank')}>
             <Text style={styles.btnText}>Load banks</Text>
           </TouchableOpacity>
