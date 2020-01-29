@@ -1,26 +1,27 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import { applyMiddleware, createStore, Store } from 'redux';
-import { rootReducer } from '@root/redux/reducers';
-import { loadState, saveState } from '@root/redux/customPersistor';
+import { rootReducer } from './reducers';
 import createSagaMiddleware from 'redux-saga';
+import { sagas } from './sagas/index';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { sagas } from '@root/redux/sagas';
+import { persistStore, persistReducer } from 'redux-persist';
+import { Persistor } from 'redux-persist/es/types';
 import i18n from '@root/i18n';
 
-export const store = createStore(rootReducer);
+const persistConfig = { key: 'root', storage: AsyncStorage };
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const initStore = async () => {
-  const customStore = await loadState();
-  console.log('App customStore', customStore);
-  const sagaMiddleware = createSagaMiddleware();
-  const store: Store = createStore(rootReducer, customStore, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+const sagaMiddleware = createSagaMiddleware();
 
-  store.subscribe(() => {
-    saveState(store.getState());
-  });
+const store: Store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
-  sagaMiddleware.run(sagas);
+sagaMiddleware.run(sagas);
 
-  // console.log('new store', store.getState());
-  await i18n.changeLanguage(store.getState().settings.language);
-  return store;
-};
+const persistorCallBack = async (lang: string) => await i18n.changeLanguage(lang);
+
+const persistor: Persistor = persistStore(store, null, () => persistorCallBack(store.getState().settings.language));
+// persistor.purge();
+console.log('store', store.getState());
+console.log('persistor', persistor.getState());
+
+export const storeObject: { persistor: Persistor; store: Store } = { store, persistor };

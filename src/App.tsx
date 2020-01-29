@@ -1,32 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { RootNavigator } from './navigators';
+import { storeObject } from './redux/store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeWrapper } from '@root/components/ThemeWrapper';
-import { Spinner } from '@root/components/Spinner/Spinner';
-import { initStore, store } from '@root/redux/store';
 
 export const App: React.FC = (): React.ReactElement => {
-  const [tmpStore, setTmpStore] = useState(store);
-  const [loading, setIsLoading] = useState(true);
-  console.log('App loading', loading);
-  useEffect(() => {
-    const initApp = async () => {
-      const store = await initStore();
-      await setTmpStore(store);
-      await setIsLoading(false);
-    };
-    initApp();
-  }, []);
+  const { store, persistor } = storeObject;
+
+  const onBeforeLift = () => console.log('PersistGate onBeforeLift');
 
   return (
-    <Provider store={tmpStore}>
-      {loading ? (
-        <Spinner />
-      ) : (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor} onBeforeLift={onBeforeLift}>
         <ThemeWrapper>
           <RootNavigator />
         </ThemeWrapper>
-      )}
+      </PersistGate>
     </Provider>
   );
 };
